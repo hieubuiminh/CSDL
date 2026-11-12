@@ -1,0 +1,39 @@
+{
+  "ok": true,
+  "live": false,
+  "uiErrors": [],
+  "httpFailures": [
+    {
+      "path": "/api/auth/status",
+      "status": 503
+    },
+    {
+      "path": "/api/auth/setup",
+      "status": 409
+    },
+    {
+      "path": "/api/auth/setup",
+      "status": 409
+    }
+  ],
+  "mobileLayout": {
+    "viewport": 390,
+    "width": 390,
+    "card": 350,
+    "select": 302
+  },
+  "requests": [
+    "/api/auth/setup",
+    "/api/auth/setup",
+    "/api/auth/setup",
+    "/api/auth/logout",
+    "/api/auth/login"
+  ],
+  "cases": [
+    "503 blocks credentials",
+    "retry selects first-admin setup",
+    "409 username preserves setup",
+    "409 existing-admin selects login",
+    "create then logout/login"
+  ]
+}

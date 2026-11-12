@@ -1,0 +1,44 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                          Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+  Tên thuộc tính           Kiểu dữ liệu          Ràng buộc                 Mô tả ý nghĩa
+
+  SoGiayKhaiTu          VARCHAR(30)           PK, NOT             Số giấy khai tử / Mã hồ sơ khai
+                                              NULL                tử
+   SoGiayBaoTu          VARCHAR(30)           FK, UNIQUE,         Tham chiếu
+                                              NOT NULL            Giay_Bao_Tu(SoGiayBaoTu)
+   NgayDangKi           DATE                  NOT NULL            Ngày đăng ký khai tử tại
+                                                                  UBND
+  CCCD_NgMat            CHAR(12)              FK, UNIQUE,         CCCD người mất, tham chiếu
+                                              NOT NULL            Cong_Dan(CCCD)
+ CCCD_NgKhaiTu          CHAR(12)              FK, NOT             CCCD người đi khai tử, tham
+                                              NULL                chiếu Cong_Dan(CCCD)
+      QuanHe            VARCHAR(50)           NOT NULL            Quan hệ nhân thân với người
+                                                                  mất (Con, Vợ/Chồng...)
+  TrangThaiHoSo         VARCHAR(50)           DEFAULT 'Đã         Trạng thái ('Đã duyệt', 'Chờ xử
+                                              duyệt'              lý', 'Từ chối')
+MaCanBoTiepNhan         VARCHAR(20)           FK, NOT             Cán bộ thụ lý, tham chiếu
+                                              NULL                Can_Bo(MaCanBo)
+
+
+               Bảng 2.9. Cấu trúc bảng An_Tang (Thông tin đăng ký an táng)
+
+ Tên thuộc tính         Kiểu dữ liệu          Ràng buộc                   Mô tả ý nghĩa
+   MaAnTang          VARCHAR(30)           PK, NOT NULL         Mã hồ sơ đăng ký an táng
+ SoGiayKhaiTu        VARCHAR(30)           FK, UNIQUE,          Tham chiếu
+                                           NOT NULL             Ho_So_Khai_Tu(SoGiayKhaiTu)
+    HinhThuc         VARCHAR(50)           NOT NULL             Hình thức an táng ('Hỏa táng' /
+                                                                'Địa táng')
+TenNghiaTrang_       VARCHAR(150)          NOT NULL             Tên nghĩa trang / Đài hóa thân
+DaiHoaThan                                                      (Văn Điển, Thanh Tước...)
+
+
+2.4 Đánh giá mức độ chuẩn hóa dữ liệu
+      Việc kiểm tra và chuẩn hóa các lược đồ quan hệ giúp loại bỏ dư thừa dữ liệu và
+tránh các dị thường (Anomalies) khi thêm, sửa, xóa:
+  - Dạng chuẩn 1 (1NF): Tất cả 9 bảng trong lược đồ đều chỉ chứa các giá trị nguyên
+     tố (Atomic values), không có thuộc tính đa trị hay thuộc tính phức hợp lặp lại. Ví
+     dụ: thông tin địa bàn nơi mất đã được tách thành mã xã/phường và địa chỉ chi tiết;
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                      Trang 17

@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "name": "failed restore rolls back all deletions",
+      "passed": true
+    },
+    {
+      "name": "exact source sample restored in all nine tables",
+      "passed": true
+    },
+    {
+      "name": "ADMIN and staff rows including credentials are preserved",
+      "passed": true
+    },
+    {
+      "name": "extra test citizen removed",
+      "passed": true
+    },
+    {
+      "name": "HS002 default approved status restored",
+      "passed": true
+    },
+    {
+      "name": "running restore again is safe and retains accounts",
+      "passed": true
+    },
+    {
+      "name": "owned temporary containers removed",
+      "passed": true
+    }
+  ],
+  "isolated": true,
+  "containersRemoved": true
+}

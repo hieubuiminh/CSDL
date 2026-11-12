@@ -1,0 +1,77 @@
+use quan_ly_dang_ky_khai_tu;
+create table Nguyen_Nhan(
+    MaNguyenNhan VARCHAR(100) PRIMARY KEY,
+    TenNguyenNhan VARCHAR(100) NOT NULL
+);
+create table CSYT(
+    MaCSYT VARCHAR(100) PRIMARY KEY,
+    TenCSYT VARCHAR(100) NOT NULL,
+    DiaChi VARCHAR(100) NOT NULL,
+    SDT VARCHAR(100) NOT NULL
+);
+create table Cong_Dan(
+    CCCD VARCHAR(100) PRIMARY KEY,
+    HoTen VARCHAR(100) NOT NULL,
+    NgaySinh DATE NOT NULL,
+    GioiTinh VARCHAR(100) NOT NULL,
+    QueQuan VARCHAR(100) NOT NULL,
+    DanToc VARCHAR(100) NOT NULL,
+    SDT VARCHAR(100) NOT NULL,
+    TrangThai VARCHAR(100) NOT NULL
+);
+create table UBND(
+    MaUBND VARCHAR(100) PRIMARY KEY,
+    TenUBND VARCHAR(100) NOT NULL,
+    CapHanhChinh VARCHAR(100) NOT NULL,
+    DiaChi VARCHAR(100) NOT NULL,
+    SDT VARCHAR(100) NOT NULL
+);
+create table Noi_Mat(
+    MaXaPhuong VARCHAR(100) PRIMARY KEY,
+    TenXaPhuong VARCHAR(100) NOT NULL
+);
+create table Can_Bo(
+    MaCanBo VARCHAR(100) PRIMARY KEY,
+    CCCD VARCHAR(100) NOT NULL,
+    HoTen VARCHAR(100) NOT NULL,
+    ChucVu VARCHAR(100) NOT NULL, 
+    SDT VARCHAR(100) NOT NULL,
+    MaUBND VARCHAR(100) NOT NULL,
+    FOREIGN KEY (MaUBND) REFERENCES UBND(MaUBND) 
+);
+create table Giay_Bao_Tu(
+    SoGiayBaoTu VARCHAR(100) PRIMARY KEY,
+    NgayCap DATE NOT NULL,
+    NgayGioMat DATETIME NOT NULL,
+    NoiMatChiTiet VARCHAR(100) NOT NULL,
+    MoTaNguyenNhan VARCHAR(100) NOT NULL,
+    MaNguyenNhan VARCHAR(100) NOT NULL,
+    MaXaPhuong VARCHAR(100) NOT NULL,
+    MaCSYT VARCHAR(100) NOT NULL,
+    FOREIGN KEY (MaNguyenNhan) REFERENCES Nguyen_Nhan(MaNguyenNhan),
+    FOREIGN KEY (MaXaPhuong) REFERENCES Noi_Mat(MaXaPhuong),
+    FOREIGN KEY (MaCSYT) REFERENCES CSYT(MaCSYT)
+);
+create table Ho_So_Khai_Tu(
+    SoGiayKhaiTu VARCHAR(100) PRIMARY KEY,
+    NgayDangKi DATE NOT NULL,
+    QuanHe VARCHAR(100) NOT NULL,
+    TrangThaiHoSo VARCHAR(100) NOT NULL,
+    SoGiayBaoTu VARCHAR(100) NOT NULL,
+    CCCD_NgMat VARCHAR(100) NOT NULL,
+    CCCD_NgKhaiTu VARCHAR(100) NOT NULL,
+    MaCanBoTiepNhan VARCHAR(100) NOT NULL,
+    FOREIGN KEY (SoGiayBaoTu) REFERENCES Giay_Bao_Tu(SoGiayBaoTu),
+    FOREIGN KEY (CCCD_NgMat) REFERENCES Cong_Dan(CCCD),
+    FOREIGN KEY (CCCD_NgKhaiTu) REFERENCES Cong_Dan(CCCD),
+    FOREIGN KEY (MaCanBoTiepNhan) REFERENCES Can_Bo(MaCanBo),
+    CONSTRAINT CHK_NguoiKhaiTu CHECK (CCCD_NgKhaiTu <> CCCD_NgMat)
+);
+create table An_Tang(
+    MaAnTang VARCHAR(100) PRIMARY KEY NOT NULL,
+    HinhThuc VARCHAR(100) NOT NULL,
+    TenNghiaTrang VARCHAR(100) NOT NULL,
+    NgayAnTang DATE NOT NULL,
+    SoGiayKhaiTu VARCHAR(100) NOT NULL,
+    FOREIGN KEY (SoGiayKhaiTu) REFERENCES Ho_So_Khai_Tu(SoGiayKhaiTu)
+);

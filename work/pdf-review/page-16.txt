@@ -1,0 +1,43 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                      Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+                                      CHƯƠNG 3
+CÀI ĐẶT CƠ SỞ DỮ LIỆU VÀ HIỆN THỰC HÓA TRUY VẤN SQL
+
+3.1 Môi trường cài đặt và hệ quản trị cơ sở dữ liệu
+     Hệ thống cơ sở dữ liệu Quản lý đăng ký khai tử tại Hà Nội được cài đặt và kiểm
+thử trên môi trường Hệ quản trị cơ sở dữ liệu MySQL Server 8.0+ (sử dụng bảng mã
+chuẩn utf8mb4_unicode_ci để hỗ trợ đầy đủ tiếng Việt có dấu và các biểu thức bảng
+chung CTE, Window Functions như RANK() OVER).
+
+3.2 Cài đặt cấu trúc bảng (DDL) và ràng buộc toàn vẹn
+     Đoạn mã SQL dưới đây khởi tạo cơ sở dữ liệu quan_ly_dang_ky_khai_tu cùng
+toàn bộ 9 bảng dữ liệu và các ràng buộc khóa chính, khóa ngoại, miền giá trị:
+ CREATE DATABASE IF NOT EXISTS quan_ly_dang_ky_khai_tu
+ CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ USE quan_ly_dang_ky_khai_tu;
+
+ CREATE TABLE Cong_Dan (
+     CCCD        CHAR(12) PRIMARY KEY,
+     HoTen       VARCHAR(100) NOT NULL,
+     NgaySinh    DATE NOT NULL,
+     GioiTinh    ENUM('Nam', 'Nữ', 'Khác') NOT NULL,
+     QueQuan     VARCHAR(200) NOT NULL,
+     DanToc      VARCHAR(50) DEFAULT 'Kinh',
+     SDT         VARCHAR(15),
+     TrangThai   VARCHAR(30) DEFAULT 'Còn sống'
+ );
+
+ CREATE TABLE Noi_Mat (
+     MaXaPhuong  VARCHAR(20) PRIMARY KEY,
+     TenXaPhuong VARCHAR(100) NOT NULL
+ );
+
+ CREATE TABLE Nguyen_Nhan (
+     MaNguyenNhan  VARCHAR(20) PRIMARY KEY,
+     TenNguyenNhan VARCHAR(150) NOT NULL
+ );
+
+ CREATE TABLE CSYT (
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                               Trang 19

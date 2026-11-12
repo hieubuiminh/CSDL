@@ -1,0 +1,19 @@
+{
+  "container": "khai-tu-sql-review-20261109-90c5511c19",
+  "isolation": {
+    "network": "none",
+    "ports": [],
+    "host_mounts": [],
+    "data": "disposable tmpfs"
+  },
+  "source_sha256": {
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\he_thong_quan_ly_dang_ky_khai_tu.sql": "3d742f2bff4e62bb9565b0d208d3913c33e81a100ebfd4597663b8551c152a63",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\app_setup.sql": "561d9c99085aa5ba992b91ced3fdb8c62794249099b38fe0aa0342ed46626480",
+    "C:\\Users\\ADMIN\\Documents\\Codex\\2026-11-09\\b-n-i-b-n-v-6\\work\\he_thong_quan_ly_dang_ky_khai_tu\\database\\he_thong_quan_ly_dang_ky_khai_tu.sql": "3268c260c20ee9668d92624c936cec52036cf6c727b75c4257a755800ba5841c",
+    "C:\\Users\\ADMIN\\Documents\\Codex\\2026-11-09\\b-n-i-b-n-v-6\\work\\he_thong_quan_ly_dang_ky_khai_tu\\database\\app_setup.sql": "a0d4475c32da96d74048382264db208ea5ed3a52142390bbee70b7e599703ce8",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\cap_nhat_rang_buoc.sql": "2cd03429e74763e4e79aed6aedcba8b843fa459227183b8e3469aa9d8d8f1974"
+  },
+  "results": [],
+  "metadata": {},
+  "error": "The requested MySQL image is not cached. No pull was attempted."
+}

@@ -1,0 +1,49 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+người  khai  tử),  kết  hợp  với  Giay_Bao_Tu,  Nguyen_Nhan,  Can_Bo  và  UBND.  Sử
+dụng biến phiên @cccd để linh hoạt thay đổi mã số cần tra cứu.
+
+ SET @cccd = '001000000001';
+
+ SELECT
+     nm.HoTen                      AS HoTenNguoiMat,
+     nm.NgaySinh,
+     gbt.NgayGioMat,
+     nn.TenNguyenNhan              AS NguyenNhanMat,
+     gbt.MoTaNguyenNhan,
+     kt.HoTen                      AS HoTenNguoiKhaiTu,
+     hs.QuanHe,
+     ub.TenUBND                    AS UBNDCapKhaiTu
+ FROM Ho_So_Khai_Tu hs
+ JOIN Cong_Dan     nm  ON nm.CCCD       = hs.CCCD_NgMat
+ JOIN Cong_Dan     kt  ON kt.CCCD       = hs.CCCD_NgKhaiTu
+ JOIN Giay_Bao_Tu  gbt ON gbt.SoGiayBaoTu = hs.SoGiayBaoTu
+ JOIN Nguyen_Nhan  nn  ON nn.MaNguyenNhan = gbt.MaNguyenNhan
+ JOIN Can_Bo       cb  ON cb.MaCanBo    = hs.MaCanBoTiepNhan
+ JOIN UBND         ub  ON ub.MaUBND     = cb.MaUBND
+ WHERE hs.CCCD_NgMat = @cccd;
+
+
+3.4.2 Truy vấn 2 - Thống kê số người đã mất theo giới tính
+      Yêu cầu: Thống kê số lượng công dân đã mất phân theo giới tính.
+      Phân tích giải pháp: Lọc các bản ghi trong bảng Cong_Dan có TrangThai = 'Đã
+mất' và gom nhóm (GROUP BY) theo cột GioiTinh kết hợp hàm tổng hợp COUNT(*).
+
+ SELECT GioiTinh, COUNT(*) AS SoNguoiDaMat
+ FROM Cong_Dan
+ WHERE TrangThai = 'Đã mất'
+ GROUP BY GioiTinh;
+
+
+3.4.3 Truy vấn 3 - Hiển thị toàn bộ danh sách hồ sơ khai tử
+      Yêu cầu: Hiển thị toàn bộ hồ sơ khai tử bao gồm: Số giấy khai tử             , Người đã mất,
+Người đăng ký, Ngày đăng ký, Đơn vị tiếp nhận và Trạng thái hồ sơ.
+      Phân  tích  giải  pháp:  Kết  nối  bảng  Ho_So_Khai_Tu  với  hai  bản  sao  của  bảng
+Cong_Dan (người mất và người đăng ký), bảng Can_Bo và bảng UBND, sắp xếp tăng
+dần theo ngày đăng ký và số giấy khai tử.
+
+ SELECT
+     hs.SoGiayKhaiTu,
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                       Trang 23

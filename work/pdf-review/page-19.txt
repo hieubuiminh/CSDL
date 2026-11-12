@@ -1,0 +1,52 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+     DECLARE v_ngay_cap DATE;
+     SELECT NgayCap INTO v_ngay_cap
+     FROM Giay_Bao_Tu
+     WHERE SoGiayBaoTu = NEW.SoGiayBaoTu;
+
+     IF NEW.CCCD_NgMat = NEW.CCCD_NgKhaiTu THEN
+         SIGNAL SQLSTATE '45000'
+         SET MESSAGE_TEXT = 'Lỗi nghiệp vụ: Người đi khai tử và người mất
+ phải là 2 cá nhân khác nhau!';
+     END IF;
+
+     IF v_ngay_cap > NEW.NgayDangKi THEN
+         SIGNAL SQLSTATE '45000'
+         SET MESSAGE_TEXT = 'Lỗi nghiệp vụ: Ngày cấp giấy báo tử phải trước
+ hoặc bằng ngày đăng ký khai tử!';
+     END IF;
+ END$$
+
+ -- Trigger 2: Tự động cập nhật trạng thái công dân thành "Đã mất"
+ CREATE TRIGGER trg_after_insert_ho_so_khai_tu
+ AFTER INSERT ON Ho_So_Khai_Tu
+ FOR EACH ROW
+ BEGIN
+     IF NEW.TrangThaiHoSo <> 'Từ chối' THEN
+         UPDATE Cong_Dan
+         SET TrangThai = 'Đã mất'
+         WHERE CCCD = NEW.CCCD_NgMat;
+     END IF;
+ END$$
+
+ DELIMITER ;
+
+
+3.4 Hiện thực hóa các yêu cầu truy vấn và báo cáo thống kê
+      Dưới  đây  là  toàn  bộ  7  câu  truy  vấn  SQL  trong  file  truy_van_khai_tu.sql  giải
+quyết triệt để các yêu cầu nghiệp vụ của bài toán kèm theo phân tích chuyê              n môn:
+
+3.4.1 Truy vấn 1 - Tra cứu và trích lục hồ sơ theo CCCD người mất
+      Yêu cầu: Nhập CCCD của người mất, hiển thị đầy đủ thông tin: Họ tên người
+mất, ngày sinh, ngày giờ mất, nguyên nhân mất, mô tả nguyên nhân, họ tên người đi
+khai tử, quan hệ và đơn vị UBND thực hiện cấp khai tử.
+      Phân  tích  giải  pháp:  Sử  dụng  phép  kết  nối  trong  (INNER  JOIN)  giữa  bảng
+Ho_So_Khai_Tu với bảng Cong_Dan hai lần (đặt bí danh nm cho người mất và kt cho
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                       Trang 22

@@ -1,0 +1,48 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                            Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+                     KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+
+1. Kết quả đạt được
+      Sau thời gian nghiên cứu, phân tích và thiết kế dưới sự hướng dẫn của giảng viên
+bộ môn, Nhóm 02 đã hoàn thành đầy đủ các mục tiêu đề ra của đề tài “Hệ thống quản
+lý đăng ký khai tử tại Hà Nội”, cụ thể:
+  - Về mặt phân tích nghiệp vụ:            Đã khảo sát và mô hình hóa sát thực tế quy trình
+     liên thông giữa Công dân, Cơ sở y tế cấp giấy báo tử, UBND xã/phường tiếp nhận
+     hồ sơ khai tử và Đơn vị quản lý an táng trên địa bàn TP. Hà Nội.
+  - Về mặt thiết kế cơ sở dữ liệu: Đã xây dựng hoàn chỉnh Lược đồ thực thể liên kết
+     (E-R) và ánh xạ chính xác sang Lược đồ quan hệ gồm 9 bảng dữ liệu đạt chuẩn
+     3NF, không dư thừa dữ liệu và đảm bảo toàn vẹn tham chiếu.
+  - Về mặt hiện thực hóa và khai thác dữ liệu:                Đã xây dựng đầy đủ hệ thống câu
+     lệnh DDL, Trigger kiểm soát ràng buộc nghiệp vụ tự động và 7 câu truy vấn SQL
+     giải quyết trọn vẹn các bài toán tra cứu trích lục, thống kê theo giới tính, địa bàn
+     xã/phường, độ tuổi - nguyên nhân tử vong, báo cáo cơ sở y tế theo quý và thống
+     kê theo năm.
+
+2. Hạn chế của đề tài
+  - Thứ nhất: Trong bảng Giay_Bao_Tu hiện tại đang lưu địa điểm mất tại cơ sở y tế
+     thông qua chuỗi văn bản NoiMatChiTiet nên khi thống kê tỷ lệ mất tại cơ sở y tế
+     phải  đối  sánh  chuỗi  (LIKE).  Việc  bổ  sung  thêm  một  cờ  boolean  (MatTaiCSYT
+     BIT) sẽ giúp truy vấn nhanh và chính xác tuyệt đối hơn.
+  - Thứ hai: Hệ thống hiện tập trung ở tầng Cơ sở dữ liệu và truy vấn SQL, chưa tích
+     hợp giao diện người dùng (Web/App) hay chữ ký số chuyên dùng cho cán bộ tư
+     pháp - hộ tịch.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                        Trang 28

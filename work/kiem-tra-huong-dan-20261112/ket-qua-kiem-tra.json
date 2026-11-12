@@ -1,0 +1,37 @@
+{
+  "date_local": "2026-11-12",
+  "editedSourceFiles": [
+    "HUONG_DAN_KHOI_TAO_CSDL_MOI.md"
+  ],
+  "unitTestsPassed": 72,
+  "javascriptSyntaxFilesPassed": 54,
+  "freshInstallChecks": 63,
+  "freshInstallFailures": 0,
+  "temporaryContainersRemoved": true,
+  "liveChecks": {
+    "adminPreserved": true,
+    "staffBinding": true,
+    "login": true,
+    "exactOwnList": true,
+    "dashboard": true,
+    "onlyOwnOfficer": true,
+    "accountsDenied": true,
+    "ownLookup": true,
+    "foreignLookupDenied": true,
+    "foreignSearchHidden": true,
+    "gender": true,
+    "areas": true,
+    "ages": true,
+    "years": true,
+    "hospitals": true,
+    "logout": true,
+    "anonymousDenied": true
+  },
+  "liveRecordCount": 17,
+  "businessDataModified": false,
+  "githubUploadPerformed": false,
+  "observations": [
+    "Git root is E:/CSDL; untracked - Copy/work and account dumps must not be added unintentionally.",
+    "Existing citizen details are retained on duplicate CCCD; birthdate validation still uses submitted input."
+  ]
+}

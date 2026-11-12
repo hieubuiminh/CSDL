@@ -1,0 +1,123 @@
+✔ protected APIs reject requests without a session before querying the database (13.55ms)
+✔ a forged session is rejected and cleared (2.8278ms)
+✔ staff cannot perform GET /api/users (5.4495ms)
+✔ staff cannot perform POST /api/users (13.704ms)
+✔ staff cannot perform PATCH /api/users/3/role (1.7577ms)
+✔ staff cannot perform POST /api/master/cause (1.6672ms)
+✔ staff cannot perform PATCH /api/master/ward/TEST (1.3285ms)
+✔ staff cannot perform DELETE /api/registrations/TEST (1.2636ms)
+✔ admin account listing returns public fields without password credentials (2.7109ms)
+✔ a role change in the database takes effect on the next request with the same JWT (4.9897ms)
+✔ deleted accounts cannot retain access through an unexpired JWT (1.5638ms)
+✔ creating an account rejects an unsupported role before hashing or insertion (2.0641ms)
+✔ admin can create a admin account with real hashed credentials (1056.6539ms)
+✔ admin can create a staff account with real hashed credentials (1096.3224ms)
+✔ an admin cannot demote their own active account (2.0103ms)
+✔ the last admin is protected if another admin was demoted concurrently (1.7185ms)
+✔ an admin can demote another admin inside a committed transaction (1.3556ms)
+✔ public password reset rejects the removed hardcoded admin-name answer (4.5185ms)
+✔ public recovery question does not offer an admin-name fallback for legacy accounts (2.9875ms)
+✔ initial setup cannot replace an existing admin account (1.4276ms)
+Error: Unexpected mock query: SELECT u.*, cb.MaCanBo AS LinkedOfficerId FROM App_User u LEFT JOIN Can_Bo cb ON cb.MaCanBo=u.MaCanBo WHERE u.Username=?
+    at Object.execute (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\tests\auth.test.js:54:11)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\auth\index.js:158:29
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\http.js:1:62
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\index.js:284:15
+    at router.process_params (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\index.js:280:10)
+✖ login verifies a real password and issues a safe user response and signed session (3.6779ms)
+Error: Unexpected mock query: SELECT u.*, cb.MaCanBo AS LinkedOfficerId FROM App_User u LEFT JOIN Can_Bo cb ON cb.MaCanBo=u.MaCanBo WHERE u.Username=?
+    at Object.execute (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\tests\auth.test.js:54:11)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\auth\index.js:158:29
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\http.js:1:62
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\index.js:284:15
+    at router.process_params (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\index.js:280:10)
+✖ login with an incorrect password does not issue a session (3.5497ms)
+✔ lookup merges separate JSON classification without changing the original ward rows (7.382ms)
+✔ classifying an existing ward changes only the separate JSON file (5.4143ms)
+✔ classifying an unknown ward returns 404 without creating a metadata file (1.5964ms)
+Error: Hãy nhập tỉnh/thành phố.
+    at badRequest (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:1:45)
+    at textValue (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:8:11)
+    at validateWardMetadata (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\catalogs\validation.js:7:20)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\catalogs\index.js:50:16
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\http.js:1:62
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\middleware\auth.js:32:5
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13) {
+  statusCode: 400
+}
+Error: Loại đơn vị phải là Xã, Phường hoặc Đặc khu.
+    at badRequest (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:1:45)
+    at validateWardMetadata (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\catalogs\validation.js:9:44)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\catalogs\index.js:50:16
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\http.js:1:62
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\middleware\auth.js:32:5
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:119:3) {
+  statusCode: 400
+}
+✔ invalid ward classification returns 400 before any feature query or file write (2.3451ms)
+✔ creating a ward uses the original two-column schema and stores classification separately (21.2951ms)
+✔ metadata updates are serialized without lost wards and leave no temporary files (32.4588ms)
+✔ metadata loader rejects an invalid top-level structure (2.0315ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 27
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2752.5135
+
+✖ failing tests:
+
+test at tests\auth.test.js:328:1
+✖ login verifies a real password and issues a safe user response and signed session (3.6779ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  500 !== 200
+  
+      at TestContext.<anonymous> (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\tests\auth.test.js:333:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 500,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\auth.test.js:347:1
+✖ login with an incorrect password does not issue a session (3.5497ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  500 !== 401
+  
+      at TestContext.<anonymous> (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\tests\auth.test.js:352:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 500,
+    expected: 401,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

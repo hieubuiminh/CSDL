@@ -1,0 +1,41 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+
+                                          CHƯƠNG 2
+                             THIẾT KẾ CƠ SỞ DỮ LIỆU
+
+2.1 Thiết kế mô hình thực thể liên kết (E-R)
+
+2.1.1 Xác định các tập thực thể và thuộc tính
+      Dựa  trên  yêu  cầu  dữ  liệu  đã  phân  tích  ở  Chương  1,  mô  hình  thực  thể  liên  kết
+(Entity-Relationship Model) của hệ thống bao gồm 9 tập thực thể chính:
+  - Thực  thể  CONG_DAN  (Công  dân):                Lưu  trữ  thông  tin  côn  g  dân.  Thuộc  tính
+     khóa: CCCD. Các thuộc tính mô tả: Họ tên, Ngày sinh, Giới tính, Quê quán, Dân
+     tộc, SĐT, Trạng thái.
+  - Thực  thể  NOI_MAT  (Nơi  mất              - Địa  bàn  Xã/Phường):         Lưu  trữ  danh  mục
+     xã/phường nơi xảy ra tử vong. Thuộc tính khóa: Mã xã/phường. Thuộc tính mô tả:
+     Tên xã/phường.
+  - Thực thể NGUYEN_NHAN (Nguyên nhân tử vong):                         Lưu trữ phân loại nguyên
+     nhân tử vong. Thuộc tính khóa: Mã nguyên nhân. Thuộc tính mô tả: Tên nguyên
+     nhân.
+  - Thực thể CSYT (Cơ sở y tế): Lưu trữ thông tin đơn vị y tế cấp giấy báo tử. Thuộc
+     tính khóa: Mã CSYT. Các thuộc tính mô tả: Tên CSYT, Địa chỉ, SĐT.
+  - Thực thể GIAY_BAO_TU (Giấy báo tử): Lưu trữ thông tin giấy báo tử. Thuộc
+     tính khóa: Số giấy báo tử. Các thuộc tính mô tả: Ngày cấp, Ngày giờ mất, Nơi mất
+     chi tiết, Mô tả nguyên nhân (cùng các thuộc tính liên kết: Mã xã/phường nơi mất,
+     Mã nguyên nhân, Mã CSYT).
+  - Thực thể UBND (Ủy ban nhân dân):                 Lưu trữ thông tin đơn vị hành chính cấp
+     khai tử. Thuộc tính khóa: Mã UBND. Các thuộc tính mô tả: Tên UBND, Cấp hành
+     chính, Địa chỉ, SĐT.
+  - Thực thể CAN_BO (Cán bộ tiếp nhận): Lưu trữ thông tin cán bộ hộ tịch. Thuộc
+     tính khóa: Mã cán bộ. Các thuộc tính mô tả: CCCD, Họ tên, Chức vụ, SĐT (cùng
+     thuộc tính liên kết: Mã UBND).
+  - Thực  thể  HO_SO_KHAI_TU  (Hồ  sơ  khai  tử):  Thực  thể  trung  tâm  quản  lý  việc
+     đăng ký khai tử. Thuộc tính khóa: Số giấy khai tử. Các thuộc tính mô tả: Ngày
+     đăng kí, Quan hệ với người mất, Trạng thái hồ sơ (cùng các thuộc tính liên kết: Số
+     giấy báo tử, CCCD_Người mất, CCCD_Người khai tử, Mã cán bộ tiếp nhận).
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                        Trang 11

@@ -1,0 +1,66 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                               Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+ FROM Giay_Bao_Tu gbt
+ GROUP BY YEAR(gbt.NgayGioMat)
+ ORDER BY Nam;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                              Trang 27

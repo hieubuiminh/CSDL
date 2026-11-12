@@ -1,0 +1,47 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                    Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+     MaCSYT  VARCHAR(20) PRIMARY KEY,
+     TenCSYT VARCHAR(150) NOT NULL,
+     DiaChi  VARCHAR(255) NOT NULL,
+     SDT     VARCHAR(15)
+ );
+
+ CREATE TABLE Giay_Bao_Tu (
+     SoGiayBaoTu    VARCHAR(30) PRIMARY KEY,
+     NgayCap        DATE NOT NULL,
+     NgayGioMat     DATETIME NOT NULL,
+     NoiMatChiTiet  VARCHAR(255) NOT NULL,
+     MoTaNguyenNhan TEXT,
+     MaCSYT         VARCHAR(20) NOT NULL,
+     MaNguyenNhan   VARCHAR(20) NOT NULL,
+     MaXaPhuong     VARCHAR(20) NOT NULL,
+     CONSTRAINT chk_ngay_bao_tu CHECK (DATE(NgayGioMat) <= NgayCap),
+     FOREIGN KEY (MaCSYT) REFERENCES CSYT(MaCSYT),
+     FOREIGN KEY (MaNguyenNhan) REFERENCES
+ Nguyen_Nhan(MaNguyenNhan),
+     FOREIGN KEY (MaXaPhuong) REFERENCES Noi_Mat(MaXaPhuong)
+ );
+
+ CREATE TABLE UBND (
+     MaUBND       VARCHAR(20) PRIMARY KEY,
+     TenUBND      VARCHAR(150) NOT NULL,
+     CapHanhChinh VARCHAR(50) DEFAULT 'Phường',
+     DiaChi       VARCHAR(255) NOT NULL,
+     SDT          VARCHAR(15)
+ );
+
+ CREATE TABLE Can_Bo (
+     MaCanBo VARCHAR(20) PRIMARY KEY,
+     CCCD    CHAR(12) UNIQUE NOT NULL,
+     HoTen   VARCHAR(100) NOT NULL,
+     ChucVu  VARCHAR(100) NOT NULL,
+     SDT     VARCHAR(15),
+     MaUBND  VARCHAR(20) NOT NULL,
+ );
+
+ CREATE TABLE Ho_So_Khai_Tu (
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                            Trang 20

@@ -1,0 +1,663 @@
+-- Sửa lần khởi tạo mới bị gián đoạn; KHÔNG tạo lại bảng hoặc xóa dữ liệu.
+-- Chỉ chạy sau sao lưu, khi ứng dụng đã dừng. Dừng ngay khi báo lỗi, không --force.
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE quan_li_khai_tu;
+DELIMITER $$
+CREATE PROCEDURE KT_SuaKhoiTao_20261110()
+BEGIN
+  DECLARE v_tables INT DEFAULT 0;
+  DECLARE v_rows BIGINT DEFAULT 0;
+  IF DATABASE() <> 'quan_li_khai_tu' THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Khong dung CSDL moi, dung sua.';
+  END IF;
+  SELECT COUNT(*) INTO v_tables FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN
+  ('Noi_Mat','Nguyen_Nhan','CSYT','UBND','Cong_Dan','Can_Bo','Giay_Bao_Tu','Ho_So_Khai_Tu','An_Tang');
+  IF v_tables <> 9 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Khong du 9 bang; can kiem tra rieng, khong nap.';
+  END IF;
+  SELECT (SELECT COUNT(*) FROM Noi_Mat)+(SELECT COUNT(*) FROM Nguyen_Nhan)
+   +(SELECT COUNT(*) FROM CSYT)+(SELECT COUNT(*) FROM UBND)+(SELECT COUNT(*) FROM Cong_Dan)
+   +(SELECT COUNT(*) FROM Can_Bo)+(SELECT COUNT(*) FROM Giay_Bao_Tu)
+   +(SELECT COUNT(*) FROM Ho_So_Khai_Tu)+(SELECT COUNT(*) FROM An_Tang) INTO v_rows;
+  IF v_rows <> 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Da co du lieu; dung de tranh nap trung hoac ghi de.';
+  END IF;
+END$$
+CALL KT_SuaKhoiTao_20261110()$$
+DROP PROCEDURE KT_SuaKhoiTao_20261110$$
+DELIMITER ;
+ALTER DATABASE quan_li_khai_tu CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+DROP TRIGGER IF EXISTS KT_Moi_HoSo_BI;
+DROP TRIGGER IF EXISTS KT_Moi_HoSo_BU;
+DROP TRIGGER IF EXISTS KT_Moi_GiayBaoTu_BU;
+DROP TRIGGER IF EXISTS KT_Moi_HoSo_AI;
+DROP TRIGGER IF EXISTS KT_Moi_HoSo_AU;
+DROP TRIGGER IF EXISTS KT_Moi_GiayBaoTu_AU;
+DELIMITER $$
+CREATE TRIGGER KT_Moi_HoSo_BI BEFORE INSERT ON Ho_So_Khai_Tu
+FOR EACH ROW
+BEGIN
+  DECLARE v_ngay_cap DATE DEFAULT NULL;
+  DECLARE v_nguoi_mat CHAR(12) DEFAULT NULL;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_ngay_cap = NULL;
+  SELECT NgayCap, CCCD_NgMat INTO v_ngay_cap, v_nguoi_mat
+  FROM Giay_Bao_Tu WHERE SoGiayBaoTu = NEW.SoGiayBaoTu FOR SHARE;
+  IF v_nguoi_mat = NEW.CCCD_NgKhaiTu THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Nguoi di khai tu phai khac nguoi mat';
+  END IF;
+  IF v_ngay_cap > NEW.NgayDangKi THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Ngay cap giay bao tu phai truoc hoac bang ngay dang ky';
+  END IF;
+END$$
+
+CREATE TRIGGER KT_Moi_HoSo_BU BEFORE UPDATE ON Ho_So_Khai_Tu
+FOR EACH ROW
+BEGIN
+  DECLARE v_ngay_cap DATE DEFAULT NULL;
+  DECLARE v_nguoi_mat CHAR(12) DEFAULT NULL;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_ngay_cap = NULL;
+  SELECT NgayCap, CCCD_NgMat INTO v_ngay_cap, v_nguoi_mat
+  FROM Giay_Bao_Tu WHERE SoGiayBaoTu = NEW.SoGiayBaoTu FOR SHARE;
+  IF v_nguoi_mat = NEW.CCCD_NgKhaiTu THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Nguoi di khai tu phai khac nguoi mat';
+  END IF;
+  IF v_ngay_cap > NEW.NgayDangKi THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Ngay cap giay bao tu phai truoc hoac bang ngay dang ky';
+  END IF;
+END$$
+
+CREATE TRIGGER KT_Moi_GiayBaoTu_BU BEFORE UPDATE ON Giay_Bao_Tu
+FOR EACH ROW
+BEGIN
+  DECLARE v_ngay_dang_ky DATE DEFAULT NULL;
+  DECLARE v_nguoi_khai CHAR(12) DEFAULT NULL;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_ngay_dang_ky = NULL;
+  SELECT NgayDangKi, CCCD_NgKhaiTu INTO v_ngay_dang_ky, v_nguoi_khai
+  FROM Ho_So_Khai_Tu WHERE SoGiayBaoTu = OLD.SoGiayBaoTu FOR UPDATE;
+  IF v_ngay_dang_ky IS NOT NULL AND NEW.NgayCap > v_ngay_dang_ky THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Ngay cap moi vuot ngay dang ky cua ho so da lien ket';
+  END IF;
+  IF NEW.CCCD_NgMat = v_nguoi_khai THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Nguoi di khai tu phai khac nguoi mat';
+  END IF;
+END$$
+
+CREATE TRIGGER KT_Moi_HoSo_AI AFTER INSERT ON Ho_So_Khai_Tu
+FOR EACH ROW
+BEGIN
+  DECLARE v_nguoi_mat CHAR(12) DEFAULT NULL;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_nguoi_mat = NULL;
+  IF NEW.TrangThaiHoSo <> 'Từ chối' THEN
+    SELECT CCCD_NgMat INTO v_nguoi_mat FROM Giay_Bao_Tu
+    WHERE SoGiayBaoTu = NEW.SoGiayBaoTu FOR SHARE;
+    UPDATE Cong_Dan SET TrangThai = 'Đã mất' WHERE CCCD = v_nguoi_mat;
+  END IF;
+END$$
+
+CREATE TRIGGER KT_Moi_HoSo_AU AFTER UPDATE ON Ho_So_Khai_Tu
+FOR EACH ROW
+BEGIN
+  DECLARE v_nguoi_mat CHAR(12) DEFAULT NULL;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_nguoi_mat = NULL;
+  IF NEW.TrangThaiHoSo <> 'Từ chối' THEN
+    SELECT CCCD_NgMat INTO v_nguoi_mat FROM Giay_Bao_Tu
+    WHERE SoGiayBaoTu = NEW.SoGiayBaoTu FOR SHARE;
+    UPDATE Cong_Dan SET TrangThai = 'Đã mất' WHERE CCCD = v_nguoi_mat;
+  END IF;
+END$$
+
+CREATE TRIGGER KT_Moi_GiayBaoTu_AU AFTER UPDATE ON Giay_Bao_Tu
+FOR EACH ROW
+BEGIN
+  DECLARE v_trang_thai VARCHAR(30) DEFAULT NULL;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_trang_thai = NULL;
+  SELECT TrangThaiHoSo INTO v_trang_thai FROM Ho_So_Khai_Tu
+  WHERE SoGiayBaoTu = NEW.SoGiayBaoTu FOR SHARE;
+  IF v_trang_thai IS NOT NULL AND v_trang_thai <> 'Từ chối' THEN
+    UPDATE Cong_Dan SET TrangThai = 'Đã mất' WHERE CCCD = NEW.CCCD_NgMat;
+  END IF;
+END$$
+DELIMITER ;
+
+-- Không tự chuyển người cũ về Còn sống khi đổi hoặc từ chối hồ sơ.
+-- Nạp database/du_lieu_mau.sql riêng SAU file tạo bảng này, đúng một lần.
+
+
+-- Dữ liệu mẫu gốc, dùng trực tiếp với bảng mới; nạp một lần sau tao_bang.sql.
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE quan_li_khai_tu;
+START TRANSACTION;
+-- DỮ LIỆU MẪU (giả) cho demo
+-- Danh mục
+INSERT INTO Nguyen_Nhan (MaNguyenNhan,TenNguyenNhan) VALUES
+  ('NN01','Bệnh tim mạch'),
+  ('NN02','Ung thư'),
+  ('NN03','Tai nạn giao thông'),
+  ('NN04','Bệnh hô hấp'),
+  ('NN05','Tuổi già'),
+  ('NN06','Nguyên nhân khác');
+
+INSERT INTO CSYT (MaCSYT,TenCSYT,DiaChi,SDT) VALUES
+  ('CS01','Bệnh viện Đa khoa Trung tâm','12 Phố Huế, Hà Nội','0241000001'),
+  ('CS02','Bệnh viện Quận Đống Đa','45 Tây Sơn, Hà Nội','0241000002'),
+  ('CS03','Trạm Y tế Phường Láng Hạ','8 Láng Hạ, Hà Nội','0241000003'),
+  ('CS04','Phòng khám Đa khoa Cầu Giấy','20 Trần Thái Tông, Hà Nội','0241000004');
+
+INSERT INTO Noi_Mat (MaXaPhuong,TenXaPhuong) VALUES
+  ('XP01','Phường Láng Hạ'),
+  ('XP02','Phường Cầu Giấy'),
+  ('XP03','Phường Ô Chợ Dừa'),
+  ('XP04','Phường Thanh Xuân'),
+  ('XP05','Phường Kim Mã'),
+  ('XP06','Phường Hà Đông'),
+  ('XP07','Phường Sơn Tây'),
+  ('XP08','Phường Thạch Thất');
+
+INSERT INTO UBND (MaUBND,TenUBND,CapHanhChinh,DiaChi,SDT) VALUES
+  ('UB01','UBND Phường Láng Hạ','Phường','1 Láng Hạ, Hà Nội','0242000001'),
+  ('UB02','UBND Phường Cầu Giấy','Phường','2 Cầu Giấy, Hà Nội','0242000002'),
+  ('UB03','UBND Phường Kim Mã','Phường','3 Kim Mã, Hà Nội','0242000003');
+
+INSERT INTO Can_Bo (MaCanBo,CCCD,HoTen,ChucVu,SDT,MaUBND) VALUES
+  ('CB01','003000000001','Vũ Đức Bình','Phó Chủ tịch UBND','0910000001','UB01'),
+  ('CB02','003000000002','Nguyễn Thị Loan','Phó Chủ tịch UBND','0910000002','UB02'),
+  ('CB03','003000000003','Trần Quang Sơn','Cán bộ tư pháp - hộ tịch','0910000003','UB03'),
+  ('CB04','003000000004','Nguyễn Ngọc Lan','Cán bộ tư pháp - hộ tịch','0910000004','UB01'),
+  ('CB05','003000000005','Trần Minh Bình','Cán bộ tư pháp - hộ tịch','0910000005','UB02'),
+  ('CB06','003000000006','Trần Ngọc Hoa','Cán bộ tư pháp - hộ tịch','0910000006','UB03');
+
+INSERT INTO Cong_Dan (CCCD,HoTen,NgaySinh,GioiTinh,QueQuan,DanToc,SDT,TrangThai) VALUES
+  ('001000000001','Đặng Ngọc Hoa','1957-07-02','Nữ','Hải Dương','Kinh','0900000001','Đã mất'),
+  ('002000000001','Đặng Quang Sơn','1980-01-04','Nam','Hà Nội','Kinh','0980000001','Còn sống'),
+  ('001000000002','Bùi Hồng Linh','1932-08-16','Nữ','Nam Định','Kinh','0900000002','Đã mất'),
+  ('002000000002','Bùi Quang Phúc','1959-12-06','Nam','Hà Nội','Kinh','0980000002','Còn sống'),
+  ('001000000003','Ngô Hữu Phúc','1938-04-07','Nam','Hưng Yên','Kinh','0900000003','Đã mất'),
+  ('002000000003','Ngô Minh Thành','1964-04-23','Nam','Hưng Yên','Kinh','0980000003','Còn sống'),
+  ('001000000004','Trần Thu Hoa','1951-03-14','Nữ','Nghệ An','Kinh','0900000004','Đã mất'),
+  ('002000000004','Trần Ngọc Mai','1974-03-01','Nữ','Thái Bình','Kinh','0980000004','Còn sống'),
+  ('001000000005','Phạm Hữu Tuấn','1950-04-25','Nam','Bắc Ninh','Kinh','0900000005','Đã mất'),
+  ('002000000005','Phạm Thị Cúc','1993-06-15','Nữ','Nghệ An','Kinh','0980000005','Còn sống'),
+  ('001000000006','Trần Hồng Loan','1951-02-17','Nữ','Hà Nội','Kinh','0900000006','Đã mất'),
+  ('002000000006','Trần Ngọc Cúc','1978-05-15','Nữ','Thanh Hóa','Kinh','0980000006','Còn sống'),
+  ('001000000007','Trần Ngọc Cúc','1965-03-15','Nữ','Nam Định','Kinh','0900000007','Đã mất'),
+  ('002000000007','Trần Ngọc Mai','1989-12-14','Nữ','Nghệ An','Kinh','0980000007','Còn sống'),
+  ('001000000008','Trần Đức Thành','1958-01-25','Nam','Thái Bình','Kinh','0900000008','Đã mất'),
+  ('002000000008','Trần Ngọc Loan','1986-09-19','Nữ','Thanh Hóa','Kinh','0980000008','Còn sống'),
+  ('001000000009','Trần Ngọc Lan','1943-07-09','Nữ','Hải Dương','Kinh','0900000009','Đã mất'),
+  ('002000000009','Trần Văn Long','1968-04-10','Nam','Bắc Ninh','Kinh','0980000009','Còn sống'),
+  ('001000000010','Bùi Minh Hải','1937-09-27','Nam','Bắc Ninh','Kinh','0900000010','Đã mất'),
+  ('002000000010','Bùi Đức Trung','1963-12-21','Nam','Thái Bình','Kinh','0980000010','Còn sống'),
+  ('001000000011','Ngô Hồng Lan','1962-03-09','Nữ','Bắc Ninh','Kinh','0900000011','Đã mất'),
+  ('002000000011','Đỗ Quang Nam','1980-01-10','Nam','Hải Dương','Kinh','0980000011','Còn sống'),
+  ('001000000012','Ngô Thị Yến','1963-11-08','Nữ','Thái Bình','Kinh','0900000012','Đã mất'),
+  ('002000000012','Ngô Hồng Mai','1981-05-24','Nữ','Thái Bình','Kinh','0980000012','Còn sống'),
+  ('001000000013','Bùi Hồng Linh','1963-11-08','Nữ','Hà Nội','Kinh','0900000013','Đã mất'),
+  ('002000000013','Bùi Hữu Dũng','1992-11-17','Nam','Nam Định','Kinh','0980000013','Còn sống'),
+  ('001000000014','Ngô Hữu Sơn','1948-12-10','Nam','Thái Bình','Kinh','0900000014','Đã mất'),
+  ('002000000014','Ngô Hồng Linh','1969-11-04','Nữ','Hải Dương','Kinh','0980000014','Còn sống'),
+  ('001000000015','Hoàng Minh Nam','1932-08-09','Nam','Hải Dương','Kinh','0900000015','Đã mất'),
+  ('002000000015','Hoàng Hữu Thành','1956-06-05','Nam','Bắc Ninh','Kinh','0980000015','Còn sống'),
+  ('001000000016','Vũ Thu Nga','1957-01-11','Nữ','Nam Định','Kinh','0900000016','Đã mất'),
+  ('002000000016','Vũ Quang Tuấn','1982-02-13','Nam','Nghệ An','Kinh','0980000016','Còn sống'),
+  ('001000000017','Vũ Đức Trung','1939-09-18','Nam','Nam Định','Kinh','0900000017','Đã mất'),
+  ('002000000017','Vũ Ngọc Hạnh','1967-05-16','Nữ','Hà Nội','Kinh','0980000017','Còn sống'),
+  ('001000000018','Trần Minh Bình','1933-08-11','Nam','Thái Bình','Kinh','0900000018','Đã mất'),
+  ('002000000018','Trần Văn Long','1986-06-18','Nam','Nam Định','Kinh','0980000018','Còn sống'),
+  ('001000000019','Ngô Thu Hương','1932-04-03','Nữ','Nghệ An','Kinh','0900000019','Đã mất'),
+  ('002000000019','Ngô Thu Lan','1959-03-02','Nữ','Nghệ An','Kinh','0980000019','Còn sống'),
+  ('001000000020','Đỗ Quang Long','2007-01-21','Nam','Bắc Ninh','Kinh','0900000020','Đã mất'),
+  ('002000000020','Đỗ Thị Hoa','1957-02-10','Nữ','Hải Dương','Kinh','0980000020','Còn sống'),
+  ('001000000021','Đặng Minh Dũng','2004-11-21','Nam','Bắc Ninh','Kinh','0900000021','Đã mất'),
+  ('002000000021','Đặng Ngọc Huệ','2004-01-23','Nữ','Hưng Yên','Kinh','0980000021','Còn sống'),
+  ('001000000022','Phạm Hữu Phúc','1948-05-04','Nam','Thái Bình','Kinh','0900000022','Đã mất'),
+  ('002000000022','Phạm Thị Yến','1975-03-13','Nữ','Hà Nội','Kinh','0980000022','Còn sống'),
+  ('001000000023','Phạm Hồng Thảo','1931-01-10','Nữ','Hưng Yên','Kinh','0900000023','Đã mất'),
+  ('002000000023','Phạm Văn Dũng','1956-05-03','Nam','Hưng Yên','Kinh','0980000023','Còn sống'),
+  ('001000000024','Bùi Hồng Lan','1967-11-25','Nữ','Nghệ An','Kinh','0900000024','Đã mất'),
+  ('002000000024','Bùi Thị Linh','1989-04-24','Nữ','Nam Định','Kinh','0980000024','Còn sống'),
+  ('001000000025','Nguyễn Minh Thành','1935-08-25','Nam','Nghệ An','Kinh','0900000025','Đã mất'),
+  ('002000000025','Nguyễn Đức Hùng','1962-12-10','Nam','Thái Bình','Kinh','0980000025','Còn sống'),
+  ('001000000026','Đỗ Thị Hương','1938-02-09','Nữ','Nam Định','Kinh','0900000026','Đã mất'),
+  ('002000000026','Đỗ Ngọc Hương','1965-03-14','Nữ','Thanh Hóa','Kinh','0980000026','Còn sống'),
+  ('001000000027','Lê Đức Hải','1953-07-09','Nam','Hải Dương','Kinh','0900000027','Đã mất'),
+  ('002000000027','Lê Thị Lan','1973-08-27','Nữ','Hải Dương','Kinh','0980000027','Còn sống'),
+  ('001000000028','Bùi Hữu Tuấn','1966-10-23','Nam','Hải Dương','Kinh','0900000028','Đã mất'),
+  ('002000000028','Bùi Ngọc Lan','1991-04-09','Nữ','Hà Nội','Kinh','0980000028','Còn sống'),
+  ('001000000029','Trần Thị Hạnh','1940-03-21','Nữ','Thái Bình','Kinh','0900000029','Đã mất'),
+  ('002000000029','Trần Thu Hạnh','1966-05-14','Nữ','Hà Nội','Kinh','0980000029','Còn sống'),
+  ('001000000030','Lê Ngọc Mai','1960-06-15','Nữ','Hà Nội','Kinh','0900000030','Đã mất'),
+  ('002000000030','Lê Minh Dũng','1990-10-20','Nam','Hưng Yên','Kinh','0980000030','Còn sống'),
+  ('001000000031','Nguyễn Hồng Yến','1955-04-20','Nữ','Hải Dương','Kinh','0900000031','Đã mất'),
+  ('002000000031','Nguyễn Đức Hùng','1984-07-17','Nam','Thái Bình','Kinh','0980000031','Còn sống'),
+  ('001000000032','Ngô Hồng Mai','1941-08-17','Nữ','Hà Nội','Kinh','0900000032','Đã mất'),
+  ('002000000032','Ngô Ngọc Huệ','1968-10-25','Nữ','Thanh Hóa','Kinh','0980000032','Còn sống'),
+  ('001000000033','Trần Đức Hùng','1976-09-13','Nam','Nam Định','Kinh','0900000033','Đã mất'),
+  ('002000000033','Trần Đức Phúc','1989-05-26','Nam','Thái Bình','Kinh','0980000033','Còn sống'),
+  ('001000000034','Vũ Quang Khoa','2006-03-21','Nam','Hưng Yên','Kinh','0900000034','Đã mất'),
+  ('002000000034','Vũ Văn Hải','2004-01-21','Nam','Hưng Yên','Kinh','0980000034','Còn sống'),
+  ('001000000035','Vũ Văn Thành','2003-10-24','Nam','Bắc Ninh','Kinh','0900000035','Đã mất'),
+  ('002000000035','Ngô Thu Cúc','1961-01-24','Nữ','Hà Nội','Kinh','0980000035','Còn sống'),
+  ('001000000036','Ngô Minh Sơn','1959-09-08','Nam','Bắc Ninh','Kinh','0900000036','Đã mất'),
+  ('002000000036','Ngô Quang Sơn','1988-08-06','Nam','Thái Bình','Kinh','0980000036','Còn sống'),
+  ('001000000037','Đỗ Minh Nam','1937-09-24','Nam','Thái Bình','Kinh','0900000037','Đã mất'),
+  ('002000000037','Đỗ Hữu Hùng','1957-07-06','Nam','Hải Dương','Kinh','0980000037','Còn sống'),
+  ('001000000038','Hoàng Minh Dũng','2023-07-24','Nam','Thanh Hóa','Kinh','0900000038','Đã mất'),
+  ('002000000038','Hoàng Quang Nam','2004-11-02','Nam','Nam Định','Kinh','0980000038','Còn sống'),
+  ('001000000039','Phạm Ngọc Nga','1998-07-11','Nữ','Thanh Hóa','Kinh','0900000039','Đã mất'),
+  ('002000000039','Phạm Minh Trung','2004-04-19','Nam','Bắc Ninh','Kinh','0980000039','Còn sống'),
+  ('001000000040','Nguyễn Văn Sơn','1963-12-02','Nam','Hưng Yên','Kinh','0900000040','Đã mất'),
+  ('002000000040','Nguyễn Văn Nam','1989-04-07','Nam','Nam Định','Kinh','0980000040','Còn sống'),
+  ('001000000041','Nguyễn Hồng Linh','1992-06-11','Nữ','Hà Nội','Kinh','0900000041','Đã mất'),
+  ('002000000041','Nguyễn Hữu Dũng','2004-06-16','Nam','Hà Nội','Kinh','0980000041','Còn sống'),
+  ('001000000042','Bùi Đức Trung','1949-03-10','Nam','Hải Dương','Kinh','0900000042','Đã mất'),
+  ('002000000042','Bùi Văn Phúc','1970-12-18','Nam','Nam Định','Kinh','0980000042','Còn sống'),
+  ('001000000043','Bùi Đức Phúc','1963-06-17','Nam','Hưng Yên','Kinh','0900000043','Đã mất'),
+  ('002000000043','Bùi Thu Yến','1990-04-05','Nữ','Hưng Yên','Kinh','0980000043','Còn sống'),
+  ('001000000044','Phạm Hồng Mai','1955-02-07','Nữ','Thái Bình','Kinh','0900000044','Đã mất'),
+  ('002000000044','Đặng Quang Nam','1982-02-21','Nam','Nam Định','Kinh','0980000044','Còn sống'),
+  ('001000000045','Bùi Ngọc Nga','1949-07-01','Nữ','Nghệ An','Kinh','0900000045','Đã mất'),
+  ('002000000045','Bùi Đức Khoa','1979-02-15','Nam','Nghệ An','Kinh','0980000045','Còn sống'),
+  ('001000000046','Vũ Quang Hải','1934-02-02','Nam','Hải Dương','Kinh','0900000046','Đã mất'),
+  ('002000000046','Vũ Quang Dũng','1962-10-15','Nam','Hải Dương','Kinh','0980000046','Còn sống'),
+  ('001000000047','Hoàng Minh Khoa','1984-02-14','Nam','Hưng Yên','Kinh','0900000047','Đã mất'),
+  ('002000000047','Hoàng Ngọc Linh','1995-12-13','Nữ','Hải Dương','Kinh','0980000047','Còn sống'),
+  ('001000000048','Bùi Ngọc Linh','1957-08-12','Nữ','Nghệ An','Kinh','0900000048','Đã mất'),
+  ('002000000048','Lê Minh Hùng','1974-12-26','Nam','Bắc Ninh','Kinh','0980000048','Còn sống'),
+  ('001000000049','Ngô Văn Khoa','1932-11-19','Nam','Hà Nội','Kinh','0900000049','Đã mất'),
+  ('002000000049','Ngô Quang Thành','1962-10-04','Nam','Thái Bình','Kinh','0980000049','Còn sống'),
+  ('001000000050','Bùi Văn Hải','1960-08-22','Nam','Nam Định','Kinh','0900000050','Đã mất'),
+  ('002000000050','Phạm Ngọc Huệ','1975-08-18','Nữ','Hà Nội','Kinh','0980000050','Còn sống'),
+  ('001000000051','Đặng Thị Lan','1954-11-21','Nữ','Hà Nội','Kinh','0900000051','Đã mất'),
+  ('002000000051','Đỗ Minh Phúc','1995-03-02','Nam','Hải Dương','Kinh','0980000051','Còn sống'),
+  ('001000000052','Hoàng Quang Thành','1987-01-27','Nam','Hưng Yên','Kinh','0900000052','Đã mất'),
+  ('002000000052','Hoàng Thu Loan','2004-06-07','Nữ','Thanh Hóa','Kinh','0980000052','Còn sống'),
+  ('001000000053','Trần Thị Loan','1953-08-20','Nữ','Nghệ An','Kinh','0900000053','Đã mất'),
+  ('002000000053','Trần Hữu Khoa','1961-02-07','Nam','Hà Nội','Kinh','0980000053','Còn sống'),
+  ('001000000054','Hoàng Thị Huệ','1963-07-19','Nữ','Hà Nội','Kinh','0900000054','Đã mất'),
+  ('002000000054','Hoàng Hồng Huệ','1992-02-01','Nữ','Nghệ An','Kinh','0980000054','Còn sống'),
+  ('001000000055','Trần Minh Trung','1964-10-08','Nam','Thái Bình','Kinh','0900000055','Đã mất'),
+  ('002000000055','Trần Thị Linh','1986-11-18','Nữ','Thanh Hóa','Kinh','0980000055','Còn sống'),
+  ('001000000056','Đặng Văn Tuấn','1955-08-20','Nam','Hưng Yên','Kinh','0900000056','Đã mất'),
+  ('002000000056','Đặng Ngọc Mai','1971-02-12','Nữ','Thái Bình','Kinh','0980000056','Còn sống'),
+  ('001000000057','Ngô Ngọc Huệ','1941-07-20','Nữ','Bắc Ninh','Kinh','0900000057','Đã mất'),
+  ('002000000057','Ngô Thu Nga','1965-03-19','Nữ','Hà Nội','Kinh','0980000057','Còn sống'),
+  ('001000000058','Hoàng Văn Bình','1936-05-19','Nam','Thanh Hóa','Kinh','0900000058','Đã mất'),
+  ('002000000058','Hoàng Quang Dũng','1967-04-13','Nam','Bắc Ninh','Kinh','0980000058','Còn sống'),
+  ('001000000059','Nguyễn Văn Long','1959-08-26','Nam','Hưng Yên','Kinh','0900000059','Đã mất'),
+  ('002000000059','Nguyễn Quang Hải','1979-10-01','Nam','Nam Định','Kinh','0980000059','Còn sống'),
+  ('001000000060','Hoàng Văn Hùng','1953-07-03','Nam','Hà Nội','Kinh','0900000060','Đã mất'),
+  ('002000000060','Hoàng Hồng Huệ','1956-02-28','Nữ','Nghệ An','Kinh','0980000060','Còn sống'),
+  ('001000000061','Lê Ngọc Lan','1942-12-08','Nữ','Bắc Ninh','Kinh','0900000061','Đã mất'),
+  ('002000000061','Đỗ Văn Hùng','1998-05-26','Nam','Thanh Hóa','Kinh','0980000061','Còn sống'),
+  ('001000000062','Bùi Minh Long','1949-06-16','Nam','Thanh Hóa','Kinh','0900000062','Đã mất'),
+  ('002000000062','Bùi Văn Phúc','1979-12-07','Nam','Hà Nội','Kinh','0980000062','Còn sống'),
+  ('001000000063','Trần Hồng Loan','1999-01-06','Nữ','Thái Bình','Kinh','0900000063','Đã mất'),
+  ('002000000063','Trần Minh Bình','2004-04-05','Nam','Hà Nội','Kinh','0980000063','Còn sống'),
+  ('001000000064','Hoàng Ngọc Hương','1953-07-09','Nữ','Nam Định','Kinh','0900000064','Đã mất'),
+  ('002000000064','Hoàng Ngọc Lan','1979-12-10','Nữ','Thái Bình','Kinh','0980000064','Còn sống'),
+  ('001000000065','Lê Văn Dũng','1951-04-20','Nam','Thanh Hóa','Kinh','0900000065','Đã mất'),
+  ('002000000065','Phạm Ngọc Yến','1990-11-23','Nữ','Hải Dương','Kinh','0980000065','Còn sống'),
+  ('001000000066','Trần Ngọc Mai','1982-11-09','Nữ','Hưng Yên','Kinh','0900000066','Đã mất'),
+  ('002000000066','Trần Hữu Sơn','2004-01-12','Nam','Thanh Hóa','Kinh','0980000066','Còn sống'),
+  ('001000000067','Bùi Ngọc Yến','1975-04-03','Nữ','Thái Bình','Kinh','0900000067','Đã mất'),
+  ('002000000067','Bùi Quang Hải','1999-01-01','Nam','Nam Định','Kinh','0980000067','Còn sống'),
+  ('001000000068','Ngô Ngọc Hương','2001-03-18','Nữ','Thái Bình','Kinh','0900000068','Đã mất'),
+  ('002000000068','Ngô Ngọc Lan','1976-11-13','Nữ','Nghệ An','Kinh','0980000068','Còn sống'),
+  ('001000000069','Đặng Ngọc Nga','1988-11-12','Nữ','Hà Nội','Kinh','0900000069','Đã mất'),
+  ('002000000069','Đỗ Đức Dũng','1995-06-14','Nam','Hải Dương','Kinh','0980000069','Còn sống'),
+  ('001000000070','Hoàng Văn Thành','1965-01-10','Nam','Hưng Yên','Kinh','0900000070','Đã mất'),
+  ('002000000070','Hoàng Hữu Hải','1985-05-03','Nam','Thanh Hóa','Kinh','0980000070','Còn sống'),
+  ('001000000071','Phạm Thu Lan','1946-08-27','Nữ','Hải Dương','Kinh','0900000071','Đã mất'),
+  ('002000000071','Phạm Hữu Hải','1987-07-19','Nam','Nghệ An','Kinh','0980000071','Còn sống'),
+  ('001000000072','Ngô Văn Hải','1962-08-12','Nam','Hải Dương','Kinh','0900000072','Đã mất'),
+  ('002000000072','Ngô Thu Mai','1987-11-07','Nữ','Bắc Ninh','Kinh','0980000072','Còn sống'),
+  ('001000000073','Hoàng Thu Linh','1937-05-24','Nữ','Hưng Yên','Kinh','0900000073','Đã mất'),
+  ('002000000073','Hoàng Thu Lan','1967-12-28','Nữ','Thanh Hóa','Kinh','0980000073','Còn sống'),
+  ('001000000074','Vũ Thị Linh','1952-01-01','Nữ','Thanh Hóa','Kinh','0900000074','Đã mất'),
+  ('002000000074','Hoàng Hữu Sơn','1967-07-17','Nam','Nghệ An','Kinh','0980000074','Còn sống'),
+  ('001000000075','Bùi Thị Mai','1944-12-27','Nữ','Hưng Yên','Kinh','0900000075','Đã mất'),
+  ('002000000075','Trần Quang Hải','1978-03-04','Nam','Bắc Ninh','Kinh','0980000075','Còn sống'),
+  ('001000000076','Đặng Quang Bình','1946-09-01','Nam','Nam Định','Kinh','0900000076','Đã mất'),
+  ('002000000076','Đặng Văn Nam','1959-03-16','Nam','Bắc Ninh','Kinh','0980000076','Còn sống'),
+  ('001000000077','Nguyễn Quang Khoa','1950-03-02','Nam','Nam Định','Kinh','0900000077','Đã mất'),
+  ('002000000077','Nguyễn Đức Phúc','1979-10-13','Nam','Hà Nội','Kinh','0980000077','Còn sống'),
+  ('001000000078','Bùi Đức Khoa','1949-08-03','Nam','Nghệ An','Kinh','0900000078','Đã mất'),
+  ('002000000078','Bùi Quang Bình','1975-12-16','Nam','Hà Nội','Kinh','0980000078','Còn sống'),
+  ('001000000079','Đỗ Hồng Hạnh','1944-07-11','Nữ','Nam Định','Kinh','0900000079','Đã mất'),
+  ('002000000079','Đỗ Ngọc Nga','1969-04-15','Nữ','Bắc Ninh','Kinh','0980000079','Còn sống'),
+  ('001000000080','Phạm Ngọc Linh','1985-07-13','Nữ','Thanh Hóa','Kinh','0900000080','Đã mất'),
+  ('002000000080','Phạm Minh Khoa','1987-03-23','Nam','Bắc Ninh','Kinh','0980000080','Còn sống'),
+  ('001000000081','Đặng Thị Cúc','1956-07-23','Nữ','Thái Bình','Kinh','0900000081','Đã mất'),
+  ('002000000081','Đặng Thị Hoa','1979-09-12','Nữ','Bắc Ninh','Kinh','0980000081','Còn sống'),
+  ('001000000082','Lê Thu Nga','1964-11-23','Nữ','Hà Nội','Kinh','0900000082','Đã mất'),
+  ('002000000082','Lê Quang Khoa','1990-02-06','Nam','Bắc Ninh','Kinh','0980000082','Còn sống'),
+  ('001000000083','Ngô Hữu Tuấn','1934-05-14','Nam','Hà Nội','Kinh','0900000083','Đã mất'),
+  ('002000000083','Ngô Thị Hương','1956-11-04','Nữ','Hà Nội','Kinh','0980000083','Còn sống'),
+  ('001000000084','Vũ Ngọc Huệ','1962-04-14','Nữ','Hải Dương','Kinh','0900000084','Đã mất'),
+  ('002000000084','Vũ Ngọc Hạnh','1984-04-18','Nữ','Bắc Ninh','Kinh','0980000084','Còn sống'),
+  ('001000000085','Bùi Thu Cúc','1965-08-05','Nữ','Bắc Ninh','Kinh','0900000085','Đã mất'),
+  ('002000000085','Bùi Hữu Nam','1994-06-21','Nam','Nam Định','Kinh','0980000085','Còn sống'),
+  ('001000000086','Nguyễn Minh Dũng','1991-12-10','Nam','Thái Bình','Kinh','0900000086','Đã mất'),
+  ('002000000086','Bùi Thu Linh','1973-03-18','Nữ','Nam Định','Kinh','0980000086','Còn sống'),
+  ('001000000087','Hoàng Văn Bình','1967-12-01','Nam','Thái Bình','Kinh','0900000087','Đã mất'),
+  ('002000000087','Lê Ngọc Hoa','1978-12-27','Nữ','Bắc Ninh','Kinh','0980000087','Còn sống'),
+  ('001000000088','Nguyễn Thị Mai','1938-03-10','Nữ','Hải Dương','Kinh','0900000088','Đã mất'),
+  ('002000000088','Nguyễn Minh Dũng','1965-01-28','Nam','Thanh Hóa','Kinh','0980000088','Còn sống'),
+  ('001000000089','Vũ Ngọc Nga','1965-03-24','Nữ','Bắc Ninh','Kinh','0900000089','Đã mất'),
+  ('002000000089','Vũ Thu Yến','1994-04-16','Nữ','Nam Định','Kinh','0980000089','Còn sống'),
+  ('001000000090','Vũ Thị Hương','1957-06-17','Nữ','Hải Dương','Kinh','0900000090','Đã mất'),
+  ('002000000090','Vũ Hữu Tuấn','1979-09-19','Nam','Nghệ An','Kinh','0980000090','Còn sống'),
+  ('001000000091','Trần Hồng Hương','1949-04-18','Nữ','Nam Định','Kinh','0900000091','Đã mất'),
+  ('002000000091','Trần Văn Phúc','1975-03-28','Nam','Nam Định','Kinh','0980000091','Còn sống'),
+  ('001000000092','Nguyễn Văn Sơn','1979-03-14','Nam','Hải Dương','Kinh','0900000092','Đã mất'),
+  ('002000000092','Nguyễn Đức Tuấn','1979-12-27','Nam','Hưng Yên','Kinh','0980000092','Còn sống'),
+  ('001000000093','Ngô Hồng Lan','2006-04-23','Nữ','Thanh Hóa','Kinh','0900000093','Đã mất'),
+  ('002000000093','Ngô Văn Dũng','2004-05-06','Nam','Thái Bình','Kinh','0980000093','Còn sống'),
+  ('001000000094','Đỗ Hồng Huệ','2006-10-27','Nữ','Thái Bình','Kinh','0900000094','Đã mất'),
+  ('002000000094','Đỗ Thị Thảo','2004-06-17','Nữ','Hải Dương','Kinh','0980000094','Còn sống'),
+  ('001000000095','Ngô Thị Hạnh','2009-08-20','Nữ','Thái Bình','Kinh','0900000095','Đã mất'),
+  ('002000000095','Ngô Thu Hoa','2004-09-09','Nữ','Hưng Yên','Kinh','0980000095','Còn sống'),
+  ('001000000096','Lê Đức Tuấn','1944-09-28','Nam','Nghệ An','Kinh','0900000096','Đã mất'),
+  ('002000000096','Vũ Thu Huệ','1998-09-12','Nữ','Hải Dương','Kinh','0980000096','Còn sống'),
+  ('001000000097','Lê Quang Dũng','1949-09-22','Nam','Hải Dương','Kinh','0900000097','Đã mất'),
+  ('002000000097','Lê Đức Thành','1964-10-12','Nam','Thanh Hóa','Kinh','0980000097','Còn sống'),
+  ('001000000098','Nguyễn Hữu Khoa','1940-10-10','Nam','Nam Định','Kinh','0900000098','Đã mất'),
+  ('002000000098','Nguyễn Đức Sơn','1960-01-03','Nam','Nam Định','Kinh','0980000098','Còn sống'),
+  ('001000000099','Ngô Thu Huệ','1962-01-03','Nữ','Nghệ An','Kinh','0900000099','Đã mất'),
+  ('002000000099','Nguyễn Văn Tuấn','1972-10-21','Nam','Hưng Yên','Kinh','0980000099','Còn sống'),
+  ('001000000100','Đặng Thu Hương','1956-10-19','Nữ','Bắc Ninh','Kinh','0900000100','Đã mất'),
+  ('002000000100','Đặng Quang Khoa','1986-09-23','Nam','Thanh Hóa','Kinh','0980000100','Còn sống');
+
+-- 100 giấy báo tử
+INSERT INTO Giay_Bao_Tu (SoGiayBaoTu,NgayCap,NgayGioMat,NoiMatChiTiet,MoTaNguyenNhan,MaNguyenNhan,MaXaPhuong,MaCSYT,CCCD_NgMat) VALUES
+  ('GBT001','2024-02-01','2024-01-31 17:00:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP04','CS01','001000000001'),
+  ('GBT002','2024-03-04','2024-03-04 16:30:00','Tại Trạm Y tế Phường Láng Hạ','Nhồi máu cơ tim','NN01','XP01','CS03','001000000002'),
+  ('GBT003','2024-04-25','2024-04-24 23:30:00','Địa chỉ số 30, Phường Thạch Thất','Suy hô hấp','NN04','XP08','CS02','001000000003'),
+  ('GBT004','2024-08-06','2024-08-05 20:15:00','Tại Bệnh viện Quận Đống Đa','Suy hô hấp','NN04','XP03','CS02','001000000004'),
+  ('GBT005','2024-10-09','2024-10-09 17:15:00','Tại Bệnh viện Quận Đống Đa','Nhồi máu cơ tim','NN01','XP01','CS02','001000000005'),
+  ('GBT006','2024-10-16','2024-10-16 22:30:00','Địa chỉ số 16, Phường Sơn Tây','Nhồi máu cơ tim','NN01','XP07','CS02','001000000006'),
+  ('GBT007','2024-11-18','2024-11-17 13:15:00','Tại Bệnh viện Đa khoa Trung tâm','Tai nạn giao thông','NN03','XP06','CS01','001000000007'),
+  ('GBT008','2024-11-18','2024-11-18 02:30:00','Tại Phòng khám Đa khoa Cầu Giấy','Ung thư giai đoạn cuối','NN02','XP02','CS04','001000000008'),
+  ('GBT009','2025-01-24','2025-01-24 09:45:00','Địa chỉ số 33, Phường Láng Hạ','Nhồi máu cơ tim','NN01','XP01','CS03','001000000009'),
+  ('GBT010','2025-01-26','2025-01-26 11:00:00','Tại Bệnh viện Đa khoa Trung tâm','Suy hô hấp','NN04','XP05','CS01','001000000010'),
+  ('GBT011','2025-02-02','2025-02-01 05:00:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP08','CS01','001000000011'),
+  ('GBT012','2025-03-02','2025-03-02 22:45:00','Địa chỉ số 4, Phường Láng Hạ','Mất do tuổi cao, sức yếu','NN05','XP01','CS02','001000000012'),
+  ('GBT013','2025-03-11','2025-03-10 08:00:00','Tại Bệnh viện Quận Đống Đa','Suy hô hấp','NN04','XP04','CS02','001000000013'),
+  ('GBT014','2025-03-16','2025-03-15 09:30:00','Tại Phòng khám Đa khoa Cầu Giấy','Suy hô hấp','NN04','XP02','CS04','001000000014'),
+  ('GBT015','2025-04-24','2025-04-24 22:30:00','Địa chỉ số 4, Phường Ô Chợ Dừa','Mất do tuổi cao, sức yếu','NN05','XP03','CS04','001000000015'),
+  ('GBT016','2025-05-30','2025-05-29 11:45:00','Tại Trạm Y tế Phường Láng Hạ','Mất do tuổi cao, sức yếu','NN05','XP01','CS03','001000000016'),
+  ('GBT017','2025-07-24','2025-07-23 05:45:00','Tại Trạm Y tế Phường Láng Hạ','Nhồi máu cơ tim','NN01','XP01','CS03','001000000017'),
+  ('GBT018','2025-08-04','2025-08-03 07:30:00','Địa chỉ số 50, Phường Sơn Tây','Ung thư giai đoạn cuối','NN02','XP07','CS01','001000000018'),
+  ('GBT019','2025-10-04','2025-10-04 18:45:00','Tại Phòng khám Đa khoa Cầu Giấy','Suy hô hấp','NN04','XP02','CS04','001000000019'),
+  ('GBT020','2025-10-13','2025-10-13 08:15:00','Tại Trạm Y tế Phường Láng Hạ','Nguyên nhân khác đã được bác sĩ xác nhận','NN06','XP01','CS03','001000000020'),
+  ('GBT021','2025-10-20','2025-10-20 11:45:00','Địa chỉ số 27, Phường Thạch Thất','Nguyên nhân khác đã được bác sĩ xác nhận','NN06','XP08','CS03','001000000021'),
+  ('GBT022','2025-10-24','2025-10-23 00:15:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP03','CS01','001000000022'),
+  ('GBT023','2025-10-27','2025-10-26 03:15:00','Tại Trạm Y tế Phường Láng Hạ','Suy hô hấp','NN04','XP01','CS03','001000000023'),
+  ('GBT024','2025-10-28','2025-10-27 11:30:00','Địa chỉ số 36, Phường Kim Mã','Tai nạn giao thông','NN03','XP05','CS03','001000000024'),
+  ('GBT025','2026-07-07','2026-07-06 10:30:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP02','CS01','001000000025'),
+  ('GBT026','2026-07-09','2026-07-08 23:00:00','Tại Trạm Y tế Phường Láng Hạ','Nhồi máu cơ tim','NN01','XP01','CS03','001000000026'),
+  ('GBT027','2026-07-10','2026-07-09 11:00:00','Địa chỉ số 7, Phường Thanh Xuân','Suy hô hấp','NN04','XP04','CS01','001000000027'),
+  ('GBT028','2026-07-11','2026-07-10 00:30:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP03','CS01','001000000028'),
+  ('GBT029','2026-07-11','2026-07-10 23:30:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP01','CS01','001000000029'),
+  ('GBT030','2026-07-12','2026-07-11 04:30:00','Địa chỉ số 9, Phường Cầu Giấy','Nhồi máu cơ tim','NN01','XP02','CS01','001000000030'),
+  ('GBT031','2026-07-13','2026-07-13 11:00:00','Tại Phòng khám Đa khoa Cầu Giấy','Suy hô hấp','NN04','XP02','CS04','001000000031'),
+  ('GBT032','2026-07-14','2026-07-14 15:45:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP03','CS01','001000000032'),
+  ('GBT033','2026-07-17','2026-07-16 02:30:00','Địa chỉ số 79, Phường Kim Mã','Ung thư giai đoạn cuối','NN02','XP05','CS01','001000000033'),
+  ('GBT034','2026-07-21','2026-07-20 17:00:00','Tại Bệnh viện Đa khoa Trung tâm','Nguyên nhân khác đã được bác sĩ xác nhận','NN06','XP06','CS01','001000000034'),
+  ('GBT035','2026-07-23','2026-07-22 04:30:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP06','CS01','001000000035'),
+  ('GBT036','2026-07-25','2026-07-24 07:15:00','Địa chỉ số 86, Phường Kim Mã','Mất do tuổi cao, sức yếu','NN05','XP05','CS02','001000000036'),
+  ('GBT037','2026-07-24','2026-07-24 01:00:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP03','CS01','001000000037'),
+  ('GBT038','2026-07-25','2026-07-25 23:30:00','Tại Bệnh viện Đa khoa Trung tâm','Nguyên nhân khác đã được bác sĩ xác nhận','NN06','XP07','CS01','001000000038'),
+  ('GBT039','2026-07-27','2026-07-27 12:00:00','Địa chỉ số 4, Phường Cầu Giấy','Ung thư giai đoạn cuối','NN02','XP02','CS01','001000000039'),
+  ('GBT040','2026-08-02','2026-08-01 01:00:00','Tại Bệnh viện Đa khoa Trung tâm','Mất do tuổi cao, sức yếu','NN05','XP02','CS01','001000000040'),
+  ('GBT041','2026-08-02','2026-08-01 22:00:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP07','CS01','001000000041'),
+  ('GBT042','2026-08-07','2026-08-06 11:00:00','Địa chỉ số 55, Phường Láng Hạ','Ung thư giai đoạn cuối','NN02','XP01','CS01','001000000042'),
+  ('GBT043','2026-08-08','2026-08-08 20:15:00','Tại Bệnh viện Đa khoa Trung tâm','Suy hô hấp','NN04','XP05','CS01','001000000043'),
+  ('GBT044','2026-08-09','2026-08-08 06:45:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP01','CS01','001000000044'),
+  ('GBT045','2026-08-10','2026-08-09 08:00:00','Địa chỉ số 92, Phường Ô Chợ Dừa','Ung thư giai đoạn cuối','NN02','XP03','CS01','001000000045'),
+  ('GBT046','2026-08-11','2026-08-10 16:00:00','Tại Bệnh viện Đa khoa Trung tâm','Suy hô hấp','NN04','XP07','CS01','001000000046'),
+  ('GBT047','2026-08-10','2026-08-10 14:15:00','Tại Bệnh viện Đa khoa Trung tâm','Nguyên nhân khác đã được bác sĩ xác nhận','NN06','XP02','CS01','001000000047'),
+  ('GBT048','2026-08-14','2026-08-13 07:30:00','Địa chỉ số 55, Phường Cầu Giấy','Ung thư giai đoạn cuối','NN02','XP02','CS01','001000000048'),
+  ('GBT049','2026-08-14','2026-08-13 05:45:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP04','CS01','001000000049'),
+  ('GBT050','2026-08-14','2026-08-13 14:15:00','Tại Bệnh viện Đa khoa Trung tâm','Suy hô hấp','NN04','XP08','CS01','001000000050'),
+  ('GBT051','2026-08-15','2026-08-14 20:15:00','Địa chỉ số 44, Phường Thạch Thất','Suy hô hấp','NN04','XP08','CS01','001000000051'),
+  ('GBT052','2026-08-17','2026-08-16 10:15:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP03','CS01','001000000052'),
+  ('GBT053','2026-08-17','2026-08-17 20:15:00','Tại Bệnh viện Đa khoa Trung tâm','Suy hô hấp','NN04','XP01','CS01','001000000053'),
+  ('GBT054','2026-08-23','2026-08-23 15:45:00','Địa chỉ số 28, Phường Ô Chợ Dừa','Nhồi máu cơ tim','NN01','XP03','CS01','001000000054'),
+  ('GBT055','2026-08-23','2026-08-23 21:30:00','Tại Bệnh viện Đa khoa Trung tâm','Suy hô hấp','NN04','XP01','CS01','001000000055'),
+  ('GBT056','2026-08-25','2026-08-24 15:45:00','Tại Bệnh viện Đa khoa Trung tâm','Suy hô hấp','NN04','XP06','CS01','001000000056'),
+  ('GBT057','2026-08-28','2026-08-27 04:15:00','Địa chỉ số 70, Phường Thạch Thất','Ung thư giai đoạn cuối','NN02','XP08','CS03','001000000057'),
+  ('GBT058','2026-08-28','2026-08-28 15:15:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP04','CS01','001000000058'),
+  ('GBT059','2026-08-29','2026-08-29 06:45:00','Tại Bệnh viện Đa khoa Trung tâm','Mất do tuổi cao, sức yếu','NN05','XP05','CS01','001000000059'),
+  ('GBT060','2026-09-02','2026-09-01 22:00:00','Địa chỉ số 83, Phường Cầu Giấy','Mất do tuổi cao, sức yếu','NN05','XP02','CS01','001000000060'),
+  ('GBT061','2026-09-03','2026-09-02 03:15:00','Tại Bệnh viện Đa khoa Trung tâm','Mất do tuổi cao, sức yếu','NN05','XP04','CS01','001000000061'),
+  ('GBT062','2026-09-03','2026-09-02 07:00:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP08','CS01','001000000062'),
+  ('GBT063','2026-09-03','2026-09-02 18:30:00','Địa chỉ số 63, Phường Cầu Giấy','Tai nạn giao thông','NN03','XP02','CS01','001000000063'),
+  ('GBT064','2026-09-04','2026-09-04 14:30:00','Tại Bệnh viện Đa khoa Trung tâm','Mất do tuổi cao, sức yếu','NN05','XP01','CS01','001000000064'),
+  ('GBT065','2026-09-06','2026-09-06 06:00:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP01','CS01','001000000065'),
+  ('GBT066','2026-09-07','2026-09-07 03:30:00','Địa chỉ số 74, Phường Láng Hạ','Nhồi máu cơ tim','NN01','XP01','CS01','001000000066'),
+  ('GBT067','2026-09-10','2026-09-09 08:00:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP08','CS01','001000000067'),
+  ('GBT068','2026-09-11','2026-09-10 12:00:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP07','CS01','001000000068'),
+  ('GBT069','2026-09-11','2026-09-10 07:15:00','Địa chỉ số 82, Phường Láng Hạ','Nhồi máu cơ tim','NN01','XP01','CS01','001000000069'),
+  ('GBT070','2026-09-11','2026-09-11 14:00:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP07','CS01','001000000070'),
+  ('GBT071','2026-09-12','2026-09-12 11:15:00','Tại Bệnh viện Đa khoa Trung tâm','Mất do tuổi cao, sức yếu','NN05','XP06','CS01','001000000071'),
+  ('GBT072','2026-09-13','2026-09-12 23:45:00','Địa chỉ số 14, Phường Láng Hạ','Mất do tuổi cao, sức yếu','NN05','XP01','CS01','001000000072'),
+  ('GBT073','2026-09-12','2026-09-12 14:30:00','Tại Bệnh viện Đa khoa Trung tâm','Suy hô hấp','NN04','XP03','CS01','001000000073'),
+  ('GBT074','2026-09-13','2026-09-13 14:30:00','Tại Bệnh viện Đa khoa Trung tâm','Suy hô hấp','NN04','XP08','CS01','001000000074'),
+  ('GBT075','2026-09-13','2026-09-13 16:45:00','Địa chỉ số 65, Phường Thanh Xuân','Ung thư giai đoạn cuối','NN02','XP04','CS01','001000000075'),
+  ('GBT076','2026-09-16','2026-09-15 18:15:00','Tại Bệnh viện Đa khoa Trung tâm','Nhồi máu cơ tim','NN01','XP03','CS01','001000000076'),
+  ('GBT077','2026-09-16','2026-09-16 07:45:00','Tại Bệnh viện Đa khoa Trung tâm','Mất do tuổi cao, sức yếu','NN05','XP01','CS01','001000000077'),
+  ('GBT078','2026-09-18','2026-09-18 02:15:00','Địa chỉ số 24, Phường Láng Hạ','Nhồi máu cơ tim','NN01','XP01','CS01','001000000078'),
+  ('GBT079','2026-09-20','2026-09-20 07:45:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP01','CS01','001000000079'),
+  ('GBT080','2026-09-24','2026-09-24 18:30:00','Tại Bệnh viện Đa khoa Trung tâm','Nguyên nhân khác đã được bác sĩ xác nhận','NN06','XP04','CS01','001000000080'),
+  ('GBT081','2026-10-01','2026-10-01 02:30:00','Địa chỉ số 92, Phường Sơn Tây','Nhồi máu cơ tim','NN01','XP07','CS03','001000000081'),
+  ('GBT082','2026-10-01','2026-10-01 08:15:00','Tại Bệnh viện Đa khoa Trung tâm','Mất do tuổi cao, sức yếu','NN05','XP03','CS01','001000000082'),
+  ('GBT083','2026-10-02','2026-10-02 06:30:00','Tại Phòng khám Đa khoa Cầu Giấy','Ung thư giai đoạn cuối','NN02','XP02','CS04','001000000083'),
+  ('GBT084','2026-10-03','2026-10-02 01:15:00','Địa chỉ số 26, Phường Kim Mã','Nhồi máu cơ tim','NN01','XP05','CS04','001000000084'),
+  ('GBT085','2026-10-03','2026-10-02 05:15:00','Tại Bệnh viện Quận Đống Đa','Suy hô hấp','NN04','XP02','CS02','001000000085'),
+  ('GBT086','2026-10-03','2026-10-02 00:45:00','Tại Trạm Y tế Phường Láng Hạ','Nhồi máu cơ tim','NN01','XP01','CS03','001000000086'),
+  ('GBT087','2026-10-04','2026-10-03 12:15:00','Địa chỉ số 18, Phường Hà Đông','Tai nạn giao thông','NN03','XP06','CS02','001000000087'),
+  ('GBT088','2026-10-06','2026-10-05 06:15:00','Tại Bệnh viện Đa khoa Trung tâm','Suy hô hấp','NN04','XP07','CS01','001000000088'),
+  ('GBT089','2026-10-06','2026-10-05 16:45:00','Tại Phòng khám Đa khoa Cầu Giấy','Ung thư giai đoạn cuối','NN02','XP02','CS04','001000000089'),
+  ('GBT090','2026-10-06','2026-10-05 16:15:00','Địa chỉ số 30, Phường Ô Chợ Dừa','Ung thư giai đoạn cuối','NN02','XP03','CS03','001000000090'),
+  ('GBT091','2026-10-06','2026-10-06 14:45:00','Tại Phòng khám Đa khoa Cầu Giấy','Mất do tuổi cao, sức yếu','NN05','XP02','CS04','001000000091'),
+  ('GBT092','2026-10-06','2026-10-06 08:00:00','Tại Trạm Y tế Phường Láng Hạ','Nhồi máu cơ tim','NN01','XP01','CS03','001000000092'),
+  ('GBT093','2026-10-07','2026-10-07 21:45:00','Địa chỉ số 2, Phường Láng Hạ','Tai nạn giao thông','NN03','XP01','CS03','001000000093'),
+  ('GBT094','2026-10-08','2026-10-08 04:00:00','Tại Trạm Y tế Phường Láng Hạ','Tai nạn giao thông','NN03','XP01','CS03','001000000094'),
+  ('GBT095','2026-10-08','2026-10-08 18:15:00','Tại Bệnh viện Quận Đống Đa','Suy hô hấp','NN04','XP07','CS02','001000000095'),
+  ('GBT096','2026-10-08','2026-10-08 11:15:00','Địa chỉ số 52, Phường Thạch Thất','Nhồi máu cơ tim','NN01','XP08','CS01','001000000096'),
+  ('GBT097','2026-10-08','2026-10-08 22:45:00','Tại Trạm Y tế Phường Láng Hạ','Ung thư giai đoạn cuối','NN02','XP01','CS03','001000000097'),
+  ('GBT098','2026-10-10','2026-10-10 23:15:00','Tại Trạm Y tế Phường Láng Hạ','Ung thư giai đoạn cuối','NN02','XP01','CS03','001000000098'),
+  ('GBT099','2026-10-10','2026-10-10 13:30:00','Địa chỉ số 27, Phường Ô Chợ Dừa','Mất do tuổi cao, sức yếu','NN05','XP03','CS01','001000000099'),
+  ('GBT100','2026-10-10','2026-10-10 11:30:00','Tại Bệnh viện Đa khoa Trung tâm','Ung thư giai đoạn cuối','NN02','XP08','CS01','001000000100');
+
+-- 100 hồ sơ khai tử
+INSERT INTO Ho_So_Khai_Tu (SoGiayKhaiTu,NgayDangKi,QuanHe,TrangThaiHoSo,SoGiayBaoTu,CCCD_NgKhaiTu,MaCanBoTiepNhan) VALUES
+  ('HS001','2024-02-01','Cháu','Đã duyệt','GBT001','002000000001','CB03'),
+  ('HS002','2024-03-04','Con','Đã duyệt','GBT002','002000000002','CB02'),
+  ('HS003','2024-04-25','Con','Đã duyệt','GBT003','002000000003','CB02'),
+  ('HS004','2024-08-08','Cháu','Đã duyệt','GBT004','002000000004','CB06'),
+  ('HS005','2024-10-12','Anh/Chị/Em','Đã duyệt','GBT005','002000000005','CB05'),
+  ('HS006','2024-10-19','Con','Đã duyệt','GBT006','002000000006','CB01'),
+  ('HS007','2024-11-20','Cháu','Đã duyệt','GBT007','002000000007','CB04'),
+  ('HS008','2024-11-19','Cháu','Đã duyệt','GBT008','002000000008','CB03'),
+  ('HS009','2025-01-26','Con','Đã duyệt','GBT009','002000000009','CB06'),
+  ('HS010','2025-01-26','Con','Đã duyệt','GBT010','002000000010','CB06'),
+  ('HS011','2025-02-05','Chồng','Đã duyệt','GBT011','002000000011','CB01'),
+  ('HS012','2025-03-02','Anh/Chị/Em','Đã duyệt','GBT012','002000000012','CB03'),
+  ('HS013','2025-03-12','Cháu','Đã duyệt','GBT013','002000000013','CB04'),
+  ('HS014','2025-03-19','Con','Đã duyệt','GBT014','002000000014','CB01'),
+  ('HS015','2025-04-27','Con','Đã duyệt','GBT015','002000000015','CB04'),
+  ('HS016','2025-05-30','Con','Đã duyệt','GBT016','002000000016','CB02'),
+  ('HS017','2025-07-26','Con','Đã duyệt','GBT017','002000000017','CB02'),
+  ('HS018','2025-08-05','Anh/Chị/Em','Đã duyệt','GBT018','002000000018','CB02'),
+  ('HS019','2025-10-04','Cháu','Đã duyệt','GBT019','002000000019','CB02'),
+  ('HS020','2025-10-13','Anh/Chị/Em','Đã duyệt','GBT020','002000000020','CB02'),
+  ('HS021','2025-10-20','Con','Từ chối','GBT021','002000000021','CB03'),
+  ('HS022','2025-10-24','Con','Đã duyệt','GBT022','002000000022','CB03'),
+  ('HS023','2025-10-29','Cháu','Đã duyệt','GBT023','002000000023','CB02'),
+  ('HS024','2025-10-28','Con','Đã duyệt','GBT024','002000000024','CB05'),
+  ('HS025','2026-07-09','Cháu','Đã duyệt','GBT025','002000000025','CB02'),
+  ('HS026','2026-07-11','Cháu','Đã duyệt','GBT026','002000000026','CB02'),
+  ('HS027','2026-07-11','Con','Đã duyệt','GBT027','002000000027','CB05'),
+  ('HS028','2026-07-13','Con','Đã duyệt','GBT028','002000000028','CB01'),
+  ('HS029','2026-07-14','Cháu','Đã duyệt','GBT029','002000000029','CB04'),
+  ('HS030','2026-07-13','Con','Đã duyệt','GBT030','002000000030','CB02'),
+  ('HS031','2026-07-14','Cháu','Đã duyệt','GBT031','002000000031','CB03'),
+  ('HS032','2026-07-14','Con','Đã duyệt','GBT032','002000000032','CB04'),
+  ('HS033','2026-07-18','Anh/Chị/Em','Đã duyệt','GBT033','002000000033','CB04'),
+  ('HS034','2026-07-24','Cháu','Từ chối','GBT034','002000000034','CB05'),
+  ('HS035','2026-07-26','Vợ','Đã duyệt','GBT035','002000000035','CB05'),
+  ('HS036','2026-07-25','Anh/Chị/Em','Đã duyệt','GBT036','002000000036','CB03'),
+  ('HS037','2026-07-25','Con','Đã duyệt','GBT037','002000000037','CB06'),
+  ('HS038','2026-07-27','Con','Đã duyệt','GBT038','002000000038','CB02'),
+  ('HS039','2026-07-28','Cháu','Đã duyệt','GBT039','002000000039','CB02'),
+  ('HS040','2026-08-05','Con','Đã duyệt','GBT040','002000000040','CB06'),
+  ('HS041','2026-08-03','Cháu','Đã duyệt','GBT041','002000000041','CB01'),
+  ('HS042','2026-08-10','Cháu','Đã duyệt','GBT042','002000000042','CB03'),
+  ('HS043','2026-08-10','Con','Đã duyệt','GBT043','002000000043','CB02'),
+  ('HS044','2026-08-09','Chồng','Đã duyệt','GBT044','002000000044','CB05'),
+  ('HS045','2026-08-11','Con','Đã duyệt','GBT045','002000000045','CB04'),
+  ('HS046','2026-08-13','Con','Đã duyệt','GBT046','002000000046','CB06'),
+  ('HS047','2026-08-11','Anh/Chị/Em','Đã duyệt','GBT047','002000000047','CB05'),
+  ('HS048','2026-08-17','Chồng','Đã duyệt','GBT048','002000000048','CB03'),
+  ('HS049','2026-08-15','Con','Đã duyệt','GBT049','002000000049','CB06'),
+  ('HS050','2026-08-15','Vợ','Đã duyệt','GBT050','002000000050','CB03'),
+  ('HS051','2026-08-15','Chồng','Đã duyệt','GBT051','002000000051','CB05'),
+  ('HS052','2026-08-19','Cháu','Đã duyệt','GBT052','002000000052','CB01'),
+  ('HS053','2026-08-18','Anh/Chị/Em','Đã duyệt','GBT053','002000000053','CB06'),
+  ('HS054','2026-08-23','Con','Đã duyệt','GBT054','002000000054','CB04'),
+  ('HS055','2026-08-23','Con','Đã duyệt','GBT055','002000000055','CB06'),
+  ('HS056','2026-08-27','Anh/Chị/Em','Đã duyệt','GBT056','002000000056','CB06'),
+  ('HS057','2026-08-31','Con','Đã duyệt','GBT057','002000000057','CB02'),
+  ('HS058','2026-08-29','Anh/Chị/Em','Đã duyệt','GBT058','002000000058','CB03'),
+  ('HS059','2026-08-31','Anh/Chị/Em','Đã duyệt','GBT059','002000000059','CB05'),
+  ('HS060','2026-09-04','Anh/Chị/Em','Từ chối','GBT060','002000000060','CB06'),
+  ('HS061','2026-09-03','Chồng','Đã duyệt','GBT061','002000000061','CB04'),
+  ('HS062','2026-09-04','Con','Đã duyệt','GBT062','002000000062','CB06'),
+  ('HS063','2026-09-04','Cháu','Đã duyệt','GBT063','002000000063','CB04'),
+  ('HS064','2026-09-07','Cháu','Đã duyệt','GBT064','002000000064','CB04'),
+  ('HS065','2026-09-09','Vợ','Đã duyệt','GBT065','002000000065','CB06'),
+  ('HS066','2026-09-09','Con','Đã duyệt','GBT066','002000000066','CB01'),
+  ('HS067','2026-09-11','Con','Đã duyệt','GBT067','002000000067','CB06'),
+  ('HS068','2026-09-13','Anh/Chị/Em','Đã duyệt','GBT068','002000000068','CB05'),
+  ('HS069','2026-09-14','Chồng','Đã duyệt','GBT069','002000000069','CB01'),
+  ('HS070','2026-09-13','Con','Đã duyệt','GBT070','002000000070','CB06'),
+  ('HS071','2026-09-14','Chồng','Đã duyệt','GBT071','002000000071','CB02'),
+  ('HS072','2026-09-14','Con','Đã duyệt','GBT072','002000000072','CB05'),
+  ('HS073','2026-09-14','Cháu','Đã duyệt','GBT073','002000000073','CB01'),
+  ('HS074','2026-09-15','Chồng','Đã duyệt','GBT074','002000000074','CB01'),
+  ('HS075','2026-09-15','Chồng','Đã duyệt','GBT075','002000000075','CB01'),
+  ('HS076','2026-09-16','Anh/Chị/Em','Đã duyệt','GBT076','002000000076','CB01'),
+  ('HS077','2026-09-19','Anh/Chị/Em','Đã duyệt','GBT077','002000000077','CB01'),
+  ('HS078','2026-09-20','Anh/Chị/Em','Từ chối','GBT078','002000000078','CB03'),
+  ('HS079','2026-09-22','Con','Đã duyệt','GBT079','002000000079','CB02'),
+  ('HS080','2026-09-27','Anh/Chị/Em','Chờ xử lý','GBT080','002000000080','CB01'),
+  ('HS081','2026-10-02','Con','Chờ xử lý','GBT081','002000000081','CB04'),
+  ('HS082','2026-10-04','Cháu','Đã duyệt','GBT082','002000000082','CB02'),
+  ('HS083','2026-10-05','Con','Chờ xử lý','GBT083','002000000083','CB04'),
+  ('HS084','2026-10-05','Con','Chờ xử lý','GBT084','002000000084','CB06'),
+  ('HS085','2026-10-06','Con','Chờ xử lý','GBT085','002000000085','CB04'),
+  ('HS086','2026-10-03','Vợ','Đã duyệt','GBT086','002000000086','CB04'),
+  ('HS087','2026-10-06','Vợ','Đã duyệt','GBT087','002000000087','CB03'),
+  ('HS088','2026-10-06','Con','Chờ xử lý','GBT088','002000000088','CB01'),
+  ('HS089','2026-10-07','Con','Chờ xử lý','GBT089','002000000089','CB03'),
+  ('HS090','2026-10-09','Cháu','Đã duyệt','GBT090','002000000090','CB02'),
+  ('HS091','2026-10-07','Anh/Chị/Em','Đã duyệt','GBT091','002000000091','CB01'),
+  ('HS092','2026-10-08','Anh/Chị/Em','Chờ xử lý','GBT092','002000000092','CB05'),
+  ('HS093','2026-10-09','Con','Chờ xử lý','GBT093','002000000093','CB02'),
+  ('HS094','2026-10-09','Cháu','Chờ xử lý','GBT094','002000000094','CB03'),
+  ('HS095','2026-10-08','Con','Chờ xử lý','GBT095','002000000095','CB03'),
+  ('HS096','2026-10-09','Vợ','Chờ xử lý','GBT096','002000000096','CB03'),
+  ('HS097','2026-10-11','Anh/Chị/Em','Chờ xử lý','GBT097','002000000097','CB02'),
+  ('HS098','2026-10-11','Con','Đã duyệt','GBT098','002000000098','CB02'),
+  ('HS099','2026-10-10','Chồng','Chờ xử lý','GBT099','002000000099','CB01'),
+  ('HS100','2026-10-12','Cháu','Chờ xử lý','GBT100','002000000100','CB06');
+
+-- An táng
+INSERT INTO An_Tang (MaAnTang,HinhThuc,TenNghiaTrang,NgayAnTang,SoGiayKhaiTu) VALUES
+  ('AT001','Hỏa táng','Đài hóa thân Văn Điển','2024-03-06','HS002'),
+  ('AT002','Hỏa táng','Đài hóa thân Văn Điển','2024-04-28','HS003'),
+  ('AT003','Hỏa táng','Đài hóa thân Văn Điển','2024-08-11','HS004'),
+  ('AT004','Hỏa táng','Đài hóa thân Văn Điển','2024-10-14','HS005'),
+  ('AT005','Địa táng','Nghĩa trang Mai Dịch','2024-10-20','HS006'),
+  ('AT006','Địa táng','Nghĩa trang Yên Kỳ','2024-11-22','HS007'),
+  ('AT007','Hỏa táng','Đài hóa thân Văn Điển','2024-11-19','HS008'),
+  ('AT008','Hỏa táng','Đài hóa thân Văn Điển','2025-01-29','HS009'),
+  ('AT009','Hỏa táng','Đài hóa thân Văn Điển','2025-02-06','HS011'),
+  ('AT010','Địa táng','Nghĩa trang Mai Dịch','2025-03-13','HS013'),
+  ('AT011','Địa táng','Nghĩa trang Yên Kỳ','2025-04-28','HS015'),
+  ('AT012','Địa táng','Nghĩa trang Yên Kỳ','2025-06-01','HS016'),
+  ('AT013','Địa táng','Nghĩa trang Mai Dịch','2025-07-27','HS017'),
+  ('AT014','Địa táng','Nghĩa trang Mai Dịch','2025-08-08','HS018'),
+  ('AT015','Hỏa táng','Đài hóa thân Văn Điển','2025-10-07','HS019'),
+  ('AT016','Hỏa táng','Đài hóa thân Văn Điển','2025-10-14','HS020'),
+  ('AT017','Hỏa táng','Đài hóa thân Văn Điển','2025-10-25','HS022'),
+  ('AT018','Địa táng','Nghĩa trang Mai Dịch','2025-10-31','HS023'),
+  ('AT019','Hỏa táng','Đài hóa thân Văn Điển','2026-07-09','HS025'),
+  ('AT020','Hỏa táng','Đài hóa thân Văn Điển','2026-07-12','HS026'),
+  ('AT021','Hỏa táng','Đài hóa thân Văn Điển','2026-07-13','HS027'),
+  ('AT022','Hỏa táng','Đài hóa thân Văn Điển','2026-07-14','HS029'),
+  ('AT023','Hỏa táng','Đài hóa thân Văn Điển','2026-07-16','HS030'),
+  ('AT024','Địa táng','Nghĩa trang Yên Kỳ','2026-07-17','HS031'),
+  ('AT025','Hỏa táng','Đài hóa thân Văn Điển','2026-07-14','HS032'),
+  ('AT026','Địa táng','Nghĩa trang Mai Dịch','2026-07-20','HS033'),
+  ('AT027','Hỏa táng','Đài hóa thân Văn Điển','2026-07-26','HS035'),
+  ('AT028','Địa táng','Nghĩa trang Mai Dịch','2026-07-27','HS037'),
+  ('AT029','Hỏa táng','Đài hóa thân Văn Điển','2026-07-28','HS038'),
+  ('AT030','Hỏa táng','Đài hóa thân Văn Điển','2026-07-28','HS039'),
+  ('AT031','Địa táng','Nghĩa trang Yên Kỳ','2026-08-08','HS040'),
+  ('AT032','Địa táng','Nghĩa trang Mai Dịch','2026-08-06','HS041'),
+  ('AT033','Hỏa táng','Đài hóa thân Văn Điển','2026-08-13','HS042'),
+  ('AT034','Địa táng','Nghĩa trang Mai Dịch','2026-08-11','HS043'),
+  ('AT035','Hỏa táng','Đài hóa thân Văn Điển','2026-08-14','HS045'),
+  ('AT036','Hỏa táng','Đài hóa thân Văn Điển','2026-08-15','HS046'),
+  ('AT037','Hỏa táng','Đài hóa thân Văn Điển','2026-08-13','HS047'),
+  ('AT038','Địa táng','Nghĩa trang Yên Kỳ','2026-08-17','HS048'),
+  ('AT039','Hỏa táng','Đài hóa thân Văn Điển','2026-08-17','HS049'),
+  ('AT040','Địa táng','Nghĩa trang Yên Kỳ','2026-08-18','HS050'),
+  ('AT041','Địa táng','Nghĩa trang Mai Dịch','2026-08-22','HS052'),
+  ('AT042','Hỏa táng','Đài hóa thân Văn Điển','2026-08-20','HS053'),
+  ('AT043','Hỏa táng','Đài hóa thân Văn Điển','2026-08-23','HS054'),
+  ('AT044','Địa táng','Nghĩa trang Mai Dịch','2026-08-28','HS056'),
+  ('AT045','Địa táng','Nghĩa trang Yên Kỳ','2026-08-30','HS058'),
+  ('AT046','Địa táng','Nghĩa trang Yên Kỳ','2026-09-05','HS062'),
+  ('AT047','Hỏa táng','Đài hóa thân Văn Điển','2026-09-05','HS063'),
+  ('AT048','Địa táng','Nghĩa trang Mai Dịch','2026-09-09','HS064'),
+  ('AT049','Địa táng','Nghĩa trang Mai Dịch','2026-09-14','HS067'),
+  ('AT050','Địa táng','Nghĩa trang Yên Kỳ','2026-09-14','HS069'),
+  ('AT051','Địa táng','Nghĩa trang Yên Kỳ','2026-09-14','HS070'),
+  ('AT052','Hỏa táng','Đài hóa thân Văn Điển','2026-09-15','HS071'),
+  ('AT053','Địa táng','Nghĩa trang Yên Kỳ','2026-09-15','HS072'),
+  ('AT054','Địa táng','Nghĩa trang Mai Dịch','2026-09-16','HS074'),
+  ('AT055','Hỏa táng','Đài hóa thân Văn Điển','2026-09-17','HS075'),
+  ('AT056','Địa táng','Nghĩa trang Yên Kỳ','2026-09-19','HS076'),
+  ('AT057','Hỏa táng','Đài hóa thân Văn Điển','2026-09-21','HS077'),
+  ('AT058','Địa táng','Nghĩa trang Mai Dịch','2026-09-25','HS079'),
+  ('AT059','Hỏa táng','Đài hóa thân Văn Điển','2026-10-06','HS082'),
+  ('AT060','Địa táng','Nghĩa trang Mai Dịch','2026-10-05','HS086'),
+  ('AT061','Hỏa táng','Đài hóa thân Văn Điển','2026-10-06','HS087'),
+  ('AT062','Hỏa táng','Đài hóa thân Văn Điển','2026-10-10','HS090'),
+  ('AT063','Hỏa táng','Đài hóa thân Văn Điển','2026-10-09','HS091'),
+  ('AT064','Hỏa táng','Đài hóa thân Văn Điển','2026-10-14','HS098');
+COMMIT;
+
+
+-- Chạy SAU tao_bang.sql và du_lieu_mau.sql của bộ bảng mới.
+-- Giữ file này: tài khoản web là phần bổ sung ngoài 9 bảng nghiệp vụ của báo cáo.
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE quan_li_khai_tu;
+
+CREATE TABLE IF NOT EXISTS App_User (
+  Id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  Username VARCHAR(80) NOT NULL UNIQUE,
+  PasswordHash VARCHAR(255) NOT NULL,
+  DisplayName VARCHAR(160) NOT NULL,
+  Role ENUM('admin','staff') NOT NULL DEFAULT 'staff',
+  CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Bảng tài khoản tách riêng khỏi 9 bảng nghiệp vụ người dùng cung cấp.
+-- Lần đầu mở web sẽ thiết lập ADMIN; không có mật khẩu mẫu ghi cứng.
+

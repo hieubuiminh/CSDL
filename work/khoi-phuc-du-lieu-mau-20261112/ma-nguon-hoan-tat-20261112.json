@@ -1,0 +1,340 @@
+{
+  "date_local": "2026-11-12",
+  "status": "completed",
+  "sourceFiles": 83,
+  "archiveSha256": "ea8d8208281f15910e48603570b84ee9b1ce25bbc3d9dfeb024b3d570ef863b6",
+  "files": [
+    {
+      "file": ".dockerignore",
+      "sha256": "4b1a47699a4ebb581b1415156c86817dd31987e40d11052e31210e55d2e51c6a"
+    },
+    {
+      "file": "backend/app.js",
+      "sha256": "20e6756e99b91d7148b4d19afaef19eb8f38997c92143dd99ee61116a7964381"
+    },
+    {
+      "file": "backend/config/database.js",
+      "sha256": "45eb8074190bddaf87f04f1352a99688416b4e9883311fe098a5f3df893ec8da"
+    },
+    {
+      "file": "backend/config/runtime.js",
+      "sha256": "aa4da63dcebdb66aec56a8d754fa63f9163104d44773801ae2f5189897488206"
+    },
+    {
+      "file": "backend/index.js",
+      "sha256": "102d1bab6568ff53c94097afd45d034baa9b875838e781a03bdad9cb09191483"
+    },
+    {
+      "file": "backend/middleware/auth.js",
+      "sha256": "6c7d17c0602408717718fc0e03aa63bad134a3d4622150b7feb25ca9458d18fe"
+    },
+    {
+      "file": "backend/middleware/error-handler.js",
+      "sha256": "747ca54bdd83aa4459dca0cfe5b1e58c552a3421d4ebc89d50efdc9cfa076601"
+    },
+    {
+      "file": "backend/modules/accounts/index.js",
+      "sha256": "3fa1c1d7ce462dd738abc2a9f7168583c7875300874302b941d081ca0578db82"
+    },
+    {
+      "file": "backend/modules/auth/index.js",
+      "sha256": "cf11f6d755b8b14ae76aba6c837b83ccea565b4796b2f422210fe355a4be32ec"
+    },
+    {
+      "file": "backend/modules/catalogs/index.js",
+      "sha256": "8b2ff1d514884ca05518cb3ad6168349f3fc9c0a9a729c5ed5450a519e4f9847"
+    },
+    {
+      "file": "backend/modules/catalogs/validation.js",
+      "sha256": "92373aede22a3cc5771e69728dc4383928cdbbb959ccd4fd90772ac7c714ed7d"
+    },
+    {
+      "file": "backend/modules/dashboard/index.js",
+      "sha256": "1ce7153efe0207d59bb960b58a30c8aaf0da8ab0a369a5005579c74b44af3e89"
+    },
+    {
+      "file": "backend/modules/index.js",
+      "sha256": "5f51fa5ad7b76bda938be2563412654abc1b47b9f959faafe11253b5a997a267"
+    },
+    {
+      "file": "backend/modules/registrations/index.js",
+      "sha256": "d723fbe99624cf1a3cd84fc3162636e42ffda2920bf208e3b8333523f2258dac"
+    },
+    {
+      "file": "backend/modules/registrations/queries.js",
+      "sha256": "0d55c31900809313fd739ba0afc96c21292b9146bbd781caf9c083495eff0468"
+    },
+    {
+      "file": "backend/modules/registrations/status.js",
+      "sha256": "d5c5464303a773782120dcf267c51589eed54e4098c7370fe44ea391c86a2276"
+    },
+    {
+      "file": "backend/modules/registrations/validation.js",
+      "sha256": "35c7b54e500cfd4ed91af70c6723de9e386b5e0edb27a9558389bb5c179372bb"
+    },
+    {
+      "file": "backend/modules/reports/age-causes/index.js",
+      "sha256": "5120c2f4f1686272a6d446438de634b4a0e1e211481746cdcf7e877111eacc82"
+    },
+    {
+      "file": "backend/modules/reports/areas/index.js",
+      "sha256": "6646a6835573c8f41cb04a4568a6042cd1587e50470a4fe4fe2aea1ea51b9a3b"
+    },
+    {
+      "file": "backend/modules/reports/gender/index.js",
+      "sha256": "1ff29ef0b0103ef3649379b464d25862fdcafef22f73cd37be1acbeb92ee4fa1"
+    },
+    {
+      "file": "backend/modules/reports/helpers.js",
+      "sha256": "d98fc8a1d40d237c145edc95fd565e37d1b88851019a72e0d00fd0963d225715"
+    },
+    {
+      "file": "backend/modules/reports/hospitals/index.js",
+      "sha256": "92fec947e6a88cba02a5f12021665023423a9f628ae3eaa43e2d9778e3d55696"
+    },
+    {
+      "file": "backend/modules/reports/index.js",
+      "sha256": "2fd3de2254afa4b60708b7fd77ec34b55a3d4113eddbc15115ebfa3fc13651db"
+    },
+    {
+      "file": "backend/modules/reports/queries.js",
+      "sha256": "8622e31d601d2a9c70ef79d40094350ce53338c879d201ef0f8767be5f8a3f13"
+    },
+    {
+      "file": "backend/modules/reports/years/index.js",
+      "sha256": "1c9ab52ccfbf6ca84632a2ec689f4e7d3e4b6767341d51778f5dc1945f9b40a5"
+    },
+    {
+      "file": "backend/routes/admin.routes.js",
+      "sha256": "1131cc4a4fc8ae116251d74595eceac325e0eee85b7a13dcf9e57ce386f92b47"
+    },
+    {
+      "file": "backend/routes/auth.routes.js",
+      "sha256": "5af0c90caf8c6017d0eae33a0ebdb5c6e1281f19cbc52c8b720a2d935c5f0e3a"
+    },
+    {
+      "file": "backend/routes/registration.routes.js",
+      "sha256": "366247c22911cdb577a180d3005ea990d36b7661892ce45b6c3ca36b3bd09380"
+    },
+    {
+      "file": "backend/routes/report.routes.js",
+      "sha256": "3580245e93e7d7d7f95cbbf4ff57d78e8e5a5a7b7e925818291b038088975318"
+    },
+    {
+      "file": "backend/server.js",
+      "sha256": "b915dafad5a7b22ee7e441b44ba6cc94162e80a9468c6930c5fae25ec1c054e9"
+    },
+    {
+      "file": "backend/tests/record-ownership.test.js",
+      "sha256": "cdb7fee2c06709f4776f1630c34c9b55034024e5a2c643a574cd2435778735a8"
+    },
+    {
+      "file": "backend/tests/registration-compatibility.test.js",
+      "sha256": "a78396e3a7d07a6adf62da43f37c4d339694a733a36c06d2d651aab1a03688d1"
+    },
+    {
+      "file": "backend/tests/reports.test.js",
+      "sha256": "5721fe73d7d78fd1df72e53caee1a8f87fc70471a9e62fafc476c40238ae385d"
+    },
+    {
+      "file": "backend/utils/auth.js",
+      "sha256": "882c54139c7a32b3386f21c1bfbee6222c3e17a5574a91d6938659ccdec8dd5f"
+    },
+    {
+      "file": "backend/utils/http.js",
+      "sha256": "6570e94ae5e2f12d2741c83cf100292efe11b0928da4f042bacd94772c6df1ba"
+    },
+    {
+      "file": "backend/utils/record-scope.js",
+      "sha256": "4698c7aedaec3009ab9e03257cf359bfd9c11fa8d71b336a654664ce95124f39"
+    },
+    {
+      "file": "backend/utils/validation.js",
+      "sha256": "293a743d8c8cc61653603665f93628caee91ebbf0cdcf48a140d30c803f15c3e"
+    },
+    {
+      "file": "backend/utils/ward-metadata.js",
+      "sha256": "b1b540fd3e5166c8ac406441fa6e4fbe090569ca50129ae1be57af3752582c33"
+    },
+    {
+      "file": "database/app_setup.sql",
+      "sha256": "7ac7c4dbc226d8c827d2c77f4def87470fce6027098a7ffc3be7298f75dd1113"
+    },
+    {
+      "file": "database/cap_nhat_lien_ket_can_bo.sql",
+      "sha256": "4301be433f58801ca78062dbc304380ceb5edc6eaaf89396c09d2a28cc1c23d7"
+    },
+    {
+      "file": "database/du_lieu_mau.sql",
+      "sha256": "e844e6cf3bbbb2b8e56242d45d748daf17c894d04a661da92478f8448c9ba8c8"
+    },
+    {
+      "file": "database/tao_bang.sql",
+      "sha256": "d983ada5ac4f706c5aefd8f843b1d9c5c2d1cd3b9e7cf7062ae32cab3d511dac"
+    },
+    {
+      "file": "database/truy_van.sql",
+      "sha256": "fd7595d7391a68d14331c995d366cc14608005698c5583fad61cdc17ddd1856a"
+    },
+    {
+      "file": "docker/compose.yaml",
+      "sha256": "749153036455fbea092394d53c9a386da8447f37d43b1dc0cb8bbac382955b4b"
+    },
+    {
+      "file": "docker/Dockerfile",
+      "sha256": "478f404b64fcad9f1f25e06ced955a6b18f9bcbede5cd0626cc50a07f214c7b4"
+    },
+    {
+      "file": "docs/kiem_tra_rang_buoc_chi_doc.sql",
+      "sha256": "925dec570af970d74e4a0c6e920227cfbfb82c32e1e1b6f50f7c33f0cbf4c85c"
+    },
+    {
+      "file": "HUONG_DAN_KHOI_TAO_CSDL_MOI.md",
+      "sha256": "00b264ea2d8beddcc7474a162a3951518af429a0115e3072ccb4f4625e5d4345"
+    },
+    {
+      "file": "HUONG_DAN_TRUY_VAN_BACKEND.md",
+      "sha256": "7df01a5699e12bb409fe0fbb5995f7a2d81b93ff8baee7f9825700026923fe80"
+    },
+    {
+      "file": "package.json",
+      "sha256": "51f20a67807a70d4c5710d599bf2add60eeac4fd4628ab592efc9e43199d849d"
+    },
+    {
+      "file": "public/admin.css",
+      "sha256": "cf2848c72959212ecf671a57edc62ac8b4865c10b54445ffa7c83bc0f3520a9f"
+    },
+    {
+      "file": "public/assets/fonts/InterVariable.woff2",
+      "sha256": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3"
+    },
+    {
+      "file": "public/assets/icons.svg",
+      "sha256": "3bbcf2015f858e2aa8d2c15eda8bd1a9a40c267406ae5d450f30c6ab8bd12252"
+    },
+    {
+      "file": "public/assets/licenses/Inter-OFL.txt",
+      "sha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a"
+    },
+    {
+      "file": "public/assets/licenses/Lucide-ISC.txt",
+      "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57"
+    },
+    {
+      "file": "public/index.html",
+      "sha256": "ae5b4cc84a0e49b93ca794ca0d073258acefc4003c9039b5557be3daf1b6cf58"
+    },
+    {
+      "file": "public/js/accounts/index.js",
+      "sha256": "18fa5518d9fcf20b546018ec7acf4d848980e1df5c4e2cd80192a040212f9242"
+    },
+    {
+      "file": "public/js/app.js",
+      "sha256": "3f74d42322aa9b78030f1dda34dee090d45398f263a58584ad2ee2a847a4738b"
+    },
+    {
+      "file": "public/js/auth.js",
+      "sha256": "8b7349a3d274f7117dedac7792e0bbd24e56dde939ff2af9e0ff3e06defcd758"
+    },
+    {
+      "file": "public/js/charts.js",
+      "sha256": "b26425b48ce02d89e5feec255370c0badc9ac3df7a3231895923e35c388e52a5"
+    },
+    {
+      "file": "public/js/dashboard.js",
+      "sha256": "07ad5591a7d62dd4ddd7c5f6d52a42d360603f561ed3fdccb402acd725810beb"
+    },
+    {
+      "file": "public/js/lookup/index.js",
+      "sha256": "1c3a87d97670513f8ea23177c5b654351bcec82f2ae0aab5f1db6c57737c670c"
+    },
+    {
+      "file": "public/js/registrations.js",
+      "sha256": "7034723f27156c3101f0c93cdfed59e602511104469225dd2fe4dea870c1ff00"
+    },
+    {
+      "file": "public/js/reports/age-causes/index.js",
+      "sha256": "547a762d42c942228ed1471c5b45d18a2f0fa2c9a38ad63b556b0e711826faab"
+    },
+    {
+      "file": "public/js/reports/areas/index.js",
+      "sha256": "a6d2eecf687a72ea6642353aae1ed3364b6619366cc8714f9ef49dd64e55b5af"
+    },
+    {
+      "file": "public/js/reports/gender/index.js",
+      "sha256": "7b1f82bacb6cc4f9369a1748dcf43382ce2d8817ebdb9994d890d5b2c7c68877"
+    },
+    {
+      "file": "public/js/reports/hospitals/index.js",
+      "sha256": "103a1b4bb2c0ff6b236976f1cc6d9c72a087da77e76fe245d7daccdb5af50b88"
+    },
+    {
+      "file": "public/js/reports/index.js",
+      "sha256": "2a4c9e320d037de5dc12e4693b6c38e7ec336b3c9db0ecd9272e1594c217a3d0"
+    },
+    {
+      "file": "public/js/reports/shared.js",
+      "sha256": "48108bdf5ec709669471119782246aef633f9758e6bb1dfb1243973b59e8d720"
+    },
+    {
+      "file": "public/js/reports/years/index.js",
+      "sha256": "63478a3c3c9cafdaee8a777b5b9774a38987954bd71b3f4b1c183ea6ef65907d"
+    },
+    {
+      "file": "public/js/reports.js",
+      "sha256": "794f2d2d661da8a29d8ec67afadff67fa677c20e168e04105d35f43f54af07f0"
+    },
+    {
+      "file": "public/js/settings.js",
+      "sha256": "018514df60c1e389eeb5d950bc2c950834c6e7cc207cb38c3a97bc77182924af"
+    },
+    {
+      "file": "public/js/shared.js",
+      "sha256": "f4090bfbbbf0e9831c570e48ea9b6e28ef6f233a80e5cb6323be6d2cf8e6ba30"
+    },
+    {
+      "file": "public/styles.css",
+      "sha256": "748b90b0d068c6da418330ef092075550e7ddcbd79c816e76c4418ba3ef14f9e"
+    },
+    {
+      "file": "public/theme.css",
+      "sha256": "76dad03a28dd81d60602c496bd018bf5126bbd142e1cbbbeda2a47f47cd8e024"
+    },
+    {
+      "file": "README.md",
+      "sha256": "67f5628884efb1c6878ddc86e4e7e89f06d39e5b2e477ae445a73da8a4baf18d"
+    },
+    {
+      "file": "tests/auth.test.js",
+      "sha256": "b318db4fb8e11ea4e2d339bd146e92c8255f2c442f87badfad94fed25f6cdeca"
+    },
+    {
+      "file": "tests/check_sample_data.py",
+      "sha256": "ed28d6fe194ad47b87dd6385b4462d50ca62ba5430a03d6d1eeba725a02cf715"
+    },
+    {
+      "file": "tests/docker_first_init_check.py",
+      "sha256": "9bde713ace4a9989fa2b231357c6ebffab57b195298bc6f0e734bf786084ab59"
+    },
+    {
+      "file": "tests/sql-fixtures/baseline.sql",
+      "sha256": "3a3f809e8627f5bbab78c1cd742ec7ba97af0539ee5b2f35dc68a07990d66631"
+    },
+    {
+      "file": "tests/sql-fixtures/legacy.sql",
+      "sha256": "e1ce2c4c9b9aeeeedabc85d813fdc95ad51cbdac59361d29e01cc3ad27dd24d8"
+    },
+    {
+      "file": "tests/sql_new_schema_check.py",
+      "sha256": "50a522dd843de7cb038fb172f914f008524b6e0b1f0a5c91a84c86efc1acf6d7"
+    },
+    {
+      "file": "tests/sql_report_check.py",
+      "sha256": "34d05e860e68ce1c9a661adbef4660e6c76a4b019c9b8c9ab744e08a9658539c"
+    },
+    {
+      "file": "work/phan-quyen-can-bo-20261111/TRANG_THAI_TAM_DUNG.md",
+      "sha256": "5799edef8ef91e6b0fc14c6112f804fd5cda7938068efeb14386841e2217cdb3"
+    }
+  ]
+}

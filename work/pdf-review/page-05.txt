@@ -1,0 +1,41 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+                                          CHƯƠNG 1
+ TỔNG QUAN VỀ ĐỀ TÀI VÀ PHÂN TÍCH YÊU CẦU HỆ THỐNG
+
+1.1 Khảo sát bài toán thực tế
+      Theo quy định của Luật Hộ tịch và quy trình liên thông thủ tục hành chính tại
+Thành phố Hà Nội, khi một công dân qua đời tại cơ sở y tế hoặc tại nơi cư trú trên địa
+bàn xã/phường, quy trình nghiệp vụ diễn ra qua các bước liên thông chặt chẽ như sau:
+  - Bước 1 - Cấp Giấy báo tử: Cơ sở y tế (Bệnh viện Bạch Mai, Bệnh viện Hữu nghị
+     Việt Đức, Bệnh viện Thanh Nhàn, hoặc Trạm               y tế xã/phường...) nơi công dân tử
+     vong hoặc xác nhận tử vong sẽ tiến hành lập Giấy báo tử. Giấy báo tử ghi nhận
+     chính xác Số giấy báo tử, Ngày cấp, Đơn vị cấp (Mã CSYT), Ngày giờ mất, Nơi
+     mất  (Xã/Phường  và  địa  chỉ  chi  tiết),  Nhóm  nguyên  nhân  mất  và  Mô  tả         nguyên
+     nhân chi tiết do bác sĩ ghi.
+  - Bước 2    - Nộp và tiếp nhận Hồ sơ đăng ký khai tử: Thân nhân hoặc người có
+     trách nhiệm (gọi là Người đi khai tử, có số CCCD riêng biệt với Người mất) mang
+     Giấy báo tử đến Ủy ban nhân dân (UBND) cấp xã/phường trên địa bàn                       TP. Hà
+     Nội  để  làm  thủ  tục  đăng  ký  khai  tử.  Tại  đây,  Cán  bộ  tư  pháp      - hộ  tịch  thuộc
+     UBND tiếp nhận hồ sơ, kiểm tra tính hợp lệ của thông tin công dân, mối quan hệ
+     giữa người khai tử và người mất, đối chiếu trình tự thời gian và cấp Số giấy khai
+     tử.
+  - Bước 3 - Cập nhật trạng thái công dân và đăng ký An táng: Khi hồ sơ khai tử
+     được duyệt và lập thành công, trạng thái của người mất trong cơ sở dữ liệu công
+     dân được cập nhật thành “Đã mất”. Đồng thời, hệ thống ghi nhận thông tin đăng
+     ký an táng dựa trên Số giấy khai tử, bao gồm Hình thức an táng (Hỏa táng hoặc
+     Địa táng) và đơn vị nghĩa trang / đài hóa thân tiếp nhận (Đài hóa thân Hoàn vũ
+     Văn Điển, Nghĩa trang Thanh Tước, Nghĩa trang Yên Kỳ...).
+
+1.2 Các tác nhân và đối tượng tham gia hệ thống
+      Hệ thống quản lý đăng ký khai tử tại Hà Nội liên quan trực tiếp đến 4 nhóm đối
+tượng/đơn vị nghiệp vụ chính:
+  - Công dân (Người mất và Người đi khai tử): Mỗi công dân đều được định danh
+     duy nhất bằng mã số CCCD (12 chữ số). Trong một hồ sơ khai tử, có hai vai trò
+     công dân khác nhau tham gia: một công dân là đối tượng của hồ sơ khai tử (Người
+     mất) và một công dân đứng tên thực hiện thủ tục hành chính (Người đi khai tử, có
+     quan hệ nhân thân hoặc pháp lý với người mất).
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                         Trang 8

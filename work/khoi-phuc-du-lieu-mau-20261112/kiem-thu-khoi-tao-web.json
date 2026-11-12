@@ -1,0 +1,525 @@
+{
+  "database_container": "khai-tu-first-init-review-b8e1e7b42b",
+  "app_container": "khai-tu-first-init-review-b8e1e7b42b-app",
+  "database": "quan_li_khai_tu",
+  "isolation": {
+    "network": "none; optional app shares the owned DB network namespace",
+    "ports": [],
+    "host_mounts": [],
+    "mysql_data": "disposable tmpfs"
+  },
+  "containers_removed": true,
+  "mysql_version": "8.0.46",
+  "source_sha256": {
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\tao_bang.sql": "d983ada5ac4f706c5aefd8f843b1d9c5c2d1cd3b9e7cf7062ae32cab3d511dac",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\du_lieu_mau.sql": "e844e6cf3bbbb2b8e56242d45d748daf17c894d04a661da92478f8448c9ba8c8",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\app_setup.sql": "7ac7c4dbc226d8c827d2c77f4def87470fce6027098a7ffc3be7298f75dd1113",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\truy_van.sql": "fd7595d7391a68d14331c995d366cc14608005698c5583fad61cdc17ddd1856a",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\work\\truoc-khi-dung-bang-moi-20261110\\nguon-nguoi-dung\\du_lieu_mau.sql": "d9170d25f513a37bf42070e0455680b0c408c40881e4acccd4972c5fa5396910"
+  },
+  "snapshots": [
+    {
+      "Nguyen_Nhan": {
+        "rows": 6,
+        "sha256": "c44b44a33df54e1988bf5817e3101585ac461c88a0eeb07ceef3a31aaef636c8"
+      },
+      "CSYT": {
+        "rows": 4,
+        "sha256": "9145c0b95001550fc7f36df7b98471fcb5dcc63d4a693d0ba0a9ec3c8eee3e3e"
+      },
+      "Cong_Dan": {
+        "rows": 200,
+        "sha256": "94b774de9f821ed5d539bf8003d487338a8047a6722c2b9a86b59eb9685e81dd"
+      },
+      "UBND": {
+        "rows": 3,
+        "sha256": "4688a3633e578645d91a2cb9c09b0ca8c84add994ffa70da1c7efc7757fbfd72"
+      },
+      "Noi_Mat": {
+        "rows": 8,
+        "sha256": "1ea17d9fe322bd19626afccc078ea100649466cecd0eef2ff92a66feccc7c4d4"
+      },
+      "Can_Bo": {
+        "rows": 6,
+        "sha256": "7121d8122ae0f7aed4e7ea32bab0db7d5c15a4fd27c5c0e0c80662665aca0d7e"
+      },
+      "Giay_Bao_Tu": {
+        "rows": 100,
+        "sha256": "20f25bd11b81217249e6758f6150b95fb1a46759905cfb33b68b42869ec15670"
+      },
+      "Ho_So_Khai_Tu": {
+        "rows": 100,
+        "sha256": "0e3dbd93cb67ace48af0d6b6b3a42c19385b2cd5b2f7a6cbe61809d26d928cc2"
+      },
+      "An_Tang": {
+        "rows": 64,
+        "sha256": "0456632af75657bbe9254c5338c122430b1954085ec2011abf5a08eee09268c5"
+      }
+    }
+  ],
+  "metadata": {
+    "integrity_violation_counts": {
+      "self_applicant": 0,
+      "death_after_issue": 0,
+      "issue_after_registration": 0,
+      "death_before_birth": 0,
+      "burial_before_death": 0
+    }
+  },
+  "http": {
+    "results": [
+      {
+        "name": "real HTTP health connects with the Docker-created application DB user",
+        "passed": true
+      },
+      {
+        "name": "first login screen reports setupRequired",
+        "passed": true
+      },
+      {
+        "name": "protected API rejects an anonymous HTTP request",
+        "passed": true
+      },
+      {
+        "name": "initial ADMIN setup succeeds over real HTTP",
+        "passed": true
+      },
+      {
+        "name": "ADMIN logout clears the real HTTP session cookie",
+        "passed": true
+      },
+      {
+        "name": "ADMIN login succeeds after logout",
+        "passed": true
+      },
+      {
+        "name": "new ADMIN session can list safe account fields",
+        "passed": true
+      },
+      {
+        "name": "ADMIN creates staff over real HTTP",
+        "passed": true
+      },
+      {
+        "name": "staff login succeeds over real HTTP",
+        "passed": true
+      },
+      {
+        "name": "staff account administration is denied over real HTTP",
+        "passed": true
+      },
+      {
+        "name": "ADMIN can read /api/dashboard",
+        "passed": true
+      },
+      {
+        "name": "ADMIN can read /api/registrations",
+        "passed": true
+      },
+      {
+        "name": "HTTP record list contains all 100 sample records",
+        "passed": true
+      },
+      {
+        "name": "ADMIN can read /api/reports/gender",
+        "passed": true
+      },
+      {
+        "name": "HTTP gender report counts 100 deceased citizens",
+        "passed": true
+      },
+      {
+        "name": "ADMIN can read /api/reports/areas?year=2026",
+        "passed": true
+      },
+      {
+        "name": "HTTP area report returns 8 areas and 73 registrations in 2026",
+        "passed": true
+      },
+      {
+        "name": "ADMIN can read /api/reports/age-causes",
+        "passed": true
+      },
+      {
+        "name": "HTTP age report counts only 81 approved records",
+        "passed": true
+      },
+      {
+        "name": "ADMIN can read /api/reports/hospitals",
+        "passed": true
+      },
+      {
+        "name": "HTTP hospital report returns CS01 with 52 previous-quarter notices",
+        "passed": true
+      },
+      {
+        "name": "ADMIN can read /api/reports/years",
+        "passed": true
+      },
+      {
+        "name": "HTTP yearly report counts 8, 16 and 76 notices",
+        "passed": true
+      },
+      {
+        "name": "ADMIN can read /api/registrations/001000000001",
+        "passed": true
+      },
+      {
+        "name": "staff receives exactly own records despite a forged query parameter",
+        "passed": true
+      },
+      {
+        "name": "staff own CCCD lookup succeeds",
+        "passed": true
+      },
+      {
+        "name": "staff foreign CCCD lookup is hidden",
+        "passed": true
+      },
+      {
+        "name": "staff cannot change foreign status",
+        "passed": true
+      },
+      {
+        "name": "staff dashboard is scoped",
+        "passed": true
+      },
+      {
+        "name": "staff officer choices contain self only",
+        "passed": true
+      },
+      {
+        "name": "staff can open scoped report gender",
+        "passed": true
+      },
+      {
+        "name": "staff can open scoped report areas?year=2026",
+        "passed": true
+      },
+      {
+        "name": "staff can open scoped report age-causes",
+        "passed": true
+      },
+      {
+        "name": "staff can open scoped report hospitals",
+        "passed": true
+      },
+      {
+        "name": "staff can open scoped report years",
+        "passed": true
+      }
+    ],
+    "metrics": {
+      "registrationCount": 100,
+      "deceasedTotal": 100,
+      "areaCount": 8,
+      "areaRegistered": 73,
+      "approvedAgeTotal": 81,
+      "hospitalCounts": {
+        "CS01": 52
+      },
+      "yearCounts": {
+        "2024": 8,
+        "2025": 16,
+        "2026": 76
+      }
+    }
+  },
+  "results": [
+    {
+      "name": "real Docker entrypoint completed schema, sample and account setup",
+      "passed": true
+    },
+    {
+      "name": "Docker-auto-created database is normalized to utf8mb4_unicode_ci",
+      "passed": true,
+      "actual": "utf8mb4_unicode_ci"
+    },
+    {
+      "name": "all trigger local variables inherit the canonical database collation",
+      "passed": true,
+      "actual": "utf8mb4_unicode_ci"
+    },
+    {
+      "name": "Nguyen_Nhan: entrypoint imported unchanged raw sample data",
+      "passed": true,
+      "count": 6
+    },
+    {
+      "name": "CSYT: entrypoint imported unchanged raw sample data",
+      "passed": true,
+      "count": 4
+    },
+    {
+      "name": "Noi_Mat: entrypoint imported unchanged raw sample data",
+      "passed": true,
+      "count": 8
+    },
+    {
+      "name": "UBND: entrypoint imported unchanged raw sample data",
+      "passed": true,
+      "count": 3
+    },
+    {
+      "name": "Can_Bo: entrypoint imported unchanged raw sample data",
+      "passed": true,
+      "count": 6
+    },
+    {
+      "name": "Cong_Dan: entrypoint imported unchanged raw sample data",
+      "passed": true,
+      "count": 200
+    },
+    {
+      "name": "Giay_Bao_Tu: entrypoint imported unchanged raw sample data",
+      "passed": true,
+      "count": 100
+    },
+    {
+      "name": "Ho_So_Khai_Tu: entrypoint imported unchanged raw sample data",
+      "passed": true,
+      "count": 100
+    },
+    {
+      "name": "An_Tang: entrypoint imported unchanged raw sample data",
+      "passed": true,
+      "count": 64
+    },
+    {
+      "name": "new-schema constraint count: FOREIGN KEY",
+      "passed": true,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "name": "new-schema constraint count: CHECK",
+      "passed": true,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "name": "new-schema constraint count: UNIQUE",
+      "passed": true,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "six cross-table integrity triggers are installed",
+      "passed": true,
+      "actual": 6
+    },
+    {
+      "name": "deceased identity belongs only to Giay_Bao_Tu",
+      "passed": true
+    },
+    {
+      "name": "sample chronology and distinct-person rules are consistent",
+      "passed": true,
+      "counts": {
+        "self_applicant": 0,
+        "death_after_issue": 0,
+        "issue_after_registration": 0,
+        "death_before_birth": 0,
+        "burial_before_death": 0
+      }
+    },
+    {
+      "name": "no application accounts are seeded",
+      "passed": true
+    },
+    {
+      "name": "exactly seven report queries execute",
+      "passed": true
+    },
+    {
+      "name": "query 1 returns the requested sample certificate",
+      "passed": true
+    },
+    {
+      "name": "query 2 counts every deceased citizen",
+      "passed": true,
+      "total": 100
+    },
+    {
+      "name": "query 3 lists all 100 records in ascending order",
+      "passed": true
+    },
+    {
+      "name": "query 4 keeps all areas and excludes rejected records",
+      "passed": true,
+      "areas": 8,
+      "registered": 73
+    },
+    {
+      "name": "query 5 counts approved records and every leading-cause tie",
+      "passed": true,
+      "approved_total": 81,
+      "age_group_totals": {
+        "Trên 60": 63,
+        "18–60": 17,
+        "Dưới 18": 1
+      }
+    },
+    {
+      "name": "query 6 previous-quarter threshold and estimated ratios match the sample",
+      "passed": true,
+      "eligible_counts": {
+        "CS01": 52
+      }
+    },
+    {
+      "name": "query 7 counts all death notices by death year",
+      "passed": true,
+      "years": {
+        "2024": 8,
+        "2025": 16,
+        "2026": 76
+      }
+    },
+    {
+      "name": "real HTTP health connects with the Docker-created application DB user",
+      "passed": true
+    },
+    {
+      "name": "first login screen reports setupRequired",
+      "passed": true
+    },
+    {
+      "name": "protected API rejects an anonymous HTTP request",
+      "passed": true
+    },
+    {
+      "name": "initial ADMIN setup succeeds over real HTTP",
+      "passed": true
+    },
+    {
+      "name": "ADMIN logout clears the real HTTP session cookie",
+      "passed": true
+    },
+    {
+      "name": "ADMIN login succeeds after logout",
+      "passed": true
+    },
+    {
+      "name": "new ADMIN session can list safe account fields",
+      "passed": true
+    },
+    {
+      "name": "ADMIN creates staff over real HTTP",
+      "passed": true
+    },
+    {
+      "name": "staff login succeeds over real HTTP",
+      "passed": true
+    },
+    {
+      "name": "staff account administration is denied over real HTTP",
+      "passed": true
+    },
+    {
+      "name": "ADMIN can read /api/dashboard",
+      "passed": true
+    },
+    {
+      "name": "ADMIN can read /api/registrations",
+      "passed": true
+    },
+    {
+      "name": "HTTP record list contains all 100 sample records",
+      "passed": true
+    },
+    {
+      "name": "ADMIN can read /api/reports/gender",
+      "passed": true
+    },
+    {
+      "name": "HTTP gender report counts 100 deceased citizens",
+      "passed": true
+    },
+    {
+      "name": "ADMIN can read /api/reports/areas?year=2026",
+      "passed": true
+    },
+    {
+      "name": "HTTP area report returns 8 areas and 73 registrations in 2026",
+      "passed": true
+    },
+    {
+      "name": "ADMIN can read /api/reports/age-causes",
+      "passed": true
+    },
+    {
+      "name": "HTTP age report counts only 81 approved records",
+      "passed": true
+    },
+    {
+      "name": "ADMIN can read /api/reports/hospitals",
+      "passed": true
+    },
+    {
+      "name": "HTTP hospital report returns CS01 with 52 previous-quarter notices",
+      "passed": true
+    },
+    {
+      "name": "ADMIN can read /api/reports/years",
+      "passed": true
+    },
+    {
+      "name": "HTTP yearly report counts 8, 16 and 76 notices",
+      "passed": true
+    },
+    {
+      "name": "ADMIN can read /api/registrations/001000000001",
+      "passed": true
+    },
+    {
+      "name": "staff receives exactly own records despite a forged query parameter",
+      "passed": true
+    },
+    {
+      "name": "staff own CCCD lookup succeeds",
+      "passed": true
+    },
+    {
+      "name": "staff foreign CCCD lookup is hidden",
+      "passed": true
+    },
+    {
+      "name": "staff cannot change foreign status",
+      "passed": true
+    },
+    {
+      "name": "staff dashboard is scoped",
+      "passed": true
+    },
+    {
+      "name": "staff officer choices contain self only",
+      "passed": true
+    },
+    {
+      "name": "staff can open scoped report gender",
+      "passed": true
+    },
+    {
+      "name": "staff can open scoped report areas?year=2026",
+      "passed": true
+    },
+    {
+      "name": "staff can open scoped report age-causes",
+      "passed": true
+    },
+    {
+      "name": "staff can open scoped report hospitals",
+      "passed": true
+    },
+    {
+      "name": "staff can open scoped report years",
+      "passed": true
+    },
+    {
+      "name": "initialization SQL sources remain unchanged",
+      "passed": true
+    }
+  ],
+  "error": null
+}

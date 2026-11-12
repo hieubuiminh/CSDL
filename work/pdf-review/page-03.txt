@@ -1,0 +1,43 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                             Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+                                             MỞ ĐẦU
+
+1 Tính cấp thiết và lý do chọn đề tài
+      Trong tiến trình chuyển đổi số quốc gia và xây dựng Chính phủ điện tử tại Việt
+Nam (đặc biệt là Đề án 06 về phát triển ứng dụng dữ liệu về dân cư, định danh và xác
+thực điện tử), công tác quản lý hộ tịch đóng vai trò là mắt xích nền tảng để đảm bảo dữ
+liệu dân cư luôn đáp ứng tiêu chí “Đúng - Đủ - Sạch - Sống”. Trong các nghiệp vụ hộ
+tịch trọng yếu, đăng ký khai tử là thủ tục pháp lý bắt buộc nhằm xác nhận một công
+dân đã qua đời, làm cơ sở để cập nhật trạng thái nhân khẩu, giải quyết các chế độ bảo
+hiểm xã hội, thừa kế, xóa đăng ký thường trú và quy hoạch hạ tầng an táng của đô thị.
+      Tại  một  đô  thị  đặc  biệt  có  quy  mô  dân  số  lớn  và  mật  độ  hành  chính  cao  như
+Thành phố Hà Nội, mỗi năm có hàng chục                 nghìn hồ sơ khai tử phát sinh tại các Ủy
+ban  nhân  dân  (UBND)  cấp  xã,  phường,  thị  trấn,  gắn  liền  với  hàng  trăm  cơ  sở  y  tế
+(CSYT) và các nghĩa trang, đài hóa thân hoàn vũ (như Văn Điển, Thanh Tước, Yên
+Kỳ, Vĩnh Hằng...). Việc quản lý rời rạc bằng sổ sách truyền thống hoặc các bảng tính
+đơn lẻ dễ dẫn đến tình trạng trùng lặp hồ sơ, sai lệch mốc thời gian giữa Giấy báo tử
+và Giấy khai tử, chậm trễ trong việc cập nhật trạng thái công dân sang “Đã mất”, cũng
+như gây khó khăn cho công tác thống kê dịch tễ, nguyên nhân tử vong theo độ tuổi và
+địa bàn.
+      Xuất phát từ thực tiễn đó, nhóm 02 đã lựa chọn đề tài “Hệ thống quản lý đăng ký
+khai tử tại Hà Nội” cho Bài tập lớn học phần Cơ sở dữ liệu nhằm xây dựng một mô
+hình cơ sở dữ liệu quan hệ chuẩn hóa, chặt chẽ về mặt ràng buộc nghiệp vụ và tối ưu
+cho công tác tra cứu, trích lục cũng như kết xuất báo cáo thống kê phục vụ quản lý nhà
+nước.
+
+2 Mục tiêu và phạm vi nghiên cứu của đề tài
+
+  - Mục tiêu về mặt dữ liệu: Xây dựng cơ sở dữ liệu tập trung, đạt chuẩn 3NF, quản
+     lý đồng bộ thông tin Công dân (người mất và người đi khai tử), Giấy báo tử từ Cơ
+     sở y tế, Hồ sơ đăng ký khai tử tại UBND xã/phường, Cán bộ tư pháp tiếp nhận và
+     thông tin An táng.
+  - Mục tiêu về ràng buộc nghiệp vụ: Kiểm soát tự động các quy tắc hộ tịch cốt lõi:
+     người khai  tử và người  mất là  hai cá  nhân khác nhau;  trình tự thời gian hợp lệ
+     (Ngày giờ mất <= Ngày cấp giấy báo tử <= Ngày đăng ký khai tử); mỗi công dân
+     chỉ có duy nhất một hồ sơ khai tử và tự động cập nhật trạng thái công dân thành
+     “Đã mất” ngay khi lập hồ sơ.
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                            Trang 6

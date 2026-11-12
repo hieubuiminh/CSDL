@@ -1,0 +1,49 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                          Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+     nm.HoTen       AS NguoiDaMat,
+     kt.HoTen       AS NguoiDangKy,
+     hs.NgayDangKi  AS NgayDangKy,
+     ub.TenUBND     AS DonViTiepNhan,
+     hs.TrangThaiHoSo
+ FROM Ho_So_Khai_Tu hs
+ JOIN Cong_Dan nm ON nm.CCCD   = hs.CCCD_NgMat
+ JOIN Cong_Dan kt ON kt.CCCD   = hs.CCCD_NgKhaiTu
+ JOIN Can_Bo   cb ON cb.MaCanBo = hs.MaCanBoTiepNhan
+ JOIN UBND     ub ON ub.MaUBND  = cb.MaUBND
+ ORDER BY hs.NgayDangKi, hs.SoGiayKhaiTu;
+
+
+3.4.4 Truy vấn 4 - Thống kê tử vong theo địa bàn             Xã/Phường trong năm
+      Yêu cầu: Liệt kê danh sách các Xã/Phường tại Hà Nội kèm theo tổng số ca khai
+tử đã đăng ký trong năm hiện tại (không tính hồ sơ bị từ chối), sắp xếp giảm dần theo
+số ca tử vong.
+      Phân tích giải pháp: Sử dụng LEFT JOIN từ bảng Noi_Mat sang Giay_Bao_Tu
+và  Ho_So_Khai_Tu  (với  điều  kiện  lọc  năm  đăng  ký  YEAR(hs.NgayDangKi)  =
+YEAR(CURDATE()) và TrangThaiHoSo <> 'Từ chối' đặt ngay trên mệnh đề ON) để
+những xã/phường có 0 ca khai tử trong năm vẫn được hiển thị đầy đủ với giá trị 0.
+
+ SELECT
+     xp.MaXaPhuong,
+     xp.TenXaPhuong,
+     COUNT(hs.SoGiayKhaiTu) AS TongSoCaKhaiTu
+ FROM Noi_Mat xp
+ LEFT JOIN Giay_Bao_Tu gbt
+        ON gbt.MaXaPhuong = xp.MaXaPhuong
+ LEFT JOIN Ho_So_Khai_Tu hs
+        ON hs.SoGiayBaoTu = gbt.SoGiayBaoTu
+       AND YEAR(hs.NgayDangKi) = YEAR(CURDATE())
+       AND hs.TrangThaiHoSo <> 'Từ chối'
+ GROUP BY xp.MaXaPhuong, xp.TenXaPhuong
+ ORDER BY TongSoCaKhaiTu DESC, xp.TenXaPhuong;
+
+
+3.4.5 Truy vấn 5 - Thống kê nguyên nhân tử vong phổ biến nhất theo độ tuổi
+      Yêu cầu: Phân nhóm và đếm số lượng người mất theo 3 nhóm tuổi tại thời điểm
+mất (Dưới 18, 18–60, Trên 60) kèm theo nguyên nhân tử vong phổ biến nhất ở mỗi
+nhóm.
+      Phân tích giải pháp: Sử dụng biểu thức bảng chung (CTE              - mệnh đề WITH) trên
+MySQL 8.0+. Bước 1 (nguoi_mat): Tính tuổi chính xác                tại thời điểm mất bằng hàm
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                      Trang 24

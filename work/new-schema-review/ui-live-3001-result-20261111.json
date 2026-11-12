@@ -1,0 +1,119 @@
+{
+  "ok": true,
+  "readOnly": true,
+  "checkedAt": "2026-11-11T03:20:31.007Z",
+  "url": "http://127.0.0.1:3001/",
+  "errors": [],
+  "consoleErrors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/assets/fonts/InterVariable.woff2"
+    },
+    {
+      "method": "GET",
+      "path": "/styles.css"
+    },
+    {
+      "method": "GET",
+      "path": "/admin.css"
+    },
+    {
+      "method": "GET",
+      "path": "/theme.css"
+    },
+    {
+      "method": "GET",
+      "path": "/js/app.js"
+    },
+    {
+      "method": "GET",
+      "path": "/assets/icons.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/js/shared.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/auth.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/dashboard.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/reports/index.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/registrations.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/settings.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/lookup/index.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/accounts/index.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/charts.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/reports/areas/index.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/reports/gender/index.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/reports/age-causes/index.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/reports/hospitals/index.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/reports/years/index.js"
+    },
+    {
+      "method": "GET",
+      "path": "/js/reports/shared.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/status"
+    }
+  ],
+  "blocked": [],
+  "status": 200,
+  "auth": {
+    "setupRequired": false,
+    "user": null,
+    "localAdminRecoveryAvailable": false
+  },
+  "title": "Đăng nhập",
+  "errorText": "",
+  "desktopLayout": {
+    "viewport": 1440,
+    "width": 1440
+  },
+  "mobileLayout": {
+    "viewport": 390,
+    "width": 390
+  }
+}

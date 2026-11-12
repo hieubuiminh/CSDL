@@ -1,0 +1,50 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+3.4.6 Truy vấn 6 - Báo cáo Cơ sở y tế cấp trên 50 giấy báo tử trong quý gần nhất
+      Yêu cầu: Liệt kê các cơ sở y tế đã cấp trên 50 giấy báo tử trong quý gần nhất
+(quý liền trước quý hiện tại), kèm theo số lượng và tỷ lệ phần trăm ca mất xảy ra tại
+chính cơ sở y tế đó.
+      Phân   tích   giải   pháp:   Xác   định   tự   động   mốc   ngày   đầu   quý   hiện   tại
+(@dau_quy_nay)   và   ngày   đầu   quý   liền   trước   (@dau_quy_truoc)   bằng   hàm
+MAKEDATE và INTERVAL QUARTER. Sử dụng mệnh đề HAVING COUNT(*) >
+50 để lọc các cơ sở y tế có số lượng giấy báo tử vượt ngưỡng 50 trong quý gần nhất.
+
+ SET @dau_quy_nay = MAKEDATE(YEAR(CURDATE()), 1)
+                    + INTERVAL (QUARTER(CURDATE()) - 1) QUARTER;
+ SET @dau_quy_truoc = @dau_quy_nay - INTERVAL 1 QUARTER;
+
+ SELECT
+     cs.MaCSYT,
+     cs.TenCSYT,
+     COUNT(*) AS SoGiayBaoTuDaCap,
+     SUM(CASE WHEN gbt.NoiMatChiTiet LIKE CONCAT('%', cs.TenCSYT, '%')
+               OR gbt.NoiMatChiTiet LIKE CONCAT('%', cs.DiaChi, '%')
+              THEN 1 ELSE 0 END) AS SoCaMatTaiCSYT,
+     ROUND(100 * SUM(CASE WHEN gbt.NoiMatChiTiet LIKE CONCAT('%', cs.TenCSYT,
+ '%')
+                           OR gbt.NoiMatChiTiet LIKE CONCAT('%', cs.DiaChi,
+ '%')
+                          THEN 1 ELSE 0 END) / COUNT(*), 2) AS
+ TyLeMatTaiCSYT_PhanTram
+ FROM CSYT cs
+ JOIN Giay_Bao_Tu gbt ON gbt.MaCSYT = cs.MaCSYT
+ WHERE gbt.NgayCap >= @dau_quy_truoc
+   AND gbt.NgayCap <  @dau_quy_nay
+ GROUP BY cs.MaCSYT, cs.TenCSYT
+ HAVING COUNT(*) > 50;
+
+
+3.4.7 Truy vấn 7 - Thống kê số người đã mất theo từng năm
+      Yêu cầu: Thống kê tổng số người đã mất theo từng năm dựa trên thời điểm mất.
+      Phân   tích   giải   pháp:   Trích   xuất   năm   từ   cột   NgayGioMat   bằng   hàm
+YEAR(gbt.NgayGioMat),  gom  nhóm  và  sắp  xếp  theo  thứ  tự  thời  gian  tăng  dần  để
+phục vụ biểu đồ theo dõi biến động dân số.
+
+ SELECT
+     YEAR(gbt.NgayGioMat) AS Nam,
+     COUNT(*)             AS SoNguoiDaMat
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                       Trang 26

@@ -1,0 +1,54 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                             Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+  - Mục tiêu về khai thác thông tin: Hiện thực hóa đầy đủ các truy vấn SQL từ tra
+     cứu trích lục theo số CCCD đến các báo cáo thống kê đa chiều theo giới tính, địa
+     bàn  xã/phường,  nhóm  tuổi,  nguyên  nhân  tử  vong  phổ  biến  nhất,  hoạt  động  cấp
+     giấy báo tử của CSYT theo quý và biến động tử vong theo năm.
+
+3 Bố cục của báo cáo
+      Ngoài phần Mở đầu, Kết luận và Tài liệu tham khảo, nội dung chính của báo cáo
+được tổ chức thành 3 chương theo đúng chuẩn trình bày của Học viện Công nghệ Bưu
+chính Viễn thông:
+  - Chương 1 - Tổng quan về đề tài và phân tích yêu cầu hệ thống: Trình bày kịch
+     bản thế giới thực tại TP. Hà Nội, các tác nhân tham gia, chức năng nghiệp vụ, yêu
+     cầu dữ liệu và các ràng buộc toàn vẹn.
+  - Chương 2 - Thiết kế cơ sở dữ liệu: Trình bày quá trình thiết kế Lược đồ thực thể
+     liên kết (E-R), ánh xạ sang Lược đồ quan hệ, đặc tả chi tiết 9 bảng dữ liệu và đánh
+     giá mức độ chuẩn hóa.
+  - Chương 3 - Cài đặt cơ sở dữ liệu và hiện thực hóa truy vấn SQL: Trình bày mã
+     lệnh tạo bảng (DDL), cài đặt Trigger nghiệp vụ và giải thích chi tiết 7 truy vấn
+     SQL trọng tâm của hệ thống.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                            Trang 7

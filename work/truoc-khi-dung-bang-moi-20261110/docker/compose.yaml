@@ -1,0 +1,56 @@
+name: he_thong_quan_ly_dang_ky_khai_tu
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-quan_ly_dang_ky_khai_tu}
+      MYSQL_USER: ${MYSQL_USER:-khai_tu_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-demo_app_password_only}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-demo_root_password_only}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../database/he_thong_quan_ly_dang_ky_khai_tu.sql:/docker-entrypoint-initdb.d/01-schema-nhom.sql:ro
+      - ../database/app_setup.sql:/docker-entrypoint-initdb.d/02-app-setup.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: khai-tu-app:1.0
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 3000
+      # Listen on the container interface so Docker can forward the local-only host port below.
+      BIND_HOST: 0.0.0.0
+      NODE_ENV: production
+      COOKIE_SECURE: "${COOKIE_SECURE:-false}"
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: ${MYSQL_USER:-khai_tu_app}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-demo_app_password_only}
+      DB_NAME: ${MYSQL_DATABASE:-quan_ly_dang_ky_khai_tu}
+      JWT_SECRET: ${JWT_SECRET:-demo-only-secret-change-before-real-use-123456}
+      ALLOW_LOCAL_PASSWORD_RESET: "true"
+      ADMIN_RECOVERY_TOKEN: "${ADMIN_RECOVERY_TOKEN:-}"
+    ports:
+      # The application is reachable from this computer only.
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - app_config:/app/data
+
+volumes:
+  mysql_data:
+  app_config:
+
+

@@ -1,0 +1,368 @@
+{
+  "container": "khai-tu-new-schema-review-f4ea034dfb",
+  "database": "quan_li_khai_tu",
+  "isolation": {
+    "network": "none",
+    "ports": [],
+    "host_mounts": [],
+    "data": "disposable tmpfs"
+  },
+  "container_removed": true,
+  "mysql_version": "8.0.46",
+  "source_sha256": {
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\tao_bang.sql": "ac04dd6da6970807b6db338d23873f08fe84ae4947135ccaedb33a038a8abbde",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\du_lieu_mau.sql": "e844e6cf3bbbb2b8e56242d45d748daf17c894d04a661da92478f8448c9ba8c8",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\app_setup.sql": "2c073df75fad1f3e4b1514bdd1a6cfa93404a24c46fce535c14445097f8da798",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\truy_van.sql": "fd7595d7391a68d14331c995d366cc14608005698c5583fad61cdc17ddd1856a",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\du_lieu_mau.sql": "d9170d25f513a37bf42070e0455680b0c408c40881e4acccd4972c5fa5396910",
+    "E:\\CSDL\\tao_bang.sql": "617ffb95e91bbedfe7787a75c6c34220816e6e351e9029f6ad0a6e018abd10bb",
+    "E:\\CSDL\\truy_van.sql": "0853be95e63167e46a0b076444ef86290ce06d198d3d5a345a5f14acef67b681"
+  },
+  "sample_snapshots": [
+    {
+      "Nguyen_Nhan": {
+        "rows": 6,
+        "sha256": "c44b44a33df54e1988bf5817e3101585ac461c88a0eeb07ceef3a31aaef636c8"
+      },
+      "CSYT": {
+        "rows": 4,
+        "sha256": "9145c0b95001550fc7f36df7b98471fcb5dcc63d4a693d0ba0a9ec3c8eee3e3e"
+      },
+      "Cong_Dan": {
+        "rows": 200,
+        "sha256": "94b774de9f821ed5d539bf8003d487338a8047a6722c2b9a86b59eb9685e81dd"
+      },
+      "UBND": {
+        "rows": 3,
+        "sha256": "4688a3633e578645d91a2cb9c09b0ca8c84add994ffa70da1c7efc7757fbfd72"
+      },
+      "Noi_Mat": {
+        "rows": 8,
+        "sha256": "1ea17d9fe322bd19626afccc078ea100649466cecd0eef2ff92a66feccc7c4d4"
+      },
+      "Can_Bo": {
+        "rows": 6,
+        "sha256": "7121d8122ae0f7aed4e7ea32bab0db7d5c15a4fd27c5c0e0c80662665aca0d7e"
+      },
+      "Giay_Bao_Tu": {
+        "rows": 100,
+        "sha256": "20f25bd11b81217249e6758f6150b95fb1a46759905cfb33b68b42869ec15670"
+      },
+      "Ho_So_Khai_Tu": {
+        "rows": 100,
+        "sha256": "0e3dbd93cb67ace48af0d6b6b3a42c19385b2cd5b2f7a6cbe61809d26d928cc2"
+      },
+      "An_Tang": {
+        "rows": 64,
+        "sha256": "0456632af75657bbe9254c5338c122430b1954085ec2011abf5a08eee09268c5"
+      }
+    }
+  ],
+  "metadata": {
+    "integrity_violation_counts": {
+      "self_applicant": 0,
+      "death_after_issue": 0,
+      "issue_after_registration": 0,
+      "death_before_birth": 0,
+      "burial_before_death": 0
+    }
+  },
+  "results": [
+    {
+      "name": "canonical schema imports successfully",
+      "passed": true
+    },
+    {
+      "name": "unchanged sample data imports successfully",
+      "passed": true
+    },
+    {
+      "name": "account setup imports successfully",
+      "passed": true
+    },
+    {
+      "name": "Nguyen_Nhan: raw sample count and column values are unchanged",
+      "passed": true,
+      "count": 6
+    },
+    {
+      "name": "CSYT: raw sample count and column values are unchanged",
+      "passed": true,
+      "count": 4
+    },
+    {
+      "name": "Cong_Dan: raw sample count and column values are unchanged",
+      "passed": true,
+      "count": 200
+    },
+    {
+      "name": "UBND: raw sample count and column values are unchanged",
+      "passed": true,
+      "count": 3
+    },
+    {
+      "name": "Noi_Mat: raw sample count and column values are unchanged",
+      "passed": true,
+      "count": 8
+    },
+    {
+      "name": "Can_Bo: raw sample count and column values are unchanged",
+      "passed": true,
+      "count": 6
+    },
+    {
+      "name": "Giay_Bao_Tu: raw sample count and column values are unchanged",
+      "passed": true,
+      "count": 100
+    },
+    {
+      "name": "Ho_So_Khai_Tu: raw sample count and column values are unchanged",
+      "passed": true,
+      "count": 100
+    },
+    {
+      "name": "An_Tang: raw sample count and column values are unchanged",
+      "passed": true,
+      "count": 64
+    },
+    {
+      "name": "new-schema constraint count: FOREIGN KEY",
+      "passed": true,
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "name": "new-schema constraint count: CHECK",
+      "passed": true,
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "name": "new-schema constraint count: UNIQUE",
+      "passed": true,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "six cross-table integrity triggers are installed",
+      "passed": true,
+      "actual": 6
+    },
+    {
+      "name": "deceased identity belongs only to Giay_Bao_Tu",
+      "passed": true
+    },
+    {
+      "name": "sample chronology and distinct-person rules are consistent",
+      "passed": true,
+      "counts": {
+        "self_applicant": 0,
+        "death_after_issue": 0,
+        "issue_after_registration": 0,
+        "death_before_birth": 0,
+        "burial_before_death": 0
+      }
+    },
+    {
+      "name": "no application accounts are seeded",
+      "passed": true
+    },
+    {
+      "name": "exactly seven report queries execute",
+      "passed": true
+    },
+    {
+      "name": "query 1 returns the requested sample certificate",
+      "passed": true
+    },
+    {
+      "name": "query 2 counts every deceased citizen",
+      "passed": true,
+      "total": 100
+    },
+    {
+      "name": "query 3 lists all 100 records in ascending order",
+      "passed": true
+    },
+    {
+      "name": "query 4 keeps all areas and excludes rejected records",
+      "passed": true,
+      "areas": 8,
+      "registered": 73
+    },
+    {
+      "name": "query 5 counts approved records and every leading-cause tie",
+      "passed": true,
+      "approved_total": 81,
+      "age_group_totals": {
+        "Trên 60": 63,
+        "18–60": 17,
+        "Dưới 18": 1
+      }
+    },
+    {
+      "name": "query 6 previous-quarter threshold and estimated ratios match the sample",
+      "passed": true,
+      "eligible_counts": {
+        "CS01": 52
+      }
+    },
+    {
+      "name": "query 7 counts all death notices by death year",
+      "passed": true,
+      "years": {
+        "2024": 8,
+        "2025": 16,
+        "2026": 76
+      }
+    },
+    {
+      "phase": "new-schema",
+      "name": "default pending state marks non-rejected deceased",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "new-schema",
+      "name": "rejected insert does not mark deceased",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "new-schema",
+      "name": "approval update marks deceased",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "new-schema",
+      "name": "insert rejects self-applicant",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "update rejects self-applicant",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "insert rejects registration before issue",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "update rejects registration before issue",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "notice update rejects issue after registration",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "notice update rejects deceased matching linked applicant",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "one notice per deceased",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1062
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "one registration per notice",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1062
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "officer identity remains unique",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1062
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "death after issue is rejected",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        3819
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "non-ASCII identity is rejected",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        3819
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "21-character notice ID is rejected",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1406
+      ]
+    },
+    {
+      "phase": "new-schema",
+      "name": "notice deceased change marks the new citizen",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "new-schema",
+      "name": "notice deceased change for rejected record leaves citizen living",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "name": "all SQL source files remain unchanged during verification",
+      "passed": true
+    }
+  ],
+  "error": null
+}

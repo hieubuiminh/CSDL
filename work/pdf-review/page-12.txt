@@ -1,0 +1,48 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+  Tên thuộc tính          Kiểu dữ liệu          Ràng buộc                  Mô tả ý nghĩa
+
+   MaXaPhuong          VARCHAR(20)           PK, NOT              Mã định danh Xã/Phường tại
+                                             NULL                 Hà Nội
+   TenXaPhuong         VARCHAR(100)          NOT NULL             Tên Xã/Phường nơi xảy ra tử
+                                                                  vong
+
+
+         Bảng 2.3. Cấu trúc bảng Nguyen_Nhan (Danh mục nguyên nhân tử vong)
+
+  Tên thuộc tính          Kiểu dữ liệu          Ràng buộc                  Mô tả ý nghĩa
+ MaNguyenNhan          VARCHAR(20)           PK, NOT              Mã nhóm nguyên nhân tử vong
+                                             NULL
+ TenNguyenNhan         VARCHAR(150)          NOT NULL             Tên nhóm nguyên nhân (Bệnh
+                                                                  lý, Tai nạn, Già yếu...)
+
+
+                    Bảng 2.4. Cấu trúc bảng CSYT (Danh mục Cơ sở y tế)
+
+  Tên thuộc tính          Kiểu dữ liệu          Ràng buộc                  Mô tả ý nghĩa
+     MaCSYT            VARCHAR(20)           PK, NOT              Mã cơ sở y tế
+                                             NULL
+     TenCSYT           VARCHAR(150)          NOT NULL             Tên bệnh viện / cơ sở y tế cấp
+                                                                  giấy báo tử
+       DiaChi          VARCHAR(255)          NOT NULL             Địa chỉ trụ sở cơ sở y tế
+        SDT            VARCHAR(15)           NULL                 Số điện thoại liên hệ của CSYT
+
+
+               Bảng 2.5. Cấu trúc bảng Giay_Bao_Tu (Thông tin Giấy báo tử)
+
+  Tên thuộc tính          Kiểu dữ liệu          Ràng buộc                  Mô tả ý nghĩa
+
+  SoGiayBaoTu          VARCHAR(30)           PK, NOT              Mã số Giấy báo tử
+                                             NULL
+     NgayCap           DATE                  NOT NULL             Ngày cơ sở y tế cấp giấy báo tử
+   NgayGioMat          DATETIME              NOT NULL             Ngày và giờ tử vong thực tế của
+                                                                  công dân
+  NoiMatChiTiet        VARCHAR(255)          NOT NULL             Địa chỉ chi tiết nơi công dân mất
+MoTaNguyenNhan         TEXT                  NULL                 Chẩn đoán / mô tả nguyên nhân
+                                                                  chi tiết do bác sĩ ghi
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                       Trang 15

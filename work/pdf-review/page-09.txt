@@ -1,0 +1,41 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                          Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+  - Thực thể AN_TANG (An táng): Lưu trữ thông tin mai táng/hỏa táng. Thuộc tính
+     khóa: Mã an táng. Các thuộc tính mô tả: Hình thức, Tên nghĩa trang/Đài hóa thân
+     (cùng các thuộc tính liên kết: Số giấy khai tử, Mã nguyên nhân).
+
+2.1.2 Xác định các mối quan hệ
+      Các mối quan hệ (Relationships) giữa các tập thực thể trong hệ thống được xác
+định cụ thể như sau:
+  - Mối quan hệ “Địa điểm mất” (giữa NOI_MAT và GIAY_BAO_TU) - Bản số
+     1:N: Một xã/phường có thể là địa điểm mất ghi trên nhiều giấy báo tử; mỗi giấy
+     báo tử xác định duy nhất một xã/phường nơi mất.
+  - Mối quan hệ “Phân loại nguyên nhân” (giữa NGUYEN_NHAN và
+     GIAY_BAO_TU) - 1:N: Một nhóm nguyên nhân tử vong có thể xuất hiện trên
+     nhiều giấy báo tử; mỗi giấy báo tử thuộc một nhóm nguyên nhân chính.
+  - Mối quan hệ “Cấp” (giữa CSYT và GIAY_BAO_TU) - 1:N: Một cơ sở y tế cấp
+     nhiều giấy báo tử; mỗi giấy báo tử do một cơ sở y tế xác nhận và cấp.
+  - Mối quan hệ “Đính kèm” (giữa GIAY_BAO_TU và HO_SO_KHAI_TU) -
+     1:1: Mỗi hồ sơ khai tử bắt buộc đính kèm một giấy báo tử duy nhất và mỗi giấy
+     báo tử dùng để lập một hồ sơ khai tử.
+  - Mối quan hệ "Người mất" (giữa CONG_DAN và HO_SO_KHAI_TU) - Bản
+     số 1:1: Một công dân khi mất chỉ có tối đa 1 hồ sơ khai tử xác nhận việc tử vong.
+  - Mối quan hệ "Người khai tử" (giữa CONG_DAN và HO_SO_KHAI_TU) -
+     Bản số 1:N: Một công dân còn sống có thể đứng tên đăng ký khai tử cho một hoặc
+     nhiều người thân.
+  - Mối quan hệ “Quản lí cán bộ” (giữa UBND và CAN_BO) - 1:N: Một UBND
+     xã/phường quản lý nhiều cán bộ tư pháp - hộ tịch; mỗi cán bộ làm việc tại một
+     UBND xác định.
+  - Mối quan hệ "Tiếp nhận" (giữa CAN_BO và HO_SO_KHAI_TU) - 1:N: Một
+     cán bộ tư pháp - hộ tịch tiếp nhận và xử lý nhiều hồ sơ khai tử; mỗi hồ sơ khai tử
+     do một cán bộ phụ trách thụ lý.
+  - Mối quan hệ “Đăng kí an táng” (giữa HO_SO_KHAI_TU và AN_TANG) -
+     1:1: Từ hồ sơ khai tử đã cấp, thông tin được chuyển sang đăng ký dịch vụ an táng
+     tại nghĩa trang hoặc đài hóa thân.
+
+2.1.3 Lược đồ thực thể liên kết (E-R) tổng thể
+      Sơ đồ thực thể - liên kết (E-R) hoàn chỉnh của hệ thống được thể hiện trực quan
+tại Hình 2.1 dưới đây:
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                      Trang 12

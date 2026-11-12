@@ -1,0 +1,40 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                             Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+  - Thông tin công dân: Số CCCD, họ tên, ngày sinh, quê quán, giới tính, dân tộc, số
+     điện thoại, trạng thái sinh tử.
+  - Nơi mất: Mã Xã/Phường, tên Xã/Phường.
+  - Nguyên nhân mất: Mã nguyên nhân, tên nhóm nguyên nhân.
+  - Cơ sở y tế: Mã CSYT, tên CSYT, địa chỉ, số điện thoại.
+  - Thông tin giấy báo tử: Số giấy báo tử, ngày cấp, đơn vị cấp giấy (mã CSYT), mã
+     nguyên nhân mất, mô tả nguyên nhân (do bác sĩ ghi), ngày giờ mất, mã xã/phường
+     nơi mất, nơi mất chi tiết.
+  - Ủy  ban  nhân  dân  (UBND):           Mã UBND, tên UBND, địa chỉ, số điện thoại, cấp
+     hành chính (Xã/Phường).
+  - Cán bộ tiếp nhận: Mã cán bộ, CCCD, họ tên, chức vụ, số điện thoại, mã UBND
+     đang làm việc.
+  - Thông tin hồ sơ khai tử: Số giấy khai tử, số giấy báo tử, ngày đăng ký, người mất
+     (CCCD),  người  đi  khai  tử  (CCCD),  quan  hệ  với  người  đã  mất,  mã  cán  bộ  tiếp
+     nhận, trạng thái hồ sơ.
+  - Thông tin địa điểm an táng: Mã an táng, số giấy khai tử, mã nguyên nhân, hình
+     thức (Hỏa táng / Địa táng), tên đài hóa thân / nghĩa trang tiếp nhận (Văn Điển,
+     Thanh Tước, Yên Kỳ...).
+
+1.4.2 Các ràng buộc toàn vẹn nghiệp vụ
+      Hệ thống cơ sở dữ liệu bắt buộc phải đảm bảo các ràng buộc toàn vẹn nghiệp vụ
+sau đây trong mọi thao tác thêm mới và cập nhật dữ liệu:
+  - Ràng buộc 1 (Phân biệt chủ thể): Người đi khai tử và người mất trong cùng một
+     hồ  sơ  khai  tử  bắt  buộc  phải  là  hai  cá  nhân  khác  nhau  (CCCD_NgKhaiTu  <>
+     CCCD_NgMat).
+  - Ràng buộc 2 (Trình tự thời gian hợp lệ): Thời điểm tử vong (ngày mất) phải xảy
+     ra trước hoặc cùng ngày với ngày cấp Giấy báo tử; đồng thời ngày cấp Giấy báo
+     tử   phải   trước   hoặc   bằng   ngày   đăng   ký   khai   tử   tại   UBND   (NgayCap          <=
+     NgayDangKi).
+  - Ràng buộc 3 (Tính duy nhất của hồ sơ khai tử): Mỗi công dân chỉ được lập duy
+     nhất một hồ sơ khai tử (CCCD_NgMat là duy nhất trong bảng Hồ sơ khai tử) và
+     mỗi Giấy báo tử chỉ được đính kèm cho duy nhất một hồ sơ khai tử.
+  - Ràng buộc 4 (Đồng bộ trạng thái công dân): Khi hồ sơ khai tử của một công dân
+     được  lập  thành  công  (không  bị  từ  chối),  cột  TrangThai  của  công  dân  đó  trong
+     bảng Cong_Dan phải tự động chuyển thành “Đã mất”.
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                          Trang 10

@@ -1,0 +1,16 @@
+node_modules
+work/
+outputs/
+data/
+tests/
+.git
+.env
+.env.*
+npm-debug.log*
+docker/app-image.tar
+docker/compose.yaml
+database/
+*.sql
+*.md
+README.md
+docs/

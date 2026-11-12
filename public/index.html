@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f2ef"><title>Quản lý đăng ký khai tử</title>
+  <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/admin.css">
+  <link rel="stylesheet" href="/theme.css">
+</head>
+<body>
+  <section id="authScreen" class="auth-screen hidden">
+    <div class="auth-card">
+      <div class="brand-mark large">K</div><div class="eyebrow">HỆ THỐNG NGHIỆP VỤ</div>
+      <h1 id="authTitle">Đăng nhập</h1>
+      <form id="authForm" class="stack-form">
+        <label id="displayNameWrap" class="hidden">Họ tên quản trị viên<input name="displayName" autocomplete="name" maxlength="160"></label>
+        <label>Tên đăng nhập<input name="username" autocomplete="username" required minlength="3" maxlength="40"></label>
+        <label>Mật khẩu<input name="password" type="password" autocomplete="current-password" required minlength="10"></label>
+        <label id="initialConfirmWrap" class="hidden">Nhập lại mật khẩu<input name="confirmPassword" type="password" autocomplete="new-password" minlength="10"></label>
+        <label id="initialQuestionWrap" class="hidden">Câu hỏi khôi phục<select name="securityQuestion"><option value="">Chọn câu hỏi bảo mật</option><option value="first_street">Tên con đường đầu tiên bạn từng sống?</option><option value="first_teacher">Tên giáo viên đầu tiên của bạn?</option><option value="first_pet">Tên thú cưng đầu tiên của bạn?</option><option value="favorite_dish">Món ăn bạn thường chọn trong dịp đặc biệt?</option></select></label>
+        <label id="initialAnswerWrap" class="hidden">Câu trả lời khôi phục<input name="securityAnswer" autocomplete="off" minlength="3" maxlength="120"></label>
+        <button class="button primary full" type="submit" id="authSubmit">Đăng nhập</button>
+      </form>
+        <button id="showRegisterBtn" class="text-button" type="button">Có mã mời cán bộ? Đăng ký</button>
+      <form id="registerForm" class="stack-form hidden">
+        <label>Mã mời do quản trị viên cấp<input name="inviteCode" autocomplete="one-time-code" required></label>
+        <label>Họ tên<input name="displayName" autocomplete="name" required maxlength="160"></label>
+        <label>Tên đăng nhập<input name="username" autocomplete="username" required minlength="3" maxlength="40"></label>
+        <label>Mật khẩu (ít nhất 10 ký tự)<input name="password" type="password" autocomplete="new-password" required minlength="10"></label>
+        <label>Nhập lại mật khẩu<input name="confirmPassword" type="password" autocomplete="new-password" required minlength="10"></label>
+        <label>Câu hỏi khôi phục<select name="securityQuestion" required><option value="">Chọn câu hỏi bảo mật</option><option value="first_street">Tên con đường đầu tiên bạn từng sống?</option><option value="first_teacher">Tên giáo viên đầu tiên của bạn?</option><option value="first_pet">Tên thú cưng đầu tiên của bạn?</option><option value="favorite_dish">Món ăn bạn thường chọn trong dịp đặc biệt?</option></select></label>
+        <label>Câu trả lời khôi phục<input name="securityAnswer" autocomplete="off" required minlength="3" maxlength="120"></label>
+        <button class="button primary full" type="submit">Tạo tài khoản cán bộ</button>
+      </form>
+      <button id="backToLoginBtn" class="text-button hidden" type="button">Đã có tài khoản? Đăng nhập</button>
+      <button id="forgotPasswordBtn" class="text-button" type="button">Quên mật khẩu?</button>
+      <button id="showAdminRecoveryBtn" class="text-button hidden" type="button">Khôi phục quản trị viên bằng mã dự phòng</button>
+      <form id="resetPasswordForm" class="stack-form hidden">
+        <label>Tên đăng nhập<input name="username" autocomplete="username" required></label>
+        <button id="loadRecoveryQuestionBtn" type="button" class="button secondary full">Hiện câu hỏi khôi phục</button>
+        <label id="recoveryMethodWrap" class="hidden">Phương thức xác minh<select id="recoveryMethod"><option value="question">Câu hỏi khôi phục đã thiết lập</option><option value="admin_name">Tên người quản trị (localhost)</option></select></label>
+        <input type="hidden" name="securityQuestion">
+        <label id="recoveryQuestionWrap" class="hidden">Câu hỏi khôi phục<strong id="recoveryQuestionText" class="question-prompt"></strong></label>
+        <label id="recoveryAnswerWrap" class="hidden">Câu trả lời<input name="securityAnswer" autocomplete="off" minlength="3"></label>
+        <p id="adminNameRecoveryNote" class="field-hint hidden">Câu trả lời có phân biệt chữ hoa và chữ thường.</p>
+        <label>Mật khẩu mới<input name="password" type="password" autocomplete="new-password" minlength="10" required></label>
+        <label>Nhập lại mật khẩu mới<input name="confirmPassword" type="password" autocomplete="new-password" minlength="10" required></label>
+        <button id="resetPasswordSubmit" class="button primary full" type="submit" disabled>Đặt lại mật khẩu</button>
+        <button id="cancelResetBtn" class="button secondary full" type="button">Quay lại đăng nhập</button>
+      </form>
+      <form id="adminRecoveryForm" class="stack-form hidden">
+        <label>Tên đăng nhập quản trị viên<input name="username" autocomplete="username" required></label>
+        <label>Mã dự phòng do người vận hành cung cấp<input name="recoveryToken" type="password" autocomplete="off" required minlength="32"></label>
+        <label>Mật khẩu mới<input name="newPassword" type="password" autocomplete="new-password" required minlength="10"></label>
+        <label>Nhập lại mật khẩu mới<input name="confirmPassword" type="password" autocomplete="new-password" required minlength="10"></label>
+        <button class="button primary full" type="submit">Đặt lại mật khẩu quản trị</button>
+        <button id="cancelAdminRecoveryBtn" class="button secondary full" type="button">Quay lại đăng nhập</button>
+      </form>
+      <div id="authError" class="form-error"></div><button id="authRetryBtn" class="button secondary full hidden" type="button">Thử lại</button>
+      
+    </div>
+  </section>
+  <div id="appShell" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">K</div><div><strong>Khai Tử</strong><small>QUẢN LÝ HỒ SƠ</small></div></div>
+      <div class="workspace-label">KHÔNG GIAN LÀM VIỆC</div>
+      <nav id="navigation">
+        <button class="nav-item active" data-page="dashboard" aria-label="Tổng quan" title="Tổng quan"><span class="nav-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#layout-dashboard"></use></svg></span><span class="nav-label">Tổng quan</span></button>
+        <button class="nav-item" data-page="registrations" aria-label="Hồ sơ khai tử" title="Hồ sơ khai tử"><span class="nav-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#file-text"></use></svg></span><span class="nav-label">Hồ sơ</span></button>
+        <button class="nav-item" data-page="lookup" aria-label="Tra cứu trích lục" title="Tra cứu trích lục"><span class="nav-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#search"></use></svg></span><span class="nav-label">Tra cứu</span></button>
+<div class="nav-section-label">THỐNG KÊ VÀ BÁO CÁO</div>
+        <button class="nav-item" data-page="report-gender" aria-label="Thống kê theo giới tính" title="Thống kê theo giới tính"><span class="nav-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#users-round"></use></svg></span><span class="nav-label">Theo giới tính</span></button>
+        <button class="nav-item" data-page="report-areas" aria-label="Tử vong theo địa bàn" title="Tử vong theo địa bàn"><span class="nav-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#map-pin"></use></svg></span><span class="nav-label">Theo địa bàn</span></button>
+        <button class="nav-item" data-page="report-age-causes" aria-label="Nguyên nhân theo độ tuổi" title="Nguyên nhân theo độ tuổi"><span class="nav-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#stethoscope"></use></svg></span><span class="nav-label">Nguyên nhân theo độ tuổi</span></button>
+        <button class="nav-item" data-page="report-hospitals" aria-label="Báo cáo cơ sở y tế" title="Báo cáo cơ sở y tế"><span class="nav-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#hospital"></use></svg></span><span class="nav-label">Cơ sở y tế</span></button>
+        <button class="nav-item" data-page="report-years" aria-label="Thống kê theo năm mất" title="Thống kê theo năm mất"><span class="nav-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#calendar-days"></use></svg></span><span class="nav-label">Theo năm mất</span></button>
+        <div id="adminNavSection" class="nav-section-label hidden">QUẢN TRỊ</div>
+        <button class="nav-item" data-page="settings" aria-label="Dữ liệu dùng chung" title="Dữ liệu dùng chung"><span class="nav-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#settings-2"></use></svg></span><span class="nav-label">Dữ liệu dùng chung</span></button>
+        <button class="nav-item" data-page="accounts" aria-label="Quản lý tài khoản" title="Quản lý tài khoản"><span class="nav-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#users-round"></use></svg></span><span class="nav-label">Tài khoản</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="user-row">
+          <button id="userMenuToggle" class="avatar user-menu-toggle" type="button" aria-label="Mở menu tài khoản" aria-haspopup="menu" aria-controls="userMenu" aria-expanded="false"><span id="userInitial">C</span></button>
+          <div class="user-info"><strong id="userName">Cán bộ</strong><small id="userHandle"></small><span id="userRole" class="role-badge"></span></div>
+          <div id="userMenu" class="profile-menu hidden" role="menu" aria-labelledby="userMenuToggle">
+            <div class="profile-menu-heading"><span class="profile-menu-avatar" id="userMenuInitial">C</span><div><strong id="userMenuName">Cán bộ</strong><small id="userMenuHandle">@canbo</small><span id="userMenuRole" class="role-badge"></span></div></div>
+            <button id="profileRecoveryBtn" class="profile-menu-item" type="button" role="menuitem"><span class="profile-menu-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#shield"></use></svg></span><span>Câu hỏi khôi phục</span></button>
+            <button id="profilePasswordBtn" class="profile-menu-item" type="button" role="menuitem"><span class="profile-menu-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#key-round"></use></svg></span><span>Đổi mật khẩu</span></button>
+            <div class="profile-menu-divider"></div>
+            <button id="logoutBtn" class="profile-menu-item profile-menu-logout" type="button" role="menuitem"><span class="profile-menu-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#log-out"></use></svg></span><span>Đăng xuất</span></button>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar"><div class="breadcrumb"><span>Hệ thống nghiệp vụ</span><span class="crumb-sep">/</span><strong id="pageCrumb">Tổng quan</strong></div><div class="top-actions"><div class="today-chip"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#calendar-days"></use></svg><span id="todayLabel"></span></div><button id="newRegistrationTop" class="button primary"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#plus"></use></svg> Tạo hồ sơ</button></div></header>
+      <div id="notice" class="notice hidden" role="status"></div>
+      <section id="page-dashboard" class="page active-page">
+        <div class="dashboard-hero"><div class="dashboard-hero-copy"><div class="eyebrow">BẢNG ĐIỀU KHIỂN</div><h1>Chào bạn <span id="greetingName">cán bộ</span></h1><div class="dashboard-hero-actions"><button class="button secondary" data-refresh><svg class="ui-icon refresh-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#refresh-cw"></use></svg> Làm mới dữ liệu</button></div></div><div class="dashboard-hero-art" aria-hidden="true"><svg viewBox="0 0 360 220" fill="none"><circle cx="268" cy="110" r="93" fill="#EAE9F8"/><circle cx="270" cy="109" r="66" fill="#F8F8FC"/><path d="M236 29h63l33 33v107a10 10 0 0 1-10 10h-86a10 10 0 0 1-10-10V39a10 10 0 0 1 10-10Z" fill="#fff" stroke="#D9D8EA" stroke-width="2"/><path d="M299 30v33h32" stroke="#D9D8EA" stroke-width="2"/><path d="M249 86h52M249 101h63M249 116h43" stroke="#AAA6E6" stroke-width="5" stroke-linecap="round"/><rect x="251" y="137" width="45" height="22" rx="11" fill="#EFEEFB"/><path d="m262 148 5 5 10-11" stroke="#5F5BC9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M107 151c9-28 32-44 59-42 25 2 39 16 45 43" stroke="#706BD5" stroke-width="4" stroke-linecap="round"/><path d="M112 152c21 10 41 9 61-2 12-7 22-15 36-17" stroke="#C6C2EE" stroke-width="4" stroke-linecap="round"/><circle cx="99" cy="64" r="8" fill="#E28B70"/><circle cx="326" cy="174" r="7" fill="#79A89A"/><path d="M160 42v18m-9-9h18" stroke="#B3AFE9" stroke-width="3" stroke-linecap="round"/><path d="M73 119v13m-6.5-6.5h13" stroke="#E7A184" stroke-width="3" stroke-linecap="round"/></svg></div></div>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-top"><span>Tổng hồ sơ</span><span class="stat-icon blue"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#files"></use></svg></span></div><strong id="statTotal">—</strong></article>
+          <article class="stat-card"><div class="stat-top"><span>Tiếp nhận tháng này</span><span class="stat-icon violet"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#calendar-days"></use></svg></span></div><strong id="statMonth">—</strong></article>
+          <article class="stat-card"><div class="stat-top"><span>Chờ xử lý</span><span class="stat-icon amber"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#loader-circle"></use></svg></span></div><strong id="statActive">—</strong></article>
+          <article class="stat-card"><div class="stat-top"><span>Đã duyệt</span><span class="stat-icon green"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#circle-check"></use></svg></span></div><strong id="statDone">—</strong></article>
+        </div>
+        <div class="dashboard-grid"><article class="panel chart-panel"><div class="panel-heading"><div><h2>Số người mất theo năm</h2></div><span id="dashboardScopeLabel" class="mini-badge">Toàn hệ thống</span></div><div id="yearChart"></div></article><article class="panel"><div class="panel-heading"><div><h2>Cơ cấu giới tính</h2></div></div><div id="genderChart" class="gender-chart"></div></article></div>
+        <article class="panel table-panel"><div class="panel-heading"><div><h2>Hồ sơ mới nhất</h2></div><button class="text-button" data-goto="registrations">Xem tất cả <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#arrow-right"></use></svg></button></div><div id="recentTable"></div></article>
+      </section>
+      <section id="page-registrations" class="page"><div class="page-heading"><div><div class="eyebrow">QUẢN LÝ NGHIỆP VỤ</div><h1>Hồ sơ khai tử</h1></div><div class="heading-actions"><button class="button secondary" id="exportRegistrations"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#download"></use></svg> Xuất CSV</button><button class="button primary" id="newRegistrationPage"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#plus"></use></svg> Tạo hồ sơ mới</button></div></div><div class="panel"><div class="toolbar"><div class="searchbox"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#search"></use></svg><input id="registrationSearch" placeholder="Tìm theo mã hồ sơ, họ tên hoặc CCCD của hai bên..."></div><select id="statusFilter" class="select-control"><option value="">Tất cả trạng thái</option><option>Đã duyệt</option><option>Chờ xử lý</option><option>Từ chối</option></select></div><div id="registrationTable"></div></div></section>
+      <section id="page-lookup" class="page"><div class="page-heading"><div><div class="eyebrow">TRA CỨU THÔNG TIN</div><h1>Tra cứu trích lục</h1></div></div><form id="lookupForm" class="lookup-search panel"><label for="lookupCccd">CCCD người đã mất</label><div class="lookup-row"><input id="lookupCccd" inputmode="numeric" autocomplete="off" minlength="12" maxlength="12" pattern="[0-9]{12}" title="CCCD gồm đúng 12 chữ số" placeholder="Nhập số CCCD" required><button class="button primary">Tra cứu hồ sơ</button></div></form><div id="lookupResult"></div></section>
+
+      <section id="page-report-gender" class="page report-page"><div class="page-heading"><div><div class="eyebrow">THỐNG KÊ VÀ BÁO CÁO</div><h1>Thống kê theo giới tính</h1></div><button class="button secondary" data-reload-report type="button">Làm mới dữ liệu</button></div>
+        
+        <div class="report-detail-grid"><article class="panel"><div class="panel-heading"><div><h2>Cơ cấu giới tính</h2></div></div><div id="genderReport"></div></article><article class="panel"><div class="panel-heading"><div><h2>Số liệu chi tiết</h2></div></div><div id="genderReportTable"></div></article></div>
+      </section>
+      <section id="page-report-areas" class="page report-page"><div class="page-heading"><div><div class="eyebrow">THỐNG KÊ VÀ BÁO CÁO</div><h1>Tử vong theo địa bàn</h1></div><button class="button secondary" data-reload-report type="button">Làm mới dữ liệu</button></div>
+        <article class="panel"><div class="panel-heading report-filter-heading"><div><h2 id="areaReportCaption">Số hồ sơ đăng ký theo năm</h2></div><form id="reportYearForm" class="report-year-filter" role="search" aria-label="Lọc báo cáo theo năm"><label for="reportYear" class="visually-hidden">Năm thống kê</label><input id="reportYear" type="number" min="1000" max="9998" step="1" inputmode="numeric" required placeholder="Nhập năm"><button class="button secondary" type="submit">Xem thống kê</button></form></div><p id="areaReportScope" class="report-note"></p><div id="areaReport"></div></article>
+      </section>
+      <section id="page-report-age-causes" class="page report-page"><div class="page-heading"><div><div class="eyebrow">THỐNG KÊ VÀ BÁO CÁO</div><h1>Nguyên nhân tử vong theo độ tuổi</h1></div><button class="button secondary" data-reload-report type="button">Làm mới dữ liệu</button></div>
+        
+        <div id="ageReportSummary" class="age-summary-grid"></div><article class="panel"><div class="panel-heading"><div><h2>Chi tiết nguyên nhân theo nhóm tuổi (đã duyệt)</h2></div></div><p id="ageReportNote" class="report-note hidden"></p><div id="ageReport"></div></article>
+      </section>
+      <section id="page-report-hospitals" class="page report-page"><div class="page-heading"><div><div class="eyebrow">THỐNG KÊ VÀ BÁO CÁO</div><h1>Báo cáo cơ sở y tế</h1></div><button class="button secondary" data-reload-report type="button">Làm mới dữ liệu</button></div>
+        <article class="panel"><div class="panel-heading"><div><h2>Cơ sở y tế vượt ngưỡng</h2><p id="hospitalReportPeriod"></p></div><span class="mini-badge">Trên 50 giấy</span></div><div id="hospitalReport"></div></article>
+      </section>
+      <section id="page-report-years" class="page report-page"><div class="page-heading"><div><div class="eyebrow">THỐNG KÊ VÀ BÁO CÁO</div><h1>Thống kê theo năm mất</h1></div><button class="button secondary" data-reload-report type="button">Làm mới dữ liệu</button></div>
+        
+        <article class="panel"><div class="panel-heading"><div><h2>Số người đã mất qua các năm</h2></div></div><div id="yearReport"></div></article><article class="panel report-table-panel"><div class="panel-heading"><div><h2>Số liệu từng năm</h2></div></div><div id="yearReportTable"></div></article>
+      </section>
+      <section id="page-accounts" class="page">
+        <div class="page-heading"><div><div class="eyebrow">QUẢN TRỊ HỆ THỐNG</div><h1>Quản lý tài khoản</h1></div></div>
+        <article id="userAdminPanel" class="panel user-admin-panel">
+          <div class="panel-heading"><div><h2>Tạo tài khoản truy cập</h2></div></div>
+          <form id="userAdminForm" class="user-admin-form">
+            <label>Họ tên<input name="displayName" required></label>
+            <label>Tên đăng nhập<input name="username" required minlength="3" maxlength="40"></label>
+            <label>Mật khẩu ban đầu (tối thiểu 10 ký tự)<input name="password" type="password" minlength="10" required></label>
+            <label>Câu hỏi khôi phục<select name="securityQuestion" required><option value="">Chọn câu hỏi</option><option value="first_street">Tên con đường đầu tiên bạn từng sống?</option><option value="first_teacher">Tên giáo viên đầu tiên của bạn?</option><option value="first_pet">Tên thú cưng đầu tiên của bạn?</option><option value="favorite_dish">Món ăn bạn thường chọn trong dịp đặc biệt?</option></select></label>
+            <label>Câu trả lời<input name="securityAnswer" required minlength="3" maxlength="120"></label>
+            <label>Vai trò<select name="role" required><option value="staff">Cán bộ</option><option value="admin">ADMIN</option></select></label>
+            <label id="accountOfficerField">Cán bộ tiếp nhận liên kết<select name="officerId" required><option value="">Chọn cán bộ</option></select></label>
+            <button class="button primary"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#plus"></use></svg> Tạo tài khoản</button>
+          </form>
+          <div class="invite-tools"><label>Cán bộ nhận mã mời<select id="inviteOfficerId" required><option value="">Chọn cán bộ</option></select></label><button type="button" class="button secondary" id="createInviteBtn">Tạo mã mời dùng một lần</button><div id="inviteResult" class="invite-result hidden"></div></div>
+          
+        </article>
+        <article class="panel account-list-panel"><div class="panel-heading"><div><h2>Danh sách tài khoản</h2></div><button class="button secondary" id="reloadAccounts" type="button">Làm mới</button></div><div id="accountTable"></div></article>
+      </section>
+      <section id="page-settings" class="page"><div class="page-heading"><div><div class="eyebrow">DỮ LIỆU NỀN</div><h1>Dữ liệu dùng chung</h1></div></div><div class="settings-grid" id="settingsCards"></div></section>
+    </main>
+  </div>
+  <dialog id="recoverySetupDialog" class="modal recovery-dialog"><form id="recoverySetupForm"><div class="modal-header"><div><div class="eyebrow">BẢO MẬT TÀI KHOẢN</div><h2>Thiết lập câu hỏi khôi phục</h2></div></div><div class="modal-body"><label>Mật khẩu hiện tại<input name="currentPassword" type="password" autocomplete="current-password" required></label><label>Chọn một câu hỏi khôi phục<select name="securityQuestion" required><option value="">Chọn câu hỏi</option><option value="first_street">Tên con đường đầu tiên bạn từng sống?</option><option value="first_teacher">Tên giáo viên đầu tiên của bạn?</option><option value="first_pet">Tên thú cưng đầu tiên của bạn?</option><option value="favorite_dish">Món ăn bạn thường chọn trong dịp đặc biệt?</option></select></label><label>Câu trả lời<input name="securityAnswer" autocomplete="off" required minlength="3" maxlength="120"></label><div id="recoverySetupError" class="form-error"></div></div><div class="modal-footer"><div><button id="skipRecoverySetupBtn" class="button secondary" type="button">Để sau</button><button class="button primary" type="submit">Lưu câu hỏi</button></div></div></form></dialog>
+  <dialog id="changePasswordDialog" class="modal account-dialog"><form id="changePasswordForm"><div class="modal-header"><div><div class="eyebrow">BẢO MẬT TÀI KHOẢN</div><h2>Đổi mật khẩu</h2></div><button type="button" class="icon-button close-account-dialog" aria-label="Đóng"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#x"></use></svg></button></div><div class="modal-body"><label>Mật khẩu hiện tại<input name="currentPassword" type="password" autocomplete="current-password" required></label><label>Mật khẩu mới<input name="newPassword" type="password" autocomplete="new-password" minlength="10" required></label><label>Nhập lại mật khẩu mới<input name="confirmPassword" type="password" autocomplete="new-password" minlength="10" required></label><div class="field-hint">Mật khẩu mới cần có ít nhất 10 ký tự.</div><div id="changePasswordError" class="form-error"></div></div><div class="modal-footer"><div><button type="button" class="button secondary close-account-dialog">Hủy</button><button class="button primary" type="submit">Lưu mật khẩu</button></div></div></form></dialog>
+  <dialog id="registrationDialog" class="modal"><form id="registrationForm" method="dialog"><div class="modal-header"><div><div class="eyebrow">HỒ SƠ MỚI</div><h2>Đăng ký khai tử</h2></div><button type="button" class="icon-button close-dialog" aria-label="Đóng"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="/assets/icons.svg#x"></use></svg></button></div><div class="modal-body">
+    <section class="form-section"><h3>01 <span>Thông tin người đã mất</span></h3><div class="form-grid"><label>CCCD *<input name="d_cccd" required maxlength="12" minlength="12" pattern="[0-9]{12}" inputmode="numeric" title="CCCD gồm đúng 12 chữ số"></label><label>Họ và tên *<input name="d_name" required maxlength="100"></label><label>Ngày sinh *<input type="date" name="d_birthDate" required></label><label>Giới tính *<select name="d_gender" required><option value="">Chọn giới tính</option><option>Nam</option><option>Nữ</option><option>Khác</option></select></label><label>Quê quán<input name="d_hometown" maxlength="255"></label><label>Dân tộc<input name="d_ethnicity" value="Kinh" maxlength="50"></label><label>Số điện thoại<input name="d_phone" maxlength="15" type="tel"></label></div></section>
+    <section class="form-section"><h3>02 <span>Người đi khai tử</span></h3><div class="form-grid"><label>CCCD *<input name="a_cccd" required maxlength="12" minlength="12" pattern="[0-9]{12}" inputmode="numeric" title="CCCD gồm đúng 12 chữ số"></label><label>Họ và tên *<input name="a_name" required maxlength="100"></label><label>Ngày sinh *<input type="date" name="a_birthDate" required></label><label>Giới tính *<select name="a_gender" required><option value="">Chọn giới tính</option><option>Nam</option><option>Nữ</option><option>Khác</option></select></label><label>Quê quán<input name="a_hometown" maxlength="255"></label><label>Dân tộc<input name="a_ethnicity" value="Kinh" maxlength="50"></label><label>Số điện thoại<input name="a_phone" maxlength="15" type="tel"></label><label>Quan hệ với người mất *<input name="relation" placeholder="Ví dụ: Con" required maxlength="50"></label></div></section>
+    <section class="form-section"><h3>03 <span>Giấy báo tử</span></h3><div class="form-grid"><label>Số giấy báo tử *<input name="certificateId" required maxlength="20"></label><label>Ngày cấp *<input type="date" name="issuedAt" required></label><label>Ngày giờ mất *<input type="datetime-local" name="deathAt" step="1" required></label><label>Nơi mất (xã/phường) *<select name="wardId" data-options="wards" required></select></label><label>Nơi mất chi tiết<input name="placeDetail" maxlength="255"></label><label>Nguyên nhân *<select name="causeId" data-options="causes" required></select></label><label>Cơ sở y tế cấp *<select name="hospitalId" data-options="csyt" required></select></label><label class="full-span">Mô tả nguyên nhân<textarea name="causeDescription" maxlength="65535" rows="2"></textarea></label></div></section>
+    <section class="form-section"><h3>04 <span>Thông tin tiếp nhận</span></h3><div class="form-grid"><label>Số giấy khai tử *<input name="registrationId" required maxlength="20"></label><label>Ngày đăng ký *<input type="date" name="registeredAt" required></label><label>Trạng thái hồ sơ *<select name="status" required><option selected>Chờ xử lý</option><option>Đã duyệt</option><option>Từ chối</option></select></label><label class="full-span">Cán bộ tiếp nhận *<select name="officerId" data-options="officers" required></select></label></div><div id="officePreview" class="office-preview hidden"></div></section>
+    <section class="form-section"><h3>05 <span>Thông tin an táng (nếu đã có)</span></h3><div class="form-grid"><label>Mã an táng<input name="burialId" maxlength="30"></label><label>Hình thức<select name="burialForm"><option value="">Chưa xác định</option><option>Hỏa táng</option><option>Địa táng</option></select></label><label>Tên nghĩa trang / đài hóa thân<input name="burialCemetery" maxlength="150"></label><label>Ngày thực hiện<input type="date" name="burialDate"></label></div></section>
+    <div id="registrationError" class="form-error"></div></div><div class="modal-footer"><span>* Thông tin bắt buộc</span><div><button type="button" class="button secondary close-dialog">Hủy</button><button type="submit" class="button primary">Lưu hồ sơ</button></div></div></form></dialog>
+  <script type="module" src="/js/app.js"></script>
+</body></html>

@@ -1,0 +1,1236 @@
+===== PDF PAGE 1 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                                            Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+                                                       MỤC LỤC
+
+LỜI CẢM ƠN ......................................................................................................... 2
+BẢNG PHÂN CÔNG NHIỆM VỤ CÁC THÀNH VIÊN TRONG NHÓM ..... 3
+DANH MỤC TỪ VIẾT TẮT, HÌNH VẼ VÀ BẢNG BIỂU ............................... 5
+MỞ ĐẦU .................................................................................................................. 6
+CHƯƠNG 1:  TỔNG QUAN VỀ ĐỀ TÀI VÀ PHÂN TÍCH YÊU CẦU HỆ
+THỐNG ...................................................................................................................
+    1.1 Khảo sát bài toán thực tế ................................................................................
+    1.2 Các tác nhân và đối tượng tham gia hệ thống ................................................
+    1.3 Phân tích các chức năng nghiệp vụ chính ......................................................
+    1.4 Yêu cầu cơ sở dữ liệu và các ràng buộc nghiệp vụ ........................................
+CHƯƠNG 2:  THIẾT KẾ CƠ SỞ DỮ LIỆU .......................................................
+    2.1 Thiết kế mô hình thực thể liên kết (E-R) ........................................................
+        2.1.1 Xác định các tập thực thể và thuộc tính ..................................................
+        2.1.2 Xác định các mối kết hợp và bản số ........................................................
+        2.1.3 Lược đồ thực thể liên kết (E-R) tổng thể .................................................
+    2.2 Thiết kế lược đồ cơ sở dữ liệu quan hệ ..........................................................
+        2.2.1 Ánh xạ từ mô hình E-R sang lược đồ quan hệ ........................................
+        2.2.2 Lược đồ quan hệ tổng thể của hệ thống ..................................................
+    2.3 Đặc tả chi tiết cấu trúc các bảng dữ liệu .........................................................
+    2.4 Đánh giá mức độ chuẩn hóa dữ liệu ...............................................................
+CHƯƠNG 3:  CÀI ĐẶT CƠ SỞ DỮ LIỆU VÀ HIỆN THỰC HÓA TRUY VẤN
+SQL ..........................................................................................................................
+    3.1 Môi trường cài đặt và hệ quản trị cơ sở dữ liệu .............................................
+    3.2 Cài đặt cấu trúc bảng (DDL) và ràng buộc toàn vẹn ......................................
+    3.3 Cài đặt Trigger tự động hóa ràng buộc nghiệp vụ ..........................................
+    3.4 Hiện thực hóa các yêu cầu truy vấn và báo cáo thống kê ..............................
+KẾT LUẬN .............................................................................................................
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                                                    Trang 4
+
+===== PDF PAGE 2 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                              Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+         DANH MỤC TỪ VIẾT TẮT, HÌNH VẼ VÀ BẢNG BIỂU
+
+Danh mục từ viết tắt
+
+                         Bảng 0.2. Danh mục các ký hiệu và chữ viết tắt
+
+ STT     Từ viết tắt         Thuật ngữ đầy đủ                        Giải thích / Ý nghĩa
+   1     CCCD            Căn cước công dân               Mã số định danh cá nhân duy nhất gồm
+                                                         12 chữ số của công dân Việt Nam
+   2     CSDL            Cơ sở dữ liệu                   Hệ thống lưu trữ và tổ chức dữ liệu có
+                                                         cấu trúc (Database)
+   3     CSYT            Cơ sở y tế                      Bệnh viện, trung tâm y tế, trạm y tế có
+                                                         thẩm quyền cấp Giấy báo tử
+   4     ERD / E-R       Entity-Relationship             Mô hình / Lược đồ thực thể - liên kết
+                         Diagram
+   5     FK              Foreign Key                     Khóa ngoại tham chiếu giữa các quan hệ
+   6     HQT CSDL        Hệ quản trị cơ sở dữ liệu       Phần mềm quản lý CSDL (trong đề tài sử
+                                                         dụng MySQL 8.0)
+   7     PK              Primary Key                     Khóa chính định danh duy nhất mỗi bộ
+                                                         (record) trong bảng
+   8     UBND            Ủy ban nhân dân                 Cơ quan hành chính nhà nước cấp
+                                                         xã/phường tiếp nhận đăng ký khai tử
+
+
+Danh mục hình vẽ và bảng biểu
+  - Hình 2.1: Lược đồ thực thể - liên kết (E-R) của Hệ thống quản lý đăng ký khai tử
+     tại Hà Nội
+  - Hình 2.2: Lược đồ cơ sở dữ liệu quan hệ của Hệ thống quản lý đăng ký khai tử
+  - Bảng 2.1 – Bảng 2.9: Hệ thống bảng đặc tả chi tiết cấu trúc vật lý của 9 thực thể
+     trong cơ sở dữ liệu
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                             Trang 5
+
+===== PDF PAGE 3 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                             Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+                                             MỞ ĐẦU
+
+1 Tính cấp thiết và lý do chọn đề tài
+      Trong tiến trình chuyển đổi số quốc gia và xây dựng Chính phủ điện tử tại Việt
+Nam (đặc biệt là Đề án 06 về phát triển ứng dụng dữ liệu về dân cư, định danh và xác
+thực điện tử), công tác quản lý hộ tịch đóng vai trò là mắt xích nền tảng để đảm bảo dữ
+liệu dân cư luôn đáp ứng tiêu chí “Đúng - Đủ - Sạch - Sống”. Trong các nghiệp vụ hộ
+tịch trọng yếu, đăng ký khai tử là thủ tục pháp lý bắt buộc nhằm xác nhận một công
+dân đã qua đời, làm cơ sở để cập nhật trạng thái nhân khẩu, giải quyết các chế độ bảo
+hiểm xã hội, thừa kế, xóa đăng ký thường trú và quy hoạch hạ tầng an táng của đô thị.
+      Tại  một  đô  thị  đặc  biệt  có  quy  mô  dân  số  lớn  và  mật  độ  hành  chính  cao  như
+Thành phố Hà Nội, mỗi năm có hàng chục                 nghìn hồ sơ khai tử phát sinh tại các Ủy
+ban  nhân  dân  (UBND)  cấp  xã,  phường,  thị  trấn,  gắn  liền  với  hàng  trăm  cơ  sở  y  tế
+(CSYT) và các nghĩa trang, đài hóa thân hoàn vũ (như Văn Điển, Thanh Tước, Yên
+Kỳ, Vĩnh Hằng...). Việc quản lý rời rạc bằng sổ sách truyền thống hoặc các bảng tính
+đơn lẻ dễ dẫn đến tình trạng trùng lặp hồ sơ, sai lệch mốc thời gian giữa Giấy báo tử
+và Giấy khai tử, chậm trễ trong việc cập nhật trạng thái công dân sang “Đã mất”, cũng
+như gây khó khăn cho công tác thống kê dịch tễ, nguyên nhân tử vong theo độ tuổi và
+địa bàn.
+      Xuất phát từ thực tiễn đó, nhóm 02 đã lựa chọn đề tài “Hệ thống quản lý đăng ký
+khai tử tại Hà Nội” cho Bài tập lớn học phần Cơ sở dữ liệu nhằm xây dựng một mô
+hình cơ sở dữ liệu quan hệ chuẩn hóa, chặt chẽ về mặt ràng buộc nghiệp vụ và tối ưu
+cho công tác tra cứu, trích lục cũng như kết xuất báo cáo thống kê phục vụ quản lý nhà
+nước.
+
+2 Mục tiêu và phạm vi nghiên cứu của đề tài
+
+  - Mục tiêu về mặt dữ liệu: Xây dựng cơ sở dữ liệu tập trung, đạt chuẩn 3NF, quản
+     lý đồng bộ thông tin Công dân (người mất và người đi khai tử), Giấy báo tử từ Cơ
+     sở y tế, Hồ sơ đăng ký khai tử tại UBND xã/phường, Cán bộ tư pháp tiếp nhận và
+     thông tin An táng.
+  - Mục tiêu về ràng buộc nghiệp vụ: Kiểm soát tự động các quy tắc hộ tịch cốt lõi:
+     người khai  tử và người  mất là  hai cá  nhân khác nhau;  trình tự thời gian hợp lệ
+     (Ngày giờ mất <= Ngày cấp giấy báo tử <= Ngày đăng ký khai tử); mỗi công dân
+     chỉ có duy nhất một hồ sơ khai tử và tự động cập nhật trạng thái công dân thành
+     “Đã mất” ngay khi lập hồ sơ.
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                            Trang 6
+
+===== PDF PAGE 4 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                             Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+  - Mục tiêu về khai thác thông tin: Hiện thực hóa đầy đủ các truy vấn SQL từ tra
+     cứu trích lục theo số CCCD đến các báo cáo thống kê đa chiều theo giới tính, địa
+     bàn  xã/phường,  nhóm  tuổi,  nguyên  nhân  tử  vong  phổ  biến  nhất,  hoạt  động  cấp
+     giấy báo tử của CSYT theo quý và biến động tử vong theo năm.
+
+3 Bố cục của báo cáo
+      Ngoài phần Mở đầu, Kết luận và Tài liệu tham khảo, nội dung chính của báo cáo
+được tổ chức thành 3 chương theo đúng chuẩn trình bày của Học viện Công nghệ Bưu
+chính Viễn thông:
+  - Chương 1 - Tổng quan về đề tài và phân tích yêu cầu hệ thống: Trình bày kịch
+     bản thế giới thực tại TP. Hà Nội, các tác nhân tham gia, chức năng nghiệp vụ, yêu
+     cầu dữ liệu và các ràng buộc toàn vẹn.
+  - Chương 2 - Thiết kế cơ sở dữ liệu: Trình bày quá trình thiết kế Lược đồ thực thể
+     liên kết (E-R), ánh xạ sang Lược đồ quan hệ, đặc tả chi tiết 9 bảng dữ liệu và đánh
+     giá mức độ chuẩn hóa.
+  - Chương 3 - Cài đặt cơ sở dữ liệu và hiện thực hóa truy vấn SQL: Trình bày mã
+     lệnh tạo bảng (DDL), cài đặt Trigger nghiệp vụ và giải thích chi tiết 7 truy vấn
+     SQL trọng tâm của hệ thống.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                            Trang 7
+
+===== PDF PAGE 5 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+                                          CHƯƠNG 1
+ TỔNG QUAN VỀ ĐỀ TÀI VÀ PHÂN TÍCH YÊU CẦU HỆ THỐNG
+
+1.1 Khảo sát bài toán thực tế
+      Theo quy định của Luật Hộ tịch và quy trình liên thông thủ tục hành chính tại
+Thành phố Hà Nội, khi một công dân qua đời tại cơ sở y tế hoặc tại nơi cư trú trên địa
+bàn xã/phường, quy trình nghiệp vụ diễn ra qua các bước liên thông chặt chẽ như sau:
+  - Bước 1 - Cấp Giấy báo tử: Cơ sở y tế (Bệnh viện Bạch Mai, Bệnh viện Hữu nghị
+     Việt Đức, Bệnh viện Thanh Nhàn, hoặc Trạm               y tế xã/phường...) nơi công dân tử
+     vong hoặc xác nhận tử vong sẽ tiến hành lập Giấy báo tử. Giấy báo tử ghi nhận
+     chính xác Số giấy báo tử, Ngày cấp, Đơn vị cấp (Mã CSYT), Ngày giờ mất, Nơi
+     mất  (Xã/Phường  và  địa  chỉ  chi  tiết),  Nhóm  nguyên  nhân  mất  và  Mô  tả         nguyên
+     nhân chi tiết do bác sĩ ghi.
+  - Bước 2    - Nộp và tiếp nhận Hồ sơ đăng ký khai tử: Thân nhân hoặc người có
+     trách nhiệm (gọi là Người đi khai tử, có số CCCD riêng biệt với Người mất) mang
+     Giấy báo tử đến Ủy ban nhân dân (UBND) cấp xã/phường trên địa bàn                       TP. Hà
+     Nội  để  làm  thủ  tục  đăng  ký  khai  tử.  Tại  đây,  Cán  bộ  tư  pháp      - hộ  tịch  thuộc
+     UBND tiếp nhận hồ sơ, kiểm tra tính hợp lệ của thông tin công dân, mối quan hệ
+     giữa người khai tử và người mất, đối chiếu trình tự thời gian và cấp Số giấy khai
+     tử.
+  - Bước 3 - Cập nhật trạng thái công dân và đăng ký An táng: Khi hồ sơ khai tử
+     được duyệt và lập thành công, trạng thái của người mất trong cơ sở dữ liệu công
+     dân được cập nhật thành “Đã mất”. Đồng thời, hệ thống ghi nhận thông tin đăng
+     ký an táng dựa trên Số giấy khai tử, bao gồm Hình thức an táng (Hỏa táng hoặc
+     Địa táng) và đơn vị nghĩa trang / đài hóa thân tiếp nhận (Đài hóa thân Hoàn vũ
+     Văn Điển, Nghĩa trang Thanh Tước, Nghĩa trang Yên Kỳ...).
+
+1.2 Các tác nhân và đối tượng tham gia hệ thống
+      Hệ thống quản lý đăng ký khai tử tại Hà Nội liên quan trực tiếp đến 4 nhóm đối
+tượng/đơn vị nghiệp vụ chính:
+  - Công dân (Người mất và Người đi khai tử): Mỗi công dân đều được định danh
+     duy nhất bằng mã số CCCD (12 chữ số). Trong một hồ sơ khai tử, có hai vai trò
+     công dân khác nhau tham gia: một công dân là đối tượng của hồ sơ khai tử (Người
+     mất) và một công dân đứng tên thực hiện thủ tục hành chính (Người đi khai tử, có
+     quan hệ nhân thân hoặc pháp lý với người mất).
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                         Trang 8
+
+===== PDF PAGE 6 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                            Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+  - Cơ sở y tế (CSYT): Là các bệnh viện tuyến Trung ương, tuyến Thành phố, trung
+     tâm y tế quận/huyện hoặc trạm y tế xã/phường có thẩm quyền xác nhận nguyên
+     nhân tử vong, thời điểm tử vong và phát hành Giấy báo tử.
+  -  Ủy  ban  nhân  dân  (UBND)  xã/phường  và  Cán  bộ  tiếp  nhận:                      UBND  cấp
+     xã/phường là cơ quan nhà nước có thẩm quyền cấp trích lục khai tử. Mỗi UBND
+     quản lý đội ngũ cán bộ tư pháp - hộ tịch trực tiếp thụ lý, kiểm duyệt và cập nhật
+     trạng thái hồ sơ khai tử.
+  - Đơn vị tiếp nhận an táng (Nghĩa trang / Đài hóa thân): Tiếp nhận thông tin từ
+     Giấy khai tử để tổ chức mai táng          hoặc hỏa táng theo đúng quy định về quản lý
+     nghĩa trang và vệ sinh môi trường đô thị.
+
+1.3 Phân tích các chức năng nghiệp vụ chính
+      Để đáp ứng đầy đủ nhu cầu quản lý tại các UBND xã/phường trên địa bàn TP.
+Hà Nội, cơ sở dữ liệu của hệ thống phải phục vụ 4 nhóm chức năng chính:
+  - Nhóm chức năng quản lý danh mục hành chính và y tế: Quản lý danh mục địa
+     bàn nơi mất (Xã/Phường), danh mục nhóm nguyên nhân tử vong, danh mục các
+     Cơ sở y tế, danh mục UBND xã/phường và hồ sơ Cán bộ tiếp nhận.
+  - Nhóm chức năng quản lý thông tin Công dân và Giấy báo tử: Lưu trữ thông tin
+     nhân  khẩu  học  của  công  dân  (CCCD,  họ  tên,  ngày  sinh,  giới  tính,  dân  tộc,  quê
+     quán,  số  điện  thoại,  trạng  thái)  và  quản  lý  chi  tiết  từng  Giấy  báo  tử  được  phát
+     hành.
+  - Nhóm chức năng xử lý Hồ sơ khai tử và An táng: Ghi nhận hồ sơ đăng ký khai
+     tử gắn với Giấy báo tử tương ứng, kiểm tra các ràng buộc toàn vẹn, quản lý trạng
+     thái xử lý hồ sơ (Chờ duyệt, Đã duyệt, Từ chối) và lưu trữ thông tin đăng ký an
+     táng.
+  - Nhóm chức năng tra cứu, trích lục và báo cáo thống kê: Cung cấp khả năng tra
+     cứu  tức  thời  toàn  bộ  thông  tin  trích  lục  khai  tử  theo  số  CCCD  của  người  mất;
+     thống kê đa chiều theo giới tính, địa bàn xã/phường trong năm, nhóm độ tuổi kèm
+     nguyên nhân tử vong phổ biến nhất, khối lượng cấp giấy báo tử tại các cơ sở y tế
+     theo quý và xu hướng tử vong theo từng năm.
+
+1.4 Yêu cầu cơ sở dữ liệu và các ràng buộc nghiệp vụ
+
+1.4.1 Yêu cầu về dữ liệu lưu trữ
+      Từ kết quả khảo sát, hệ thống cần lưu trữ chính xác 9 nhóm thông tin cốt lõi sau:
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                           Trang 9
+
+===== PDF PAGE 7 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                             Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+  - Thông tin công dân: Số CCCD, họ tên, ngày sinh, quê quán, giới tính, dân tộc, số
+     điện thoại, trạng thái sinh tử.
+  - Nơi mất: Mã Xã/Phường, tên Xã/Phường.
+  - Nguyên nhân mất: Mã nguyên nhân, tên nhóm nguyên nhân.
+  - Cơ sở y tế: Mã CSYT, tên CSYT, địa chỉ, số điện thoại.
+  - Thông tin giấy báo tử: Số giấy báo tử, ngày cấp, đơn vị cấp giấy (mã CSYT), mã
+     nguyên nhân mất, mô tả nguyên nhân (do bác sĩ ghi), ngày giờ mất, mã xã/phường
+     nơi mất, nơi mất chi tiết.
+  - Ủy  ban  nhân  dân  (UBND):           Mã UBND, tên UBND, địa chỉ, số điện thoại, cấp
+     hành chính (Xã/Phường).
+  - Cán bộ tiếp nhận: Mã cán bộ, CCCD, họ tên, chức vụ, số điện thoại, mã UBND
+     đang làm việc.
+  - Thông tin hồ sơ khai tử: Số giấy khai tử, số giấy báo tử, ngày đăng ký, người mất
+     (CCCD),  người  đi  khai  tử  (CCCD),  quan  hệ  với  người  đã  mất,  mã  cán  bộ  tiếp
+     nhận, trạng thái hồ sơ.
+  - Thông tin địa điểm an táng: Mã an táng, số giấy khai tử, mã nguyên nhân, hình
+     thức (Hỏa táng / Địa táng), tên đài hóa thân / nghĩa trang tiếp nhận (Văn Điển,
+     Thanh Tước, Yên Kỳ...).
+
+1.4.2 Các ràng buộc toàn vẹn nghiệp vụ
+      Hệ thống cơ sở dữ liệu bắt buộc phải đảm bảo các ràng buộc toàn vẹn nghiệp vụ
+sau đây trong mọi thao tác thêm mới và cập nhật dữ liệu:
+  - Ràng buộc 1 (Phân biệt chủ thể): Người đi khai tử và người mất trong cùng một
+     hồ  sơ  khai  tử  bắt  buộc  phải  là  hai  cá  nhân  khác  nhau  (CCCD_NgKhaiTu  <>
+     CCCD_NgMat).
+  - Ràng buộc 2 (Trình tự thời gian hợp lệ): Thời điểm tử vong (ngày mất) phải xảy
+     ra trước hoặc cùng ngày với ngày cấp Giấy báo tử; đồng thời ngày cấp Giấy báo
+     tử   phải   trước   hoặc   bằng   ngày   đăng   ký   khai   tử   tại   UBND   (NgayCap          <=
+     NgayDangKi).
+  - Ràng buộc 3 (Tính duy nhất của hồ sơ khai tử): Mỗi công dân chỉ được lập duy
+     nhất một hồ sơ khai tử (CCCD_NgMat là duy nhất trong bảng Hồ sơ khai tử) và
+     mỗi Giấy báo tử chỉ được đính kèm cho duy nhất một hồ sơ khai tử.
+  - Ràng buộc 4 (Đồng bộ trạng thái công dân): Khi hồ sơ khai tử của một công dân
+     được  lập  thành  công  (không  bị  từ  chối),  cột  TrangThai  của  công  dân  đó  trong
+     bảng Cong_Dan phải tự động chuyển thành “Đã mất”.
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                          Trang 10
+
+===== PDF PAGE 8 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+
+                                          CHƯƠNG 2
+                             THIẾT KẾ CƠ SỞ DỮ LIỆU
+
+2.1 Thiết kế mô hình thực thể liên kết (E-R)
+
+2.1.1 Xác định các tập thực thể và thuộc tính
+      Dựa  trên  yêu  cầu  dữ  liệu  đã  phân  tích  ở  Chương  1,  mô  hình  thực  thể  liên  kết
+(Entity-Relationship Model) của hệ thống bao gồm 9 tập thực thể chính:
+  - Thực  thể  CONG_DAN  (Công  dân):                Lưu  trữ  thông  tin  côn  g  dân.  Thuộc  tính
+     khóa: CCCD. Các thuộc tính mô tả: Họ tên, Ngày sinh, Giới tính, Quê quán, Dân
+     tộc, SĐT, Trạng thái.
+  - Thực  thể  NOI_MAT  (Nơi  mất              - Địa  bàn  Xã/Phường):         Lưu  trữ  danh  mục
+     xã/phường nơi xảy ra tử vong. Thuộc tính khóa: Mã xã/phường. Thuộc tính mô tả:
+     Tên xã/phường.
+  - Thực thể NGUYEN_NHAN (Nguyên nhân tử vong):                         Lưu trữ phân loại nguyên
+     nhân tử vong. Thuộc tính khóa: Mã nguyên nhân. Thuộc tính mô tả: Tên nguyên
+     nhân.
+  - Thực thể CSYT (Cơ sở y tế): Lưu trữ thông tin đơn vị y tế cấp giấy báo tử. Thuộc
+     tính khóa: Mã CSYT. Các thuộc tính mô tả: Tên CSYT, Địa chỉ, SĐT.
+  - Thực thể GIAY_BAO_TU (Giấy báo tử): Lưu trữ thông tin giấy báo tử. Thuộc
+     tính khóa: Số giấy báo tử. Các thuộc tính mô tả: Ngày cấp, Ngày giờ mất, Nơi mất
+     chi tiết, Mô tả nguyên nhân (cùng các thuộc tính liên kết: Mã xã/phường nơi mất,
+     Mã nguyên nhân, Mã CSYT).
+  - Thực thể UBND (Ủy ban nhân dân):                 Lưu trữ thông tin đơn vị hành chính cấp
+     khai tử. Thuộc tính khóa: Mã UBND. Các thuộc tính mô tả: Tên UBND, Cấp hành
+     chính, Địa chỉ, SĐT.
+  - Thực thể CAN_BO (Cán bộ tiếp nhận): Lưu trữ thông tin cán bộ hộ tịch. Thuộc
+     tính khóa: Mã cán bộ. Các thuộc tính mô tả: CCCD, Họ tên, Chức vụ, SĐT (cùng
+     thuộc tính liên kết: Mã UBND).
+  - Thực  thể  HO_SO_KHAI_TU  (Hồ  sơ  khai  tử):  Thực  thể  trung  tâm  quản  lý  việc
+     đăng ký khai tử. Thuộc tính khóa: Số giấy khai tử. Các thuộc tính mô tả: Ngày
+     đăng kí, Quan hệ với người mất, Trạng thái hồ sơ (cùng các thuộc tính liên kết: Số
+     giấy báo tử, CCCD_Người mất, CCCD_Người khai tử, Mã cán bộ tiếp nhận).
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                        Trang 11
+
+===== PDF PAGE 9 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                          Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+  - Thực thể AN_TANG (An táng): Lưu trữ thông tin mai táng/hỏa táng. Thuộc tính
+     khóa: Mã an táng. Các thuộc tính mô tả: Hình thức, Tên nghĩa trang/Đài hóa thân
+     (cùng các thuộc tính liên kết: Số giấy khai tử, Mã nguyên nhân).
+
+2.1.2 Xác định các mối quan hệ
+      Các mối quan hệ (Relationships) giữa các tập thực thể trong hệ thống được xác
+định cụ thể như sau:
+  - Mối quan hệ “Địa điểm mất” (giữa NOI_MAT và GIAY_BAO_TU) - Bản số
+     1:N: Một xã/phường có thể là địa điểm mất ghi trên nhiều giấy báo tử; mỗi giấy
+     báo tử xác định duy nhất một xã/phường nơi mất.
+  - Mối quan hệ “Phân loại nguyên nhân” (giữa NGUYEN_NHAN và
+     GIAY_BAO_TU) - 1:N: Một nhóm nguyên nhân tử vong có thể xuất hiện trên
+     nhiều giấy báo tử; mỗi giấy báo tử thuộc một nhóm nguyên nhân chính.
+  - Mối quan hệ “Cấp” (giữa CSYT và GIAY_BAO_TU) - 1:N: Một cơ sở y tế cấp
+     nhiều giấy báo tử; mỗi giấy báo tử do một cơ sở y tế xác nhận và cấp.
+  - Mối quan hệ “Đính kèm” (giữa GIAY_BAO_TU và HO_SO_KHAI_TU) -
+     1:1: Mỗi hồ sơ khai tử bắt buộc đính kèm một giấy báo tử duy nhất và mỗi giấy
+     báo tử dùng để lập một hồ sơ khai tử.
+  - Mối quan hệ "Người mất" (giữa CONG_DAN và HO_SO_KHAI_TU) - Bản
+     số 1:1: Một công dân khi mất chỉ có tối đa 1 hồ sơ khai tử xác nhận việc tử vong.
+  - Mối quan hệ "Người khai tử" (giữa CONG_DAN và HO_SO_KHAI_TU) -
+     Bản số 1:N: Một công dân còn sống có thể đứng tên đăng ký khai tử cho một hoặc
+     nhiều người thân.
+  - Mối quan hệ “Quản lí cán bộ” (giữa UBND và CAN_BO) - 1:N: Một UBND
+     xã/phường quản lý nhiều cán bộ tư pháp - hộ tịch; mỗi cán bộ làm việc tại một
+     UBND xác định.
+  - Mối quan hệ "Tiếp nhận" (giữa CAN_BO và HO_SO_KHAI_TU) - 1:N: Một
+     cán bộ tư pháp - hộ tịch tiếp nhận và xử lý nhiều hồ sơ khai tử; mỗi hồ sơ khai tử
+     do một cán bộ phụ trách thụ lý.
+  - Mối quan hệ “Đăng kí an táng” (giữa HO_SO_KHAI_TU và AN_TANG) -
+     1:1: Từ hồ sơ khai tử đã cấp, thông tin được chuyển sang đăng ký dịch vụ an táng
+     tại nghĩa trang hoặc đài hóa thân.
+
+2.1.3 Lược đồ thực thể liên kết (E-R) tổng thể
+      Sơ đồ thực thể - liên kết (E-R) hoàn chỉnh của hệ thống được thể hiện trực quan
+tại Hình 2.1 dưới đây:
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                      Trang 12
+
+===== PDF PAGE 10 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                       Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Hình 2.1. Lược đồ thực thể - liên kết (E-R) của Hệ thống quản lý đăng ký khai tử
+
+2.2 Thiết kế lược đồ cơ sở dữ liệu quan hệ
+
+2.2.1 Ánh xạ từ mô hình E-R sang lược đồ quan hệ
+      Áp dụng quy tắc chuyển đổi từ mô hình thực thể liên kết (E-R) sang mô hình cơ
+sở dữ liệu quan hệ, ta thu được 9 lược đồ quan hệ tương ứng (trong đó khóa chính
+được gạch chân và khóa ngoại được đánh dấu tham chiếu):
+  - NOI_MAT (MaXaPhuong [PK], TenXaPhuong)
+  - NGUYEN_NHAN (MaNguyenNhan [PK], TenNguyenNhan)
+  - CSYT (MaCSYT [PK], TenCSYT, DiaChi, SDT)
+  - CONG_DAN (CCCD [PK], HoTen, NgaySinh, GioiTinh, QueQuan, DanToc,
+    SDT, TrangThai)
+  - UBND (MaUBND [PK], TenUBND, CapHanhChinh, DiaChi, SDT)
+  - CAN_BO (MaCanBo [PK], CCCD, HoTen, ChucVu, SDT, MaUBND [FK])
+  - GIAY_BAO_TU (SoGiayBaoTu [PK], NgayCap, NgayGioMat, NoiMatChiTiet,
+    MoTaNguyenNhan, MaCSYT [FK], MaNguyenNhan [FK], MaXaPhuong [FK])
+  - HO_SO_KHAI_TU (SoGiayKhaiTu [PK], SoGiayBaoTu [FK, UNIQUE],
+    NgayDangKi, CCCD_NgMat [FK, UNIQUE], CCCD_NgKhaiTu [FK], QuanHe,
+    TrangThaiHoSo, MaCanBoTiepNhan [FK])
+  - AN_TANG (MaAnTang [PK], SoGiayKhaiTu [FK], HinhThuc,
+    TenNghiaTrang_DaiHoaThan)
+
+2.2.2 Lược đồ quan hệ tổng thể của hệ thống
+      Sơ đồ kết nối khóa chính - khóa ngoại (1 - N, 1 - 1) giữa các bảng trong lược đồ
+cơ sở dữ liệu quan hệ của nhóm được trình bày tại Hình 2.2:
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                 Trang 13
+
+===== PDF PAGE 11 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                             Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       Hình 2.2. Lược đồ cơ sở dữ liệu quan hệ của Hệ thống quản lý đăng ký khai tử
+
+2.3 Đặc tả chi tiết cấu trúc các bảng dữ liệu
+      Dưới  đây  là  đặc  tả  chi  tiết  cấu  trúc  vật  lý  của  từng  bảng  trong  cơ  sở  dữ  liệu
+quan_ly_dang_ky_khai_tu:
+
+                   Bảng 2.1. Cấu trúc bảng Cong_Dan (Thông tin công dân)
+
+Tên thuộc tính               Kiểu dữ liệu               Ràng buộc                Mô tả ý nghĩa
+     CCCD            CHAR(12)                        PK, NOT             Số Căn cước công dân (12
+                                                     NULL                chữ số)
+     HoTen           VARCHAR(100)                    NOT NULL            Họ và tên khai sinh của
+                                                                         công dân
+    NgaySinh         DATE                            NOT NULL            Ngày tháng năm sinh
+    GioiTinh         ENUM('Nam','Nữ','Khác')         NOT NULL            Giới tính của công dân
+    QueQuan          VARCHAR(200)                    NOT NULL            Quê quán nguyên quán
+     DanToc          VARCHAR(50)                     DEFAULT             Dân tộc
+                                                     'Kinh'
+      SDT            VARCHAR(15)                     NULL                Số điện thoại liên hệ
+   TrangThai         VARCHAR(30)                     DEFAULT             Trạng thái ('Còn sống' / 'Đã
+                                                     'Còn sống'          mất')
+
+
+             Bảng 2.2. Cấu trúc bảng Noi_Mat (Danh mục địa bàn Xã/Phường)
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                          Trang 14
+
+===== PDF PAGE 12 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+  Tên thuộc tính          Kiểu dữ liệu          Ràng buộc                  Mô tả ý nghĩa
+
+   MaXaPhuong          VARCHAR(20)           PK, NOT              Mã định danh Xã/Phường tại
+                                             NULL                 Hà Nội
+   TenXaPhuong         VARCHAR(100)          NOT NULL             Tên Xã/Phường nơi xảy ra tử
+                                                                  vong
+
+
+         Bảng 2.3. Cấu trúc bảng Nguyen_Nhan (Danh mục nguyên nhân tử vong)
+
+  Tên thuộc tính          Kiểu dữ liệu          Ràng buộc                  Mô tả ý nghĩa
+ MaNguyenNhan          VARCHAR(20)           PK, NOT              Mã nhóm nguyên nhân tử vong
+                                             NULL
+ TenNguyenNhan         VARCHAR(150)          NOT NULL             Tên nhóm nguyên nhân (Bệnh
+                                                                  lý, Tai nạn, Già yếu...)
+
+
+                    Bảng 2.4. Cấu trúc bảng CSYT (Danh mục Cơ sở y tế)
+
+  Tên thuộc tính          Kiểu dữ liệu          Ràng buộc                  Mô tả ý nghĩa
+     MaCSYT            VARCHAR(20)           PK, NOT              Mã cơ sở y tế
+                                             NULL
+     TenCSYT           VARCHAR(150)          NOT NULL             Tên bệnh viện / cơ sở y tế cấp
+                                                                  giấy báo tử
+       DiaChi          VARCHAR(255)          NOT NULL             Địa chỉ trụ sở cơ sở y tế
+        SDT            VARCHAR(15)           NULL                 Số điện thoại liên hệ của CSYT
+
+
+               Bảng 2.5. Cấu trúc bảng Giay_Bao_Tu (Thông tin Giấy báo tử)
+
+  Tên thuộc tính          Kiểu dữ liệu          Ràng buộc                  Mô tả ý nghĩa
+
+  SoGiayBaoTu          VARCHAR(30)           PK, NOT              Mã số Giấy báo tử
+                                             NULL
+     NgayCap           DATE                  NOT NULL             Ngày cơ sở y tế cấp giấy báo tử
+   NgayGioMat          DATETIME              NOT NULL             Ngày và giờ tử vong thực tế của
+                                                                  công dân
+  NoiMatChiTiet        VARCHAR(255)          NOT NULL             Địa chỉ chi tiết nơi công dân mất
+MoTaNguyenNhan         TEXT                  NULL                 Chẩn đoán / mô tả nguyên nhân
+                                                                  chi tiết do bác sĩ ghi
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                       Trang 15
+
+===== PDF PAGE 13 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                         Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+     MaCSYT           VARCHAR(20)           FK, NOT             Tham chiếu tới
+                                            NULL                CSYT(MaCSYT)
+ MaNguyenNhan         VARCHAR(20)           FK, NOT             Tham chiếu tới
+                                            NULL                Nguyen_Nhan(MaNguyenNhan)
+   MaXaPhuong         VARCHAR(20)           FK, NOT             Tham chiếu tới
+                                            NULL                Noi_Mat(MaXaPhuong)
+
+
+               Bảng 2.6. Cấu trúc bảng UBND (Đơn vị hành chính tiếp nhận)
+
+  Tên thuộc tính         Kiểu dữ liệu         Ràng buộc                 Mô tả ý nghĩa
+     MaUBND           VARCHAR(20)           PK, NOT            Mã Ủy ban nhân dân
+                                            NULL               xã/phường
+     TenUBND          VARCHAR(150)          NOT NULL           Tên đầy đủ của UBND
+                                                               xã/phường
+  CapHanhChinh        VARCHAR(50)           DEFAULT            Cấp hành chính (Xã / Phường /
+                                            'Phường'           Thị trấn)
+       DiaChi         VARCHAR(255)          NOT NULL           Địa chỉ trụ sở UBND
+        SDT           VARCHAR(15)           NULL               Số điện thoại đường dây nóng
+                                                               của UBND
+
+
+               Bảng 2.7. Cấu trúc bảng Can_Bo (Thông tin Cán bộ tiếp nhận)
+
+  Tên thuộc tính         Kiểu dữ liệu         Ràng buộc                 Mô tả ý nghĩa
+     MaCanBo          VARCHAR(20)           PK, NOT            Mã định danh cán bộ tiếp nhận
+                                            NULL
+       CCCD           CHAR(12)              UNIQUE, NOT        Số CCCD của cán bộ
+                                            NULL
+       HoTen          VARCHAR(100)          NOT NULL           Họ và tên cán bộ tư pháp - hộ
+                                                               tịch
+      ChucVu          VARCHAR(100)          NOT NULL           Chức vụ công tác
+        SDT           VARCHAR(15)           NULL               Số điện thoại liên hệ công vụ
+     MaUBND           VARCHAR(20)           FK, NOT            Đơn vị công tác, tham chiếu
+                                            NULL               UBND(MaUBND)
+
+
+             Bảng 2.8. Cấu trúc bảng Ho_So_Khai_Tu (Hồ sơ đăng ký khai tử)
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                    Trang 16
+
+===== PDF PAGE 14 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                          Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+  Tên thuộc tính           Kiểu dữ liệu          Ràng buộc                 Mô tả ý nghĩa
+
+  SoGiayKhaiTu          VARCHAR(30)           PK, NOT             Số giấy khai tử / Mã hồ sơ khai
+                                              NULL                tử
+   SoGiayBaoTu          VARCHAR(30)           FK, UNIQUE,         Tham chiếu
+                                              NOT NULL            Giay_Bao_Tu(SoGiayBaoTu)
+   NgayDangKi           DATE                  NOT NULL            Ngày đăng ký khai tử tại
+                                                                  UBND
+  CCCD_NgMat            CHAR(12)              FK, UNIQUE,         CCCD người mất, tham chiếu
+                                              NOT NULL            Cong_Dan(CCCD)
+ CCCD_NgKhaiTu          CHAR(12)              FK, NOT             CCCD người đi khai tử, tham
+                                              NULL                chiếu Cong_Dan(CCCD)
+      QuanHe            VARCHAR(50)           NOT NULL            Quan hệ nhân thân với người
+                                                                  mất (Con, Vợ/Chồng...)
+  TrangThaiHoSo         VARCHAR(50)           DEFAULT 'Đã         Trạng thái ('Đã duyệt', 'Chờ xử
+                                              duyệt'              lý', 'Từ chối')
+MaCanBoTiepNhan         VARCHAR(20)           FK, NOT             Cán bộ thụ lý, tham chiếu
+                                              NULL                Can_Bo(MaCanBo)
+
+
+               Bảng 2.9. Cấu trúc bảng An_Tang (Thông tin đăng ký an táng)
+
+ Tên thuộc tính         Kiểu dữ liệu          Ràng buộc                   Mô tả ý nghĩa
+   MaAnTang          VARCHAR(30)           PK, NOT NULL         Mã hồ sơ đăng ký an táng
+ SoGiayKhaiTu        VARCHAR(30)           FK, UNIQUE,          Tham chiếu
+                                           NOT NULL             Ho_So_Khai_Tu(SoGiayKhaiTu)
+    HinhThuc         VARCHAR(50)           NOT NULL             Hình thức an táng ('Hỏa táng' /
+                                                                'Địa táng')
+TenNghiaTrang_       VARCHAR(150)          NOT NULL             Tên nghĩa trang / Đài hóa thân
+DaiHoaThan                                                      (Văn Điển, Thanh Tước...)
+
+
+2.4 Đánh giá mức độ chuẩn hóa dữ liệu
+      Việc kiểm tra và chuẩn hóa các lược đồ quan hệ giúp loại bỏ dư thừa dữ liệu và
+tránh các dị thường (Anomalies) khi thêm, sửa, xóa:
+  - Dạng chuẩn 1 (1NF): Tất cả 9 bảng trong lược đồ đều chỉ chứa các giá trị nguyên
+     tố (Atomic values), không có thuộc tính đa trị hay thuộc tính phức hợp lặp lại. Ví
+     dụ: thông tin địa bàn nơi mất đã được tách thành mã xã/phường và địa chỉ chi tiết;
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                      Trang 17
+
+===== PDF PAGE 15 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                            Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+     thông tin người mất và người khai tử được tham chiếu qua khóa ngoại CCCD. Do
+     đó, lược đồ đạt chuẩn 1NF.
+  - Dạng chuẩn 2 (2NF): Toàn bộ 9 bảng trong cơ sở dữ liệu đều sử dụng khóa chính
+     đơn  (Single-attribute  Primary  Key)  như  CCCD,  MaXaPhuong,  SoGiayBaoTu,
+     SoGiayKhaiTu, MaAnTang... Vì không có khóa chính ghép nên không tồn tại phụ
+     thuộc hàm bộ phận của thuộc tính không khóa vào khóa chính. Lược đồ thỏa mãn
+     hoàn toàn dạng chuẩn 2NF.
+  - Dạng chuẩn 3 (3NF): Dựa trên mô hình E-R đã được thiết kế, nhóm tiến hành ánh
+     xạ các thực thể thành các bảng quan hệ và chuyển đổi các mối quan hệ thành các
+     khóa ngoại tương ứng.
+
+     Trong mỗi bảng, các thuộc tính mô tả đều phụ thuộc vào khóa của thực thể tương
+     ứng. Các thông tin thuộc về những thực thể độc lập như địa bàn nơi mất, nguyên
+     nhân tử vong, cơ sở y tế, UBND được lưu trữ riêng biệt và liên kết thông qua khóa
+     ngoại, tránh việc lặp lại thông tin giữa các bảng.
+
+     Bên cạnh đó, thiết kế không chứa các phụ thuộc bắc cầu giữa các thuộc tính không
+     khóa. Các thuộc tính không khóa phụ thuộc trực tiếp vào khóa ứng viên của bảng,
+     không phụ thuộc vào một thuộc tính không khóa khác.
+
+     Do đó, các lược đồ quan hệ đáp ứng dạng chuẩn 3NF.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                         Trang 18
+
+===== PDF PAGE 16 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                      Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+                                      CHƯƠNG 3
+CÀI ĐẶT CƠ SỞ DỮ LIỆU VÀ HIỆN THỰC HÓA TRUY VẤN SQL
+
+3.1 Môi trường cài đặt và hệ quản trị cơ sở dữ liệu
+     Hệ thống cơ sở dữ liệu Quản lý đăng ký khai tử tại Hà Nội được cài đặt và kiểm
+thử trên môi trường Hệ quản trị cơ sở dữ liệu MySQL Server 8.0+ (sử dụng bảng mã
+chuẩn utf8mb4_unicode_ci để hỗ trợ đầy đủ tiếng Việt có dấu và các biểu thức bảng
+chung CTE, Window Functions như RANK() OVER).
+
+3.2 Cài đặt cấu trúc bảng (DDL) và ràng buộc toàn vẹn
+     Đoạn mã SQL dưới đây khởi tạo cơ sở dữ liệu quan_ly_dang_ky_khai_tu cùng
+toàn bộ 9 bảng dữ liệu và các ràng buộc khóa chính, khóa ngoại, miền giá trị:
+ CREATE DATABASE IF NOT EXISTS quan_ly_dang_ky_khai_tu
+ CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ USE quan_ly_dang_ky_khai_tu;
+
+ CREATE TABLE Cong_Dan (
+     CCCD        CHAR(12) PRIMARY KEY,
+     HoTen       VARCHAR(100) NOT NULL,
+     NgaySinh    DATE NOT NULL,
+     GioiTinh    ENUM('Nam', 'Nữ', 'Khác') NOT NULL,
+     QueQuan     VARCHAR(200) NOT NULL,
+     DanToc      VARCHAR(50) DEFAULT 'Kinh',
+     SDT         VARCHAR(15),
+     TrangThai   VARCHAR(30) DEFAULT 'Còn sống'
+ );
+
+ CREATE TABLE Noi_Mat (
+     MaXaPhuong  VARCHAR(20) PRIMARY KEY,
+     TenXaPhuong VARCHAR(100) NOT NULL
+ );
+
+ CREATE TABLE Nguyen_Nhan (
+     MaNguyenNhan  VARCHAR(20) PRIMARY KEY,
+     TenNguyenNhan VARCHAR(150) NOT NULL
+ );
+
+ CREATE TABLE CSYT (
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                               Trang 19
+
+===== PDF PAGE 17 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                    Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+     MaCSYT  VARCHAR(20) PRIMARY KEY,
+     TenCSYT VARCHAR(150) NOT NULL,
+     DiaChi  VARCHAR(255) NOT NULL,
+     SDT     VARCHAR(15)
+ );
+
+ CREATE TABLE Giay_Bao_Tu (
+     SoGiayBaoTu    VARCHAR(30) PRIMARY KEY,
+     NgayCap        DATE NOT NULL,
+     NgayGioMat     DATETIME NOT NULL,
+     NoiMatChiTiet  VARCHAR(255) NOT NULL,
+     MoTaNguyenNhan TEXT,
+     MaCSYT         VARCHAR(20) NOT NULL,
+     MaNguyenNhan   VARCHAR(20) NOT NULL,
+     MaXaPhuong     VARCHAR(20) NOT NULL,
+     CONSTRAINT chk_ngay_bao_tu CHECK (DATE(NgayGioMat) <= NgayCap),
+     FOREIGN KEY (MaCSYT) REFERENCES CSYT(MaCSYT),
+     FOREIGN KEY (MaNguyenNhan) REFERENCES
+ Nguyen_Nhan(MaNguyenNhan),
+     FOREIGN KEY (MaXaPhuong) REFERENCES Noi_Mat(MaXaPhuong)
+ );
+
+ CREATE TABLE UBND (
+     MaUBND       VARCHAR(20) PRIMARY KEY,
+     TenUBND      VARCHAR(150) NOT NULL,
+     CapHanhChinh VARCHAR(50) DEFAULT 'Phường',
+     DiaChi       VARCHAR(255) NOT NULL,
+     SDT          VARCHAR(15)
+ );
+
+ CREATE TABLE Can_Bo (
+     MaCanBo VARCHAR(20) PRIMARY KEY,
+     CCCD    CHAR(12) UNIQUE NOT NULL,
+     HoTen   VARCHAR(100) NOT NULL,
+     ChucVu  VARCHAR(100) NOT NULL,
+     SDT     VARCHAR(15),
+     MaUBND  VARCHAR(20) NOT NULL,
+ );
+
+ CREATE TABLE Ho_So_Khai_Tu (
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                            Trang 20
+
+===== PDF PAGE 18 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                      Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+     SoGiayKhaiTu    VARCHAR(30) PRIMARY KEY,
+     SoGiayBaoTu     VARCHAR(30) UNIQUE NOT NULL,
+     NgayDangKi      DATE NOT NULL,
+     CCCD_NgMat      CHAR(12) UNIQUE NOT NULL,
+     CCCD_NgKhaiTu   CHAR(12) NOT NULL,
+     QuanHe          VARCHAR(50) NOT NULL,
+     TrangThaiHoSo   VARCHAR(50) DEFAULT 'Đã duyệt',
+     MaCanBoTiepNhan VARCHAR(20) NOT NULL,
+     CONSTRAINT chk_hai_ca_nhan_khac_nhau CHECK (CCCD_NgMat <>
+ CCCD_NgKhaiTu),
+     FOREIGN KEY (SoGiayBaoTu) REFERENCES Giay_Bao_Tu(SoGiayBaoTu),
+     FOREIGN KEY (CCCD_NgMat) REFERENCES Cong_Dan(CCCD),
+     FOREIGN KEY (CCCD_NgKhaiTu) REFERENCES Cong_Dan(CCCD),
+     FOREIGN KEY (MaCanBoTiepNhan) REFERENCES Can_Bo(MaCanBo)
+ );
+
+ CREATE TABLE An_Tang (
+     MaAnTang                 VARCHAR(30) PRIMARY KEY,
+     SoGiayKhaiTu             VARCHAR(30) UNIQUE NOT NULL,
+     MaNguyenNhan             VARCHAR(20) NOT NULL,
+     HinhThuc                 VARCHAR(50) NOT NULL,
+     TenNghiaTrang_DaiHoaThan VARCHAR(150) NOT NULL,
+     FOREIGN KEY (SoGiayKhaiTu) REFERENCES
+ Ho_So_Khai_Tu(SoGiayKhaiTu),
+     FOREIGN KEY (MaNguyenNhan) REFERENCES
+ Nguyen_Nhan(MaNguyenNhan)
+ );
+
+
+
+3.3 Cài đặt Trigger tự động hóa ràng buộc nghiệp vụ
+     Để đảm bảo các ràng buộc liên bảng (ngày cấp giấy báo tử phải trước hoặc bằng
+ngày đăng ký khai tử; tự động chuyển trạng thái công dân sang “Đã mất” khi lập hồ sơ
+khai tử thành công), hệ thống cài đặt 2 Trigger sau:
+
+ DELIMITER $$
+
+ -- Trigger 1: Kiểm tra tính hợp lệ trước khi thêm Hồ sơ khai tử
+ CREATE TRIGGER trg_before_insert_ho_so_khai_tu
+ BEFORE INSERT ON Ho_So_Khai_Tu
+ FOR EACH ROW
+ BEGIN
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                               Trang 21
+
+===== PDF PAGE 19 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+     DECLARE v_ngay_cap DATE;
+     SELECT NgayCap INTO v_ngay_cap
+     FROM Giay_Bao_Tu
+     WHERE SoGiayBaoTu = NEW.SoGiayBaoTu;
+
+     IF NEW.CCCD_NgMat = NEW.CCCD_NgKhaiTu THEN
+         SIGNAL SQLSTATE '45000'
+         SET MESSAGE_TEXT = 'Lỗi nghiệp vụ: Người đi khai tử và người mất
+ phải là 2 cá nhân khác nhau!';
+     END IF;
+
+     IF v_ngay_cap > NEW.NgayDangKi THEN
+         SIGNAL SQLSTATE '45000'
+         SET MESSAGE_TEXT = 'Lỗi nghiệp vụ: Ngày cấp giấy báo tử phải trước
+ hoặc bằng ngày đăng ký khai tử!';
+     END IF;
+ END$$
+
+ -- Trigger 2: Tự động cập nhật trạng thái công dân thành "Đã mất"
+ CREATE TRIGGER trg_after_insert_ho_so_khai_tu
+ AFTER INSERT ON Ho_So_Khai_Tu
+ FOR EACH ROW
+ BEGIN
+     IF NEW.TrangThaiHoSo <> 'Từ chối' THEN
+         UPDATE Cong_Dan
+         SET TrangThai = 'Đã mất'
+         WHERE CCCD = NEW.CCCD_NgMat;
+     END IF;
+ END$$
+
+ DELIMITER ;
+
+
+3.4 Hiện thực hóa các yêu cầu truy vấn và báo cáo thống kê
+      Dưới  đây  là  toàn  bộ  7  câu  truy  vấn  SQL  trong  file  truy_van_khai_tu.sql  giải
+quyết triệt để các yêu cầu nghiệp vụ của bài toán kèm theo phân tích chuyê              n môn:
+
+3.4.1 Truy vấn 1 - Tra cứu và trích lục hồ sơ theo CCCD người mất
+      Yêu cầu: Nhập CCCD của người mất, hiển thị đầy đủ thông tin: Họ tên người
+mất, ngày sinh, ngày giờ mất, nguyên nhân mất, mô tả nguyên nhân, họ tên người đi
+khai tử, quan hệ và đơn vị UBND thực hiện cấp khai tử.
+      Phân  tích  giải  pháp:  Sử  dụng  phép  kết  nối  trong  (INNER  JOIN)  giữa  bảng
+Ho_So_Khai_Tu với bảng Cong_Dan hai lần (đặt bí danh nm cho người mất và kt cho
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                       Trang 22
+
+===== PDF PAGE 20 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+người  khai  tử),  kết  hợp  với  Giay_Bao_Tu,  Nguyen_Nhan,  Can_Bo  và  UBND.  Sử
+dụng biến phiên @cccd để linh hoạt thay đổi mã số cần tra cứu.
+
+ SET @cccd = '001000000001';
+
+ SELECT
+     nm.HoTen                      AS HoTenNguoiMat,
+     nm.NgaySinh,
+     gbt.NgayGioMat,
+     nn.TenNguyenNhan              AS NguyenNhanMat,
+     gbt.MoTaNguyenNhan,
+     kt.HoTen                      AS HoTenNguoiKhaiTu,
+     hs.QuanHe,
+     ub.TenUBND                    AS UBNDCapKhaiTu
+ FROM Ho_So_Khai_Tu hs
+ JOIN Cong_Dan     nm  ON nm.CCCD       = hs.CCCD_NgMat
+ JOIN Cong_Dan     kt  ON kt.CCCD       = hs.CCCD_NgKhaiTu
+ JOIN Giay_Bao_Tu  gbt ON gbt.SoGiayBaoTu = hs.SoGiayBaoTu
+ JOIN Nguyen_Nhan  nn  ON nn.MaNguyenNhan = gbt.MaNguyenNhan
+ JOIN Can_Bo       cb  ON cb.MaCanBo    = hs.MaCanBoTiepNhan
+ JOIN UBND         ub  ON ub.MaUBND     = cb.MaUBND
+ WHERE hs.CCCD_NgMat = @cccd;
+
+
+3.4.2 Truy vấn 2 - Thống kê số người đã mất theo giới tính
+      Yêu cầu: Thống kê số lượng công dân đã mất phân theo giới tính.
+      Phân tích giải pháp: Lọc các bản ghi trong bảng Cong_Dan có TrangThai = 'Đã
+mất' và gom nhóm (GROUP BY) theo cột GioiTinh kết hợp hàm tổng hợp COUNT(*).
+
+ SELECT GioiTinh, COUNT(*) AS SoNguoiDaMat
+ FROM Cong_Dan
+ WHERE TrangThai = 'Đã mất'
+ GROUP BY GioiTinh;
+
+
+3.4.3 Truy vấn 3 - Hiển thị toàn bộ danh sách hồ sơ khai tử
+      Yêu cầu: Hiển thị toàn bộ hồ sơ khai tử bao gồm: Số giấy khai tử             , Người đã mất,
+Người đăng ký, Ngày đăng ký, Đơn vị tiếp nhận và Trạng thái hồ sơ.
+      Phân  tích  giải  pháp:  Kết  nối  bảng  Ho_So_Khai_Tu  với  hai  bản  sao  của  bảng
+Cong_Dan (người mất và người đăng ký), bảng Can_Bo và bảng UBND, sắp xếp tăng
+dần theo ngày đăng ký và số giấy khai tử.
+
+ SELECT
+     hs.SoGiayKhaiTu,
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                       Trang 23
+
+===== PDF PAGE 21 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                          Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+     nm.HoTen       AS NguoiDaMat,
+     kt.HoTen       AS NguoiDangKy,
+     hs.NgayDangKi  AS NgayDangKy,
+     ub.TenUBND     AS DonViTiepNhan,
+     hs.TrangThaiHoSo
+ FROM Ho_So_Khai_Tu hs
+ JOIN Cong_Dan nm ON nm.CCCD   = hs.CCCD_NgMat
+ JOIN Cong_Dan kt ON kt.CCCD   = hs.CCCD_NgKhaiTu
+ JOIN Can_Bo   cb ON cb.MaCanBo = hs.MaCanBoTiepNhan
+ JOIN UBND     ub ON ub.MaUBND  = cb.MaUBND
+ ORDER BY hs.NgayDangKi, hs.SoGiayKhaiTu;
+
+
+3.4.4 Truy vấn 4 - Thống kê tử vong theo địa bàn             Xã/Phường trong năm
+      Yêu cầu: Liệt kê danh sách các Xã/Phường tại Hà Nội kèm theo tổng số ca khai
+tử đã đăng ký trong năm hiện tại (không tính hồ sơ bị từ chối), sắp xếp giảm dần theo
+số ca tử vong.
+      Phân tích giải pháp: Sử dụng LEFT JOIN từ bảng Noi_Mat sang Giay_Bao_Tu
+và  Ho_So_Khai_Tu  (với  điều  kiện  lọc  năm  đăng  ký  YEAR(hs.NgayDangKi)  =
+YEAR(CURDATE()) và TrangThaiHoSo <> 'Từ chối' đặt ngay trên mệnh đề ON) để
+những xã/phường có 0 ca khai tử trong năm vẫn được hiển thị đầy đủ với giá trị 0.
+
+ SELECT
+     xp.MaXaPhuong,
+     xp.TenXaPhuong,
+     COUNT(hs.SoGiayKhaiTu) AS TongSoCaKhaiTu
+ FROM Noi_Mat xp
+ LEFT JOIN Giay_Bao_Tu gbt
+        ON gbt.MaXaPhuong = xp.MaXaPhuong
+ LEFT JOIN Ho_So_Khai_Tu hs
+        ON hs.SoGiayBaoTu = gbt.SoGiayBaoTu
+       AND YEAR(hs.NgayDangKi) = YEAR(CURDATE())
+       AND hs.TrangThaiHoSo <> 'Từ chối'
+ GROUP BY xp.MaXaPhuong, xp.TenXaPhuong
+ ORDER BY TongSoCaKhaiTu DESC, xp.TenXaPhuong;
+
+
+3.4.5 Truy vấn 5 - Thống kê nguyên nhân tử vong phổ biến nhất theo độ tuổi
+      Yêu cầu: Phân nhóm và đếm số lượng người mất theo 3 nhóm tuổi tại thời điểm
+mất (Dưới 18, 18–60, Trên 60) kèm theo nguyên nhân tử vong phổ biến nhất ở mỗi
+nhóm.
+      Phân tích giải pháp: Sử dụng biểu thức bảng chung (CTE              - mệnh đề WITH) trên
+MySQL 8.0+. Bước 1 (nguoi_mat): Tính tuổi chính xác                tại thời điểm mất bằng hàm
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                      Trang 24
+
+===== PDF PAGE 22 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                          Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+TIMESTAMPDIFF(YEAR, cd.NgaySinh, gbt.NgayGioMat) và phân loại vào 3 nhóm
+tuổi.  Bước  2  (tong_nhom):  Đếm  tổng  số  người  mất  của  mỗi  nhóm  tuổi.  Bước  3
+(dem_nguyen_nhan):   Sử   dụng   hàm   cửa   sổ   RANK()   OVER   (PARTITION   BY
+NhomTuoi ORDER BY COUNT(*) DESC) để xếp hạng nguyên nhân phổ biến nhất
+trong từng nhóm tuổi (xep_hang = 1), xử lý trọn vẹn cả trường hợp có nhiều nguyên
+nhân đồng hạng nhất.
+
+ WITH nguoi_mat AS (
+     SELECT
+         nn.TenNguyenNhan,
+         CASE
+             WHEN TIMESTAMPDIFF(YEAR, cd.NgaySinh, gbt.NgayGioMat) < 18  THEN
+ 'Dưới 18'
+             WHEN TIMESTAMPDIFF(YEAR, cd.NgaySinh, gbt.NgayGioMat) <= 60 THEN
+ '18–60'
+             ELSE 'Trên 60'
+         END AS NhomTuoi
+     FROM Ho_So_Khai_Tu hs
+     JOIN Cong_Dan    cd  ON cd.CCCD = hs.CCCD_NgMat
+     JOIN Giay_Bao_Tu gbt ON gbt.SoGiayBaoTu = hs.SoGiayBaoTu
+     JOIN Nguyen_Nhan nn  ON nn.MaNguyenNhan = gbt.MaNguyenNhan
+ ),
+ tong_nhom AS (
+     SELECT NhomTuoi, COUNT(*) AS SoNguoiMat
+     FROM nguoi_mat
+     GROUP BY NhomTuoi
+ ),
+ dem_nguyen_nhan AS (
+     SELECT
+         NhomTuoi,
+         TenNguyenNhan,
+         COUNT(*) AS SoCa,
+         RANK() OVER (PARTITION BY NhomTuoi ORDER BY COUNT(*) DESC) AS
+ xep_hang
+     FROM nguoi_mat
+     GROUP BY NhomTuoi, TenNguyenNhan
+ )
+ SELECT
+     t.NhomTuoi,
+     t.SoNguoiMat,
+     d.TenNguyenNhan AS NguyenNhanPhoBienNhat,
+     d.SoCa          AS SoCaCuaNguyenNhanNay
+ FROM tong_nhom t
+ JOIN dem_nguyen_nhan d ON d.NhomTuoi = t.NhomTuoi AND d.xep_hang = 1
+ ORDER BY FIELD(t.NhomTuoi, 'Dưới 18', '18–60', 'Trên 60');
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                     Trang 25
+
+===== PDF PAGE 23 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                           Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+3.4.6 Truy vấn 6 - Báo cáo Cơ sở y tế cấp trên 50 giấy báo tử trong quý gần nhất
+      Yêu cầu: Liệt kê các cơ sở y tế đã cấp trên 50 giấy báo tử trong quý gần nhất
+(quý liền trước quý hiện tại), kèm theo số lượng và tỷ lệ phần trăm ca mất xảy ra tại
+chính cơ sở y tế đó.
+      Phân   tích   giải   pháp:   Xác   định   tự   động   mốc   ngày   đầu   quý   hiện   tại
+(@dau_quy_nay)   và   ngày   đầu   quý   liền   trước   (@dau_quy_truoc)   bằng   hàm
+MAKEDATE và INTERVAL QUARTER. Sử dụng mệnh đề HAVING COUNT(*) >
+50 để lọc các cơ sở y tế có số lượng giấy báo tử vượt ngưỡng 50 trong quý gần nhất.
+
+ SET @dau_quy_nay = MAKEDATE(YEAR(CURDATE()), 1)
+                    + INTERVAL (QUARTER(CURDATE()) - 1) QUARTER;
+ SET @dau_quy_truoc = @dau_quy_nay - INTERVAL 1 QUARTER;
+
+ SELECT
+     cs.MaCSYT,
+     cs.TenCSYT,
+     COUNT(*) AS SoGiayBaoTuDaCap,
+     SUM(CASE WHEN gbt.NoiMatChiTiet LIKE CONCAT('%', cs.TenCSYT, '%')
+               OR gbt.NoiMatChiTiet LIKE CONCAT('%', cs.DiaChi, '%')
+              THEN 1 ELSE 0 END) AS SoCaMatTaiCSYT,
+     ROUND(100 * SUM(CASE WHEN gbt.NoiMatChiTiet LIKE CONCAT('%', cs.TenCSYT,
+ '%')
+                           OR gbt.NoiMatChiTiet LIKE CONCAT('%', cs.DiaChi,
+ '%')
+                          THEN 1 ELSE 0 END) / COUNT(*), 2) AS
+ TyLeMatTaiCSYT_PhanTram
+ FROM CSYT cs
+ JOIN Giay_Bao_Tu gbt ON gbt.MaCSYT = cs.MaCSYT
+ WHERE gbt.NgayCap >= @dau_quy_truoc
+   AND gbt.NgayCap <  @dau_quy_nay
+ GROUP BY cs.MaCSYT, cs.TenCSYT
+ HAVING COUNT(*) > 50;
+
+
+3.4.7 Truy vấn 7 - Thống kê số người đã mất theo từng năm
+      Yêu cầu: Thống kê tổng số người đã mất theo từng năm dựa trên thời điểm mất.
+      Phân   tích   giải   pháp:   Trích   xuất   năm   từ   cột   NgayGioMat   bằng   hàm
+YEAR(gbt.NgayGioMat),  gom  nhóm  và  sắp  xếp  theo  thứ  tự  thời  gian  tăng  dần  để
+phục vụ biểu đồ theo dõi biến động dân số.
+
+ SELECT
+     YEAR(gbt.NgayGioMat) AS Nam,
+     COUNT(*)             AS SoNguoiDaMat
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                       Trang 26
+
+===== PDF PAGE 24 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                               Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+ FROM Giay_Bao_Tu gbt
+ GROUP BY YEAR(gbt.NgayGioMat)
+ ORDER BY Nam;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                              Trang 27
+
+===== PDF PAGE 25 =====
+Báo cáo Bài tập lớn Cơ sở dữ liệu                            Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+                     KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+
+1. Kết quả đạt được
+      Sau thời gian nghiên cứu, phân tích và thiết kế dưới sự hướng dẫn của giảng viên
+bộ môn, Nhóm 02 đã hoàn thành đầy đủ các mục tiêu đề ra của đề tài “Hệ thống quản
+lý đăng ký khai tử tại Hà Nội”, cụ thể:
+  - Về mặt phân tích nghiệp vụ:            Đã khảo sát và mô hình hóa sát thực tế quy trình
+     liên thông giữa Công dân, Cơ sở y tế cấp giấy báo tử, UBND xã/phường tiếp nhận
+     hồ sơ khai tử và Đơn vị quản lý an táng trên địa bàn TP. Hà Nội.
+  - Về mặt thiết kế cơ sở dữ liệu: Đã xây dựng hoàn chỉnh Lược đồ thực thể liên kết
+     (E-R) và ánh xạ chính xác sang Lược đồ quan hệ gồm 9 bảng dữ liệu đạt chuẩn
+     3NF, không dư thừa dữ liệu và đảm bảo toàn vẹn tham chiếu.
+  - Về mặt hiện thực hóa và khai thác dữ liệu:                Đã xây dựng đầy đủ hệ thống câu
+     lệnh DDL, Trigger kiểm soát ràng buộc nghiệp vụ tự động và 7 câu truy vấn SQL
+     giải quyết trọn vẹn các bài toán tra cứu trích lục, thống kê theo giới tính, địa bàn
+     xã/phường, độ tuổi - nguyên nhân tử vong, báo cáo cơ sở y tế theo quý và thống
+     kê theo năm.
+
+2. Hạn chế của đề tài
+  - Thứ nhất: Trong bảng Giay_Bao_Tu hiện tại đang lưu địa điểm mất tại cơ sở y tế
+     thông qua chuỗi văn bản NoiMatChiTiet nên khi thống kê tỷ lệ mất tại cơ sở y tế
+     phải  đối  sánh  chuỗi  (LIKE).  Việc  bổ  sung  thêm  một  cờ  boolean  (MatTaiCSYT
+     BIT) sẽ giúp truy vấn nhanh và chính xác tuyệt đối hơn.
+  - Thứ hai: Hệ thống hiện tập trung ở tầng Cơ sở dữ liệu và truy vấn SQL, chưa tích
+     hợp giao diện người dùng (Web/App) hay chữ ký số chuyên dùng cho cán bộ tư
+     pháp - hộ tịch.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                        Trang 28

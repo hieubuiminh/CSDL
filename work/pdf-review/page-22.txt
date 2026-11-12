@@ -1,0 +1,53 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                          Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+TIMESTAMPDIFF(YEAR, cd.NgaySinh, gbt.NgayGioMat) và phân loại vào 3 nhóm
+tuổi.  Bước  2  (tong_nhom):  Đếm  tổng  số  người  mất  của  mỗi  nhóm  tuổi.  Bước  3
+(dem_nguyen_nhan):   Sử   dụng   hàm   cửa   sổ   RANK()   OVER   (PARTITION   BY
+NhomTuoi ORDER BY COUNT(*) DESC) để xếp hạng nguyên nhân phổ biến nhất
+trong từng nhóm tuổi (xep_hang = 1), xử lý trọn vẹn cả trường hợp có nhiều nguyên
+nhân đồng hạng nhất.
+
+ WITH nguoi_mat AS (
+     SELECT
+         nn.TenNguyenNhan,
+         CASE
+             WHEN TIMESTAMPDIFF(YEAR, cd.NgaySinh, gbt.NgayGioMat) < 18  THEN
+ 'Dưới 18'
+             WHEN TIMESTAMPDIFF(YEAR, cd.NgaySinh, gbt.NgayGioMat) <= 60 THEN
+ '18–60'
+             ELSE 'Trên 60'
+         END AS NhomTuoi
+     FROM Ho_So_Khai_Tu hs
+     JOIN Cong_Dan    cd  ON cd.CCCD = hs.CCCD_NgMat
+     JOIN Giay_Bao_Tu gbt ON gbt.SoGiayBaoTu = hs.SoGiayBaoTu
+     JOIN Nguyen_Nhan nn  ON nn.MaNguyenNhan = gbt.MaNguyenNhan
+ ),
+ tong_nhom AS (
+     SELECT NhomTuoi, COUNT(*) AS SoNguoiMat
+     FROM nguoi_mat
+     GROUP BY NhomTuoi
+ ),
+ dem_nguyen_nhan AS (
+     SELECT
+         NhomTuoi,
+         TenNguyenNhan,
+         COUNT(*) AS SoCa,
+         RANK() OVER (PARTITION BY NhomTuoi ORDER BY COUNT(*) DESC) AS
+ xep_hang
+     FROM nguoi_mat
+     GROUP BY NhomTuoi, TenNguyenNhan
+ )
+ SELECT
+     t.NhomTuoi,
+     t.SoNguoiMat,
+     d.TenNguyenNhan AS NguyenNhanPhoBienNhat,
+     d.SoCa          AS SoCaCuaNguyenNhanNay
+ FROM tong_nhom t
+ JOIN dem_nguyen_nhan d ON d.NhomTuoi = t.NhomTuoi AND d.xep_hang = 1
+ ORDER BY FIELD(t.NhomTuoi, 'Dưới 18', '18–60', 'Trên 60');
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                     Trang 25

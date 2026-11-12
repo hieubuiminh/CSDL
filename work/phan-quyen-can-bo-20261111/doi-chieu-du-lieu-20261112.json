@@ -1,0 +1,17 @@
+{
+  "beforeCount": 101,
+  "afterCount": 101,
+  "changes": [
+    {
+      "recordId": "HS002",
+      "changes": [
+        {
+          "field": "TrangThaiHoSo",
+          "before": "Đã duyệt",
+          "after": "Chờ xử lý"
+        }
+      ]
+    }
+  ],
+  "otherEightTablesIdentical": true
+}

@@ -1,0 +1,56 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                            Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+     thông tin người mất và người khai tử được tham chiếu qua khóa ngoại CCCD. Do
+     đó, lược đồ đạt chuẩn 1NF.
+  - Dạng chuẩn 2 (2NF): Toàn bộ 9 bảng trong cơ sở dữ liệu đều sử dụng khóa chính
+     đơn  (Single-attribute  Primary  Key)  như  CCCD,  MaXaPhuong,  SoGiayBaoTu,
+     SoGiayKhaiTu, MaAnTang... Vì không có khóa chính ghép nên không tồn tại phụ
+     thuộc hàm bộ phận của thuộc tính không khóa vào khóa chính. Lược đồ thỏa mãn
+     hoàn toàn dạng chuẩn 2NF.
+  - Dạng chuẩn 3 (3NF): Dựa trên mô hình E-R đã được thiết kế, nhóm tiến hành ánh
+     xạ các thực thể thành các bảng quan hệ và chuyển đổi các mối quan hệ thành các
+     khóa ngoại tương ứng.
+
+     Trong mỗi bảng, các thuộc tính mô tả đều phụ thuộc vào khóa của thực thể tương
+     ứng. Các thông tin thuộc về những thực thể độc lập như địa bàn nơi mất, nguyên
+     nhân tử vong, cơ sở y tế, UBND được lưu trữ riêng biệt và liên kết thông qua khóa
+     ngoại, tránh việc lặp lại thông tin giữa các bảng.
+
+     Bên cạnh đó, thiết kế không chứa các phụ thuộc bắc cầu giữa các thuộc tính không
+     khóa. Các thuộc tính không khóa phụ thuộc trực tiếp vào khóa ứng viên của bảng,
+     không phụ thuộc vào một thuộc tính không khóa khác.
+
+     Do đó, các lược đồ quan hệ đáp ứng dạng chuẩn 3NF.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                         Trang 18

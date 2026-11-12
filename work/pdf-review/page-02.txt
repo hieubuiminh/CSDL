@@ -1,0 +1,46 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                              Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+         DANH MỤC TỪ VIẾT TẮT, HÌNH VẼ VÀ BẢNG BIỂU
+
+Danh mục từ viết tắt
+
+                         Bảng 0.2. Danh mục các ký hiệu và chữ viết tắt
+
+ STT     Từ viết tắt         Thuật ngữ đầy đủ                        Giải thích / Ý nghĩa
+   1     CCCD            Căn cước công dân               Mã số định danh cá nhân duy nhất gồm
+                                                         12 chữ số của công dân Việt Nam
+   2     CSDL            Cơ sở dữ liệu                   Hệ thống lưu trữ và tổ chức dữ liệu có
+                                                         cấu trúc (Database)
+   3     CSYT            Cơ sở y tế                      Bệnh viện, trung tâm y tế, trạm y tế có
+                                                         thẩm quyền cấp Giấy báo tử
+   4     ERD / E-R       Entity-Relationship             Mô hình / Lược đồ thực thể - liên kết
+                         Diagram
+   5     FK              Foreign Key                     Khóa ngoại tham chiếu giữa các quan hệ
+   6     HQT CSDL        Hệ quản trị cơ sở dữ liệu       Phần mềm quản lý CSDL (trong đề tài sử
+                                                         dụng MySQL 8.0)
+   7     PK              Primary Key                     Khóa chính định danh duy nhất mỗi bộ
+                                                         (record) trong bảng
+   8     UBND            Ủy ban nhân dân                 Cơ quan hành chính nhà nước cấp
+                                                         xã/phường tiếp nhận đăng ký khai tử
+
+
+Danh mục hình vẽ và bảng biểu
+  - Hình 2.1: Lược đồ thực thể - liên kết (E-R) của Hệ thống quản lý đăng ký khai tử
+     tại Hà Nội
+  - Hình 2.2: Lược đồ cơ sở dữ liệu quan hệ của Hệ thống quản lý đăng ký khai tử
+  - Bảng 2.1 – Bảng 2.9: Hệ thống bảng đặc tả chi tiết cấu trúc vật lý của 9 thực thể
+     trong cơ sở dữ liệu
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                             Trang 5

@@ -1,0 +1,286 @@
+[
+  {
+    "Path": ".dockerignore",
+    "Sha256": "4B1A47699A4EBB581B1415156C86817DD31987E40D11052E31210E55D2E51C6A"
+  },
+  {
+    "Path": "backend\\app.js",
+    "Sha256": "20E6756E99B91D7148B4D19AFAEF19EB8F38997C92143DD99EE61116A7964381"
+  },
+  {
+    "Path": "backend\\config\\database.js",
+    "Sha256": "45EB8074190BDDAF87F04F1352A99688416B4E9883311FE098A5F3DF893EC8DA"
+  },
+  {
+    "Path": "backend\\config\\runtime.js",
+    "Sha256": "AA4DA63DCEBDB66AEC56A8D754FA63F9163104D44773801AE2F5189897488206"
+  },
+  {
+    "Path": "backend\\index.js",
+    "Sha256": "102D1BAB6568FF53C94097AFD45D034BAA9B875838E781A03BDAD9CB09191483"
+  },
+  {
+    "Path": "backend\\middleware\\auth.js",
+    "Sha256": "DCF3AB62C32D23D1137DFD34AF5BF61C3B82A7CFBF32EF2C3367C5E4A5C061E6"
+  },
+  {
+    "Path": "backend\\middleware\\error-handler.js",
+    "Sha256": "747CA54BDD83AA4459DCA0CFE5B1E58C552A3421D4EBC89D50EFDC9CFA076601"
+  },
+  {
+    "Path": "backend\\modules\\accounts\\index.js",
+    "Sha256": "376F9FCC39C5764A9D03BB6631D3C331815CE2F6D3DFAE0186F33D1C675A0EED"
+  },
+  {
+    "Path": "backend\\modules\\auth\\index.js",
+    "Sha256": "AC4B05ACD0CE1F7B793E20570B25BDBD586D9D035D2DFD621B1AEF69D1A79943"
+  },
+  {
+    "Path": "backend\\modules\\catalogs\\index.js",
+    "Sha256": "212E9A90ED5142B08DC9F69707A87EA0F0D25A271869563549FA07C97591F19F"
+  },
+  {
+    "Path": "backend\\modules\\catalogs\\validation.js",
+    "Sha256": "92373AEDE22A3CC5771E69728DC4383928CDBBB959CCD4FD90772AC7C714ED7D"
+  },
+  {
+    "Path": "backend\\modules\\dashboard\\index.js",
+    "Sha256": "3578A28B106DA22CFC6BFE935A07226B1441ACC21E46E6A6183952260FA659BF"
+  },
+  {
+    "Path": "backend\\modules\\index.js",
+    "Sha256": "5F51FA5AD7B76BDA938BE2563412654ABC1B47B9F959FAAFE11253B5A997A267"
+  },
+  {
+    "Path": "backend\\modules\\registrations\\index.js",
+    "Sha256": "1624E5EC261D4D2691C3B88AFAA2807CF22D6C0B8A4C25C7B583F4C6727A6091"
+  },
+  {
+    "Path": "backend\\modules\\registrations\\queries.js",
+    "Sha256": "DA87BEDF894342E6307AA19403D707D300AFFA3DA04A10DECB089AB9309F562D"
+  },
+  {
+    "Path": "backend\\modules\\registrations\\status.js",
+    "Sha256": "D5C5464303A773782120DCF267C51589EED54E4098C7370FE44EA391C86A2276"
+  },
+  {
+    "Path": "backend\\modules\\registrations\\validation.js",
+    "Sha256": "35C7B54E500CFD4ED91AF70C6723DE9E386B5E0EDB27A9558389BB5C179372BB"
+  },
+  {
+    "Path": "backend\\modules\\reports\\age-causes\\index.js",
+    "Sha256": "C1C67EF7247CD6C5C69804C050AAA7DD073223F9854C0A882A08809411EEB911"
+  },
+  {
+    "Path": "backend\\modules\\reports\\areas\\index.js",
+    "Sha256": "0E8F4C83861C2F0CDD032A5085C3659FEBB650B12F3B43008425776D3719CE59"
+  },
+  {
+    "Path": "backend\\modules\\reports\\gender\\index.js",
+    "Sha256": "B11820CB730F5AED3A663746246DFDBE3D9736522E75F930C0C773A9631CBB3B"
+  },
+  {
+    "Path": "backend\\modules\\reports\\helpers.js",
+    "Sha256": "D98FC8A1D40D237C145EDC95FD565E37D1B88851019A72E0D00FD0963D225715"
+  },
+  {
+    "Path": "backend\\modules\\reports\\hospitals\\index.js",
+    "Sha256": "6156A910B74EC0429DE7175D30FBBB6DA8090DFAF31CA06BBFC55F5A65CB1D45"
+  },
+  {
+    "Path": "backend\\modules\\reports\\index.js",
+    "Sha256": "2FD3DE2254AFA4B60708B7FD77EC34B55A3D4113EDDBC15115EBFA3FC13651DB"
+  },
+  {
+    "Path": "backend\\modules\\reports\\queries.js",
+    "Sha256": "796CA41EEFA97426DF4EE4556F366E0A9AB9222D52F0B6E2DFA9609D5C61E489"
+  },
+  {
+    "Path": "backend\\modules\\reports\\years\\index.js",
+    "Sha256": "2A77D5F98C01DF8D5299B696EAF6922B8FC53731ED64F8D4E8AFBA10C68B0F32"
+  },
+  {
+    "Path": "backend\\routes\\admin.routes.js",
+    "Sha256": "1131CC4A4FC8AE116251D74595ECEAC325E0EEE85B7A13DCF9E57CE386F92B47"
+  },
+  {
+    "Path": "backend\\routes\\auth.routes.js",
+    "Sha256": "5AF0C90CAF8C6017D0EAE33A0EBDB5C6E1281F19CBC52C8B720A2D935C5F0E3A"
+  },
+  {
+    "Path": "backend\\routes\\registration.routes.js",
+    "Sha256": "366247C22911CDB577A180D3005EA990D36B7661892CE45B6C3CA36B3BD09380"
+  },
+  {
+    "Path": "backend\\routes\\report.routes.js",
+    "Sha256": "3580245E93E7D7D7F95CBBF4FF57D78E8E5A5A7B7E925818291B038088975318"
+  },
+  {
+    "Path": "backend\\server.js",
+    "Sha256": "B915DAFAD5A7B22EE7E441B44BA6CC94162E80A9468C6930C5FAE25EC1C054E9"
+  },
+  {
+    "Path": "backend\\tests\\registration-compatibility.test.js",
+    "Sha256": "1DC6935FE4646FC0AB63C2574751973D4FA770D84FC04F8AC982DC5613F8274D"
+  },
+  {
+    "Path": "backend\\tests\\reports.test.js",
+    "Sha256": "2170A3F051EE4CE78A10818E9ABE73C016A117FC8E9B9A3495F9A2B731FD4602"
+  },
+  {
+    "Path": "backend\\utils\\auth.js",
+    "Sha256": "3F625DC6B4297E0712F1E93CF404CC2E67BE0A46CF80448E956CAD749CC4D113"
+  },
+  {
+    "Path": "backend\\utils\\http.js",
+    "Sha256": "6570E94AE5E2F12D2741C83CF100292EFE11B0928DA4F042BACD94772C6DF1BA"
+  },
+  {
+    "Path": "backend\\utils\\validation.js",
+    "Sha256": "293A743D8C8CC61653603665F93628CAEE91EBBF0CDCF48A140D30C803F15C3E"
+  },
+  {
+    "Path": "backend\\utils\\ward-metadata.js",
+    "Sha256": "B1B540FD3E5166C8AC406441FA6E4FBE090569CA50129AE1BE57AF3752582C33"
+  },
+  {
+    "Path": "database\\app_setup.sql",
+    "Sha256": "2C073DF75FAD1F3E4B1514BDD1A6CFA93404A24C46FCE535C14445097F8DA798"
+  },
+  {
+    "Path": "database\\du_lieu_mau.sql",
+    "Sha256": "E844E6CF3BBBB2B8E56242D45D748DAF17C894D04A661DA92478F8448C9BA8C8"
+  },
+  {
+    "Path": "database\\tao_bang.sql",
+    "Sha256": "D983ADA5AC4F706C5AEFD8F843B1D9C5C2D1CD3B9E7CF7062AE32CAB3D511DAC"
+  },
+  {
+    "Path": "database\\truy_van.sql",
+    "Sha256": "FD7595D7391A68D14331C995D366CC14608005698C5583FAD61CDC17DDD1856A"
+  },
+  {
+    "Path": "docker\\compose.yaml",
+    "Sha256": "749153036455FBEA092394D53C9A386DA8447F37D43B1DC0CB8BBAC382955B4B"
+  },
+  {
+    "Path": "docker\\Dockerfile",
+    "Sha256": "478F404B64FCAD9F1F25E06CED955A6B18F9BCBEDE5CD0626CC50A07F214C7B4"
+  },
+  {
+    "Path": "package.json",
+    "Sha256": "51F20A67807A70D4C5710D599BF2ADD60EEAC4FD4628AB592EFC9E43199D849D"
+  },
+  {
+    "Path": "public\\admin.css",
+    "Sha256": "CF2848C72959212ECF671A57EDC62AC8B4865C10B54445FFA7C83BC0F3520A9F"
+  },
+  {
+    "Path": "public\\index.html",
+    "Sha256": "CF865752AAF0DAAF4C063194636F90E1A2254E357E3D909C65C9B4A795EE1026"
+  },
+  {
+    "Path": "public\\js\\accounts\\index.js",
+    "Sha256": "52F81DE8C4930FBC9F440D719AEE537CD2117838E41888EDF4BD9241422FBE0F"
+  },
+  {
+    "Path": "public\\js\\app.js",
+    "Sha256": "9450B09FCD48EB4030B419E648A47EB23706E7219AE303D95F1D0BE8A288E492"
+  },
+  {
+    "Path": "public\\js\\auth.js",
+    "Sha256": "3717429FFA334845BC1EFFB186351D989CBE7BC78F3DBA52A9E2814E52B3748D"
+  },
+  {
+    "Path": "public\\js\\charts.js",
+    "Sha256": "B26425B48CE02D89E5FEEC255370C0BADC9AC3DF7A3231895923E35C388E52A5"
+  },
+  {
+    "Path": "public\\js\\dashboard.js",
+    "Sha256": "07AD5591A7D62DD4DDD7C5F6D52A42D360603F561ED3FDCCB402ACD725810BEB"
+  },
+  {
+    "Path": "public\\js\\lookup\\index.js",
+    "Sha256": "1C3A87D97670513F8EA23177C5B654351BCEC82F2AE0AAB5F1DB6C57737C670C"
+  },
+  {
+    "Path": "public\\js\\registrations.js",
+    "Sha256": "7608E58183AC6E56DF11B4F9365A14166AD0BBBAEB1B974264DF0C5249BE4719"
+  },
+  {
+    "Path": "public\\js\\reports.js",
+    "Sha256": "794F2D2D661DA8A29D8EC67AFADFF67FA677C20E168E04105D35F43F54AF07F0"
+  },
+  {
+    "Path": "public\\js\\reports\\age-causes\\index.js",
+    "Sha256": "547A762D42C942228ED1471C5B45D18A2F0FA2C9A38AD63B556B0E711826FAAB"
+  },
+  {
+    "Path": "public\\js\\reports\\areas\\index.js",
+    "Sha256": "A6D2EECF687A72EA6642353AAE1ED3364B6619366CC8714F9EF49DD64E55B5AF"
+  },
+  {
+    "Path": "public\\js\\reports\\gender\\index.js",
+    "Sha256": "7B1F82BACB6CC4F9369A1748DCF43382CE2D8817EBDB9994D890D5B2C7C68877"
+  },
+  {
+    "Path": "public\\js\\reports\\hospitals\\index.js",
+    "Sha256": "103A1B4BB2C0FF6B236976F1CC6D9C72A087DA77E76FE245D7DACCDB5AF50B88"
+  },
+  {
+    "Path": "public\\js\\reports\\index.js",
+    "Sha256": "2A4C9E320D037DE5DC12E4693B6C38E7EC336B3C9DB0ECD9272E1594C217A3D0"
+  },
+  {
+    "Path": "public\\js\\reports\\shared.js",
+    "Sha256": "48108BDF5EC709669471119782246AEF633F9758E6BB1DFB1243973B59E8D720"
+  },
+  {
+    "Path": "public\\js\\reports\\years\\index.js",
+    "Sha256": "63478A3C3C9CAFDAEE8A777B5B9774A38987954BD71B3F4B1C183EA6EF65907D"
+  },
+  {
+    "Path": "public\\js\\settings.js",
+    "Sha256": "018514DF60C1E389EEB5D950BC2C950834C6E7CC207CB38C3A97BC77182924AF"
+  },
+  {
+    "Path": "public\\js\\shared.js",
+    "Sha256": "399A2F68BAC984341C35779746E4DD9263AC85C392451ED19F7754754785152D"
+  },
+  {
+    "Path": "public\\styles.css",
+    "Sha256": "748B90B0D068C6DA418330EF092075550E7DDCBD79C816E76C4418BA3EF14F9E"
+  },
+  {
+    "Path": "public\\theme.css",
+    "Sha256": "3D5B158F07DB5905AC07F7D987ADCB572D4F198A568AF5010C3E80FB56F48A3F"
+  },
+  {
+    "Path": "tests\\auth.test.js",
+    "Sha256": "A4597AB1936F545A244F4A59811F20196AF35EFF175ED9C9366F5E24FEAFE0BE"
+  },
+  {
+    "Path": "tests\\check_sample_data.py",
+    "Sha256": "ED28D6FE194AD47B87DD6385B4462D50CA62BA5430A03D6D1EEBA725A02CF715"
+  },
+  {
+    "Path": "tests\\docker_first_init_check.py",
+    "Sha256": "1615FB259575202745422008C0FF782C36F4F8861C836002F940821E25B22166"
+  },
+  {
+    "Path": "tests\\sql_new_schema_check.py",
+    "Sha256": "50A522DD843DE7CB038FB172F914F008524B6E0B1F0A5C91A84C86EFC1ACF6D7"
+  },
+  {
+    "Path": "tests\\sql_report_check.py",
+    "Sha256": "34D05E860E68CE1C9A661ADBEF4660E6C76A4B019C9B8C9AB744E08A9658539C"
+  },
+  {
+    "Path": "tests\\sql-fixtures\\baseline.sql",
+    "Sha256": "3A3F809E8627F5BBAB78C1CD742EC7BA97AF0539EE5B2F35DC68A07990D66631"
+  },
+  {
+    "Path": "tests\\sql-fixtures\\legacy.sql",
+    "Sha256": "E1CE2C4C9B9AEEEEDABC85D813FDC95AD51CBDAC59361D29E01CC3AD27DD24D8"
+  }
+]

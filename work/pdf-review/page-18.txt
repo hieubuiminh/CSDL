@@ -1,0 +1,48 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                      Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+     SoGiayKhaiTu    VARCHAR(30) PRIMARY KEY,
+     SoGiayBaoTu     VARCHAR(30) UNIQUE NOT NULL,
+     NgayDangKi      DATE NOT NULL,
+     CCCD_NgMat      CHAR(12) UNIQUE NOT NULL,
+     CCCD_NgKhaiTu   CHAR(12) NOT NULL,
+     QuanHe          VARCHAR(50) NOT NULL,
+     TrangThaiHoSo   VARCHAR(50) DEFAULT 'Đã duyệt',
+     MaCanBoTiepNhan VARCHAR(20) NOT NULL,
+     CONSTRAINT chk_hai_ca_nhan_khac_nhau CHECK (CCCD_NgMat <>
+ CCCD_NgKhaiTu),
+     FOREIGN KEY (SoGiayBaoTu) REFERENCES Giay_Bao_Tu(SoGiayBaoTu),
+     FOREIGN KEY (CCCD_NgMat) REFERENCES Cong_Dan(CCCD),
+     FOREIGN KEY (CCCD_NgKhaiTu) REFERENCES Cong_Dan(CCCD),
+     FOREIGN KEY (MaCanBoTiepNhan) REFERENCES Can_Bo(MaCanBo)
+ );
+
+ CREATE TABLE An_Tang (
+     MaAnTang                 VARCHAR(30) PRIMARY KEY,
+     SoGiayKhaiTu             VARCHAR(30) UNIQUE NOT NULL,
+     MaNguyenNhan             VARCHAR(20) NOT NULL,
+     HinhThuc                 VARCHAR(50) NOT NULL,
+     TenNghiaTrang_DaiHoaThan VARCHAR(150) NOT NULL,
+     FOREIGN KEY (SoGiayKhaiTu) REFERENCES
+ Ho_So_Khai_Tu(SoGiayKhaiTu),
+     FOREIGN KEY (MaNguyenNhan) REFERENCES
+ Nguyen_Nhan(MaNguyenNhan)
+ );
+
+
+
+3.3 Cài đặt Trigger tự động hóa ràng buộc nghiệp vụ
+     Để đảm bảo các ràng buộc liên bảng (ngày cấp giấy báo tử phải trước hoặc bằng
+ngày đăng ký khai tử; tự động chuyển trạng thái công dân sang “Đã mất” khi lập hồ sơ
+khai tử thành công), hệ thống cài đặt 2 Trigger sau:
+
+ DELIMITER $$
+
+ -- Trigger 1: Kiểm tra tính hợp lệ trước khi thêm Hồ sơ khai tử
+ CREATE TRIGGER trg_before_insert_ho_so_khai_tu
+ BEFORE INSERT ON Ho_So_Khai_Tu
+ FOR EACH ROW
+ BEGIN
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                               Trang 21

@@ -1,0 +1,165 @@
+✔ cán bộ chỉ nhận danh sách và tra cứu CCCD của mình, tham số giả không đổi quyền (11.4714ms)
+✔ cán bộ cập nhật được hồ sơ của mình, hồ sơ cán bộ khác trả 404 và không ghi dữ liệu (2.0068ms)
+✔ không cho cán bộ tạo hồ sơ gắn người tiếp nhận khác; ADMIN vẫn chọn được người tiếp nhận (2.6975ms)
+✔ mọi báo cáo giữ quy tắc gốc và thêm đúng phạm vi cán bộ bằng tham số (52.2209ms)
+✔ tổng quan lọc cả bốn nguồn và danh mục cán bộ tiếp nhận chỉ trả chính mình (14.1942ms)
+✔ tài khoản thiếu liên kết hoặc thiếu danh tính bị chặn trước mọi truy cập dữ liệu (11.4349ms)
+✔ hồ sơ theo schema nguồn: trường tùy chọn, giới hạn ký tự, TEXT và trạng thái mặc định (2.2544ms)
+✔ an táng phát hiện dữ liệu dở dang kể cả thiếu mã và bắt buộc ngày hợp lệ (0.7987ms)
+✔ CREATE chuẩn hóa trạng thái cũ, không INSERT IGNORE/ghi đè công dân và chỉ đánh dấu mất với hồ sơ hợp lệ (10.4222ms)
+✔ PATCH trạng thái giao dịch đồng bộ công dân, không đổi về Còn sống và rollback khi lỗi (6.4306ms)
+✔ bộ lọc/API và dashboard nhận đồng thời trạng thái chuẩn và dữ liệu cũ (4.4751ms)
+✔ danh mục dùng đúng giới hạn từng cột, CCCD cán bộ, điện thoại bắt buộc và cấp UBND (0.4698ms)
+✔ tra cứu và xóa lấy người mất qua giấy báo tử, xóa hồ sơ không xóa công dân (1.466ms)
+✔ nguồn đếm của từng báo cáo khớp truy_van.sql: công dân đã mất, hồ sơ đã duyệt và mọi giấy báo tử (33.4207ms)
+✔ dữ liệu hồ sơ hoặc danh mục quá dài bị chặn trước khi mở kết nối ghi (7.1329ms)
+✔ quý gần nhất là quý lịch hoàn chỉnh, gồm chuyển năm và múi giờ Việt Nam (58.0458ms)
+✔ nhóm tuổi luôn đủ ba nhóm, trả tất cả nguyên nhân đồng hạng và tách dữ liệu lỗi (1.1512ms)
+✔ năm theo múi giờ Việt Nam và từ chối giá trị không phải một năm cụ thể (1.1705ms)
+✔ kiểm tra ngày thật, năm nhuận, giờ mất và CCCD giữ số 0 đầu (0.4306ms)
+✔ tra cứu CCCD sai bị chặn trước khi truy cập DB; CCCD hợp lệ được truyền nguyên vẹn (5.1625ms)
+✔ địa bàn giữ tất cả xã/phường kể cả 0 ca, không lọc bằng metadata JSON (3.1375ms)
+✔ hồ sơ không tồn tại trả 404 (1.6573ms)
+✔ ngày mất trước ngày sinh bị từ chối trước khi bắt đầu giao dịch (2.5053ms)
+✔ protected APIs reject requests without a session before querying the database (14.6962ms)
+✔ a forged session is rejected and cleared (2.8567ms)
+✔ staff cannot perform GET /api/users (7.1807ms)
+✔ staff cannot perform POST /api/users (15.5849ms)
+✔ staff cannot perform PATCH /api/users/3/role (1.9302ms)
+✔ staff cannot perform POST /api/master/cause (1.9187ms)
+✔ staff cannot perform PATCH /api/master/ward/TEST (1.5814ms)
+✔ staff cannot perform DELETE /api/registrations/TEST (1.6893ms)
+✔ admin account listing returns public fields without password credentials (3.046ms)
+✔ a role change in the database takes effect on the next request with the same JWT (4.7288ms)
+✔ deleted accounts cannot retain access through an unexpired JWT (1.7405ms)
+✔ creating an account rejects an unsupported role before hashing or insertion (2.434ms)
+✔ admin can create a admin account with real hashed credentials (932.7613ms)
+✔ admin can create a staff account with real hashed credentials (925.1433ms)
+✔ an admin cannot demote their own active account (1.7949ms)
+✔ the last admin is protected if another admin was demoted concurrently (1.5244ms)
+✔ an admin can demote another admin inside a committed transaction (1.1704ms)
+✔ public password reset rejects the removed hardcoded admin-name answer (3.9338ms)
+✔ public recovery question does not offer an admin-name fallback for legacy accounts (1.9679ms)
+✔ initial setup cannot replace an existing admin account (1.1198ms)
+✔ login verifies a real password and issues a safe user response and signed session (4.0998ms)
+✔ login with an incorrect password does not issue a session (3.0293ms)
+✔ lookup merges separate JSON classification without changing the original ward rows (13.8176ms)
+✔ classifying an existing ward changes only the separate JSON file (4.1685ms)
+✔ classifying an unknown ward returns 404 without creating a metadata file (1.409ms)
+Error: Hãy nhập tỉnh/thành phố.
+    at badRequest (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:1:45)
+    at textValue (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:8:11)
+    at validateWardMetadata (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\catalogs\validation.js:7:20)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\catalogs\index.js:50:16
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\http.js:1:62
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\middleware\auth.js:32:5
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13) {
+  statusCode: 400
+}
+Error: Loại đơn vị phải là Xã, Phường hoặc Đặc khu.
+    at badRequest (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:1:45)
+    at validateWardMetadata (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\catalogs\validation.js:9:44)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\catalogs\index.js:50:16
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\http.js:1:62
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\middleware\auth.js:32:5
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:119:3) {
+  statusCode: 400
+}
+✔ invalid ward classification returns 400 before any feature query or file write (2.6163ms)
+✔ creating a ward uses the original two-column schema and stores classification separately (17.4228ms)
+✔ metadata updates are serialized without lost wards and leave no temporary files (61.0829ms)
+✔ metadata loader rejects an invalid top-level structure (2.1425ms)
+✔ staff scope ignores forged role and officer claims in a valid signed token (2.7037ms)
+✔ changing the current DB officer binding affects the same token (1.8552ms)
+✔ staff API fails closed for invalid binding null (0.9939ms)
+✔ staff login refuses invalid binding null (2.7596ms)
+✔ staff API fails closed for invalid binding MISSING (0.9127ms)
+✔ staff login refuses invalid binding MISSING (4.0381ms)
+✔ valid staff login returns the linked officer without credentials (3.0264ms)
+Error: Hãy chọn cán bộ tiếp nhận liên kết với tài khoản cán bộ.
+    at badRequest (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:1:45)
+    at requireStaffOfficer (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\auth.js:43:11)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\accounts\index.js:32:46
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\http.js:1:62
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\index.js:284:15
+    at router.process_params (C:\Users\ADMIN\Documents\Codex\2026-11-09\b-n-i-b-n-v-6\work\he_thong_quan_ly_dang_ky_khai_tu\node_modules\express\lib\router\index.js:346:12) {
+  statusCode: 400
+}
+✔ staff creation rejects invalid or occupied officer undefined (1.4255ms)
+Error: Cán bộ tiếp nhận được chọn không tồn tại.
+    at badRequest (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:1:45)
+    at requireStaffOfficer (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\auth.js:47:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\accounts\index.js:32:40 {
+  statusCode: 400
+}
+✔ staff creation rejects invalid or occupied officer MISSING (1.6606ms)
+Error: Cán bộ này đã được liên kết với một tài khoản khác.
+    at requireStaffOfficer (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\auth.js:49:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\accounts\index.js:32:40 {
+  statusCode: 409
+}
+✔ staff creation rejects invalid or occupied officer CB01 (1.2849ms)
+✔ ADMIN account creation does not retain a supplied officer binding (451.8177ms)
+Error: Hãy chọn cán bộ tiếp nhận liên kết với tài khoản cán bộ.
+    at badRequest (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:1:45)
+    at requireStaffOfficer (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\auth.js:43:11)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\accounts\index.js:64:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  statusCode: 400
+}
+✔ demotion to staff requires an explicit valid receiving officer (2.0796ms)
+✔ ADMIN can reassign a staff officer while keeping the same role (1.2019ms)
+Error: Cán bộ này đã được liên kết với một tài khoản khác.
+    at requireStaffOfficer (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\auth.js:49:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\accounts\index.js:64:9 {
+  statusCode: 409
+}
+✔ reassignment cannot take an officer already linked to another account (1.2526ms)
+✔ promoting staff to ADMIN clears the receiving-officer binding (0.9955ms)
+Error: Cán bộ tiếp nhận được chọn không tồn tại.
+    at badRequest (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:1:45)
+    at requireStaffOfficer (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\auth.js:47:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\accounts\index.js:77:21 {
+  statusCode: 400
+}
+✔ invitation rejects unavailable officer MISSING (1.1527ms)
+Error: Cán bộ này đã được liên kết với một tài khoản khác.
+    at requireStaffOfficer (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\auth.js:49:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\accounts\index.js:77:21 {
+  statusCode: 409
+}
+✔ invitation rejects unavailable officer CB01 (1.0695ms)
+✔ invited registration cannot change the server-selected officer or request ADMIN (898.1744ms)
+✔ a one-use invitation cannot be claimed concurrently by two registrations (966.3488ms)
+Error: Hãy chọn cán bộ tiếp nhận liên kết với tài khoản cán bộ.
+    at badRequest (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\validation.js:1:45)
+    at requireStaffOfficer (E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\utils\auth.js:43:11)
+    at E:\CSDL\he_thong_quan_ly_dang_ky_khai_tu\backend\modules\auth\index.js:108:23
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  statusCode: 400
+}
+✔ legacy invitations without an officer do not create unbound staff (3.8575ms)
+ℹ tests 72
+ℹ suites 0
+ℹ pass 72
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4905.0934

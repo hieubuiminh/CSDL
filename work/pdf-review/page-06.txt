@@ -1,0 +1,43 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                            Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+  - Cơ sở y tế (CSYT): Là các bệnh viện tuyến Trung ương, tuyến Thành phố, trung
+     tâm y tế quận/huyện hoặc trạm y tế xã/phường có thẩm quyền xác nhận nguyên
+     nhân tử vong, thời điểm tử vong và phát hành Giấy báo tử.
+  -  Ủy  ban  nhân  dân  (UBND)  xã/phường  và  Cán  bộ  tiếp  nhận:                      UBND  cấp
+     xã/phường là cơ quan nhà nước có thẩm quyền cấp trích lục khai tử. Mỗi UBND
+     quản lý đội ngũ cán bộ tư pháp - hộ tịch trực tiếp thụ lý, kiểm duyệt và cập nhật
+     trạng thái hồ sơ khai tử.
+  - Đơn vị tiếp nhận an táng (Nghĩa trang / Đài hóa thân): Tiếp nhận thông tin từ
+     Giấy khai tử để tổ chức mai táng          hoặc hỏa táng theo đúng quy định về quản lý
+     nghĩa trang và vệ sinh môi trường đô thị.
+
+1.3 Phân tích các chức năng nghiệp vụ chính
+      Để đáp ứng đầy đủ nhu cầu quản lý tại các UBND xã/phường trên địa bàn TP.
+Hà Nội, cơ sở dữ liệu của hệ thống phải phục vụ 4 nhóm chức năng chính:
+  - Nhóm chức năng quản lý danh mục hành chính và y tế: Quản lý danh mục địa
+     bàn nơi mất (Xã/Phường), danh mục nhóm nguyên nhân tử vong, danh mục các
+     Cơ sở y tế, danh mục UBND xã/phường và hồ sơ Cán bộ tiếp nhận.
+  - Nhóm chức năng quản lý thông tin Công dân và Giấy báo tử: Lưu trữ thông tin
+     nhân  khẩu  học  của  công  dân  (CCCD,  họ  tên,  ngày  sinh,  giới  tính,  dân  tộc,  quê
+     quán,  số  điện  thoại,  trạng  thái)  và  quản  lý  chi  tiết  từng  Giấy  báo  tử  được  phát
+     hành.
+  - Nhóm chức năng xử lý Hồ sơ khai tử và An táng: Ghi nhận hồ sơ đăng ký khai
+     tử gắn với Giấy báo tử tương ứng, kiểm tra các ràng buộc toàn vẹn, quản lý trạng
+     thái xử lý hồ sơ (Chờ duyệt, Đã duyệt, Từ chối) và lưu trữ thông tin đăng ký an
+     táng.
+  - Nhóm chức năng tra cứu, trích lục và báo cáo thống kê: Cung cấp khả năng tra
+     cứu  tức  thời  toàn  bộ  thông  tin  trích  lục  khai  tử  theo  số  CCCD  của  người  mất;
+     thống kê đa chiều theo giới tính, địa bàn xã/phường trong năm, nhóm độ tuổi kèm
+     nguyên nhân tử vong phổ biến nhất, khối lượng cấp giấy báo tử tại các cơ sở y tế
+     theo quý và xu hướng tử vong theo từng năm.
+
+1.4 Yêu cầu cơ sở dữ liệu và các ràng buộc nghiệp vụ
+
+1.4.1 Yêu cầu về dữ liệu lưu trữ
+      Từ kết quả khảo sát, hệ thống cần lưu trữ chính xác 9 nhóm thông tin cốt lõi sau:
+
+
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                           Trang 9

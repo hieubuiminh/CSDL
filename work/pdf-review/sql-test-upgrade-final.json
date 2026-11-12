@@ -1,0 +1,511 @@
+{
+  "container": "khai-tu-sql-review-20261109-090d120e87",
+  "isolation": {
+    "network": "none",
+    "ports": [],
+    "host_mounts": [],
+    "data": "disposable tmpfs"
+  },
+  "source_sha256": {
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\he_thong_quan_ly_dang_ky_khai_tu.sql": "7b011e728d19fa255a75aa03784cdcaaaf9fcb262c2468ec1ab2e919e2586310",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\app_setup.sql": "561d9c99085aa5ba992b91ced3fdb8c62794249099b38fe0aa0342ed46626480",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\work\\sql-before-report\\he_thong_quan_ly_dang_ky_khai_tu.sql": "3268c260c20ee9668d92624c936cec52036cf6c727b75c4257a755800ba5841c",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\work\\sql-before-report\\app_setup.sql": "a0d4475c32da96d74048382264db208ea5ed3a52142390bbee70b7e599703ce8",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\cap_nhat_rang_buoc.sql": "2f65d866f958063eced0db99e4ae873714ba0f62299618f70ca1f1a5f5846c08",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\database\\truy_van_bao_cao.sql": "c310c93cfa046b9ea1eef6de80a0203d50c923b05ff924da5518eef1e6e621d8",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\tests\\sql-fixtures\\baseline.sql": "3a3f809e8627f5bbab78c1cd742ec7ba97af0539ee5b2f35dc68a07990d66631",
+    "E:\\CSDL\\he_thong_quan_ly_dang_ky_khai_tu\\tests\\sql-fixtures\\legacy.sql": "e1ce2c4c9b9aeeeedabc85d813fdc95ad51cbdac59361d29e01cc3ad27dd24d8"
+  },
+  "results": [
+    {
+      "phase": "upgrade",
+      "name": "original base DDL",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "original account setup",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "upgrade existing schema",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "synthetic lookup fixtures",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "nullable phone and default ethnicity/living state",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "accepted registration marks citizen deceased",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "rejected registration leaves citizen living",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "approval on UPDATE marks citizen deceased",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "rejection does not automatically resurrect a citizen",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "applicant differs from deceased",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        3819
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "death cannot follow certificate issue on INSERT",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        3819
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "death cannot follow certificate issue on UPDATE",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        3819
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "registration cannot precede certificate issue on INSERT",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "registration cannot precede certificate issue on UPDATE",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "parent certificate issue cannot pass existing registration",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "one registration per deceased",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1062
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "one registration per death notice",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1062
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "existing burial columns remain compatible",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "one burial per registration",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1062
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "officer identity is unique",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1062
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "citizen identity rejects non-digit/short",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        3819
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "citizen identity rejects non-digit/short",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        3819
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "citizen identity rejects non-ASCII",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        3819
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "citizen identity rejects 13 characters",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1406
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "gender rejects values outside the enum",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1265
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "citizen state rejects unsupported values",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        3819
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "registration state rejects unsupported values",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        3819
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "lookup identifier length 20 is accepted",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "lookup identifier length 21 is rejected",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1406
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "phone length 16 is rejected",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1406
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "long nullable description uses TEXT",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "death place length 256 is rejected",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1406
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "foreign keys reject unknown lookup values",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1452
+      ]
+    },
+    {
+      "phase": "upgrade",
+      "name": "metadata inspection",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "all column types/nullability/defaults match fresh DDL",
+      "passed": true,
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "report query file executes on the real schema",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "upgrade",
+      "name": "upgrade can be rerun",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "nonempty-upgrade",
+      "name": "original base DDL",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "nonempty-upgrade",
+      "name": "original account setup",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "nonempty-upgrade",
+      "name": "synthetic existing records",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "nonempty-upgrade",
+      "name": "upgrade populated schema",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "nonempty-upgrade",
+      "name": "all existing row counts preserved",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "nonempty-upgrade",
+      "name": "known registration labels normalized",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "nonempty-upgrade",
+      "name": "known living labels normalized without backfilling deceased",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "nonempty-upgrade",
+      "name": "existing burial fields and date preserved",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "nonempty-upgrade",
+      "name": "populated migration can be rerun",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "dirty-preflight",
+      "name": "invalid legacy citizen identity: original base DDL",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "dirty-preflight",
+      "name": "invalid legacy citizen identity: original account setup",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "dirty-preflight",
+      "name": "invalid legacy citizen identity: migration rejects data",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "dirty-preflight",
+      "name": "invalid legacy citizen identity: old column and trigger unchanged",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "dirty-preflight",
+      "name": "overlong legacy lookup identifier: original base DDL",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "dirty-preflight",
+      "name": "overlong legacy lookup identifier: original account setup",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    },
+    {
+      "phase": "dirty-preflight",
+      "name": "overlong legacy lookup identifier: migration rejects data",
+      "passed": true,
+      "returncode": 1,
+      "error_codes": [
+        1644
+      ]
+    },
+    {
+      "phase": "dirty-preflight",
+      "name": "overlong legacy lookup identifier: old column and trigger unchanged",
+      "passed": true,
+      "returncode": 0,
+      "error_codes": []
+    }
+  ],
+  "metadata": {
+    "mysql_version": "8.0.46",
+    "upgrade": [
+      "Giay_Bao_Tu\tKT_Update_GiayBaoTu_BU\tBEFORE\tUPDATE",
+      "Ho_So_Khai_Tu\tKT_Update_HoSo_AI\tAFTER\tINSERT",
+      "Ho_So_Khai_Tu\tKT_Update_HoSo_AU\tAFTER\tUPDATE",
+      "Ho_So_Khai_Tu\tKT_Update_HoSo_BI\tBEFORE\tINSERT",
+      "Ho_So_Khai_Tu\tKT_Update_HoSo_BU\tBEFORE\tUPDATE",
+      "An_Tang\tMaAnTang\tvarchar(30)\tNO\t<NULL>",
+      "An_Tang\tHinhThuc\tvarchar(50)\tNO\t<NULL>",
+      "An_Tang\tTenNghiaTrang\tvarchar(150)\tNO\t<NULL>",
+      "An_Tang\tNgayAnTang\tdate\tNO\t<NULL>",
+      "An_Tang\tSoGiayKhaiTu\tvarchar(30)\tNO\t<NULL>",
+      "App_User\tId\tbigint unsigned\tNO\t<NULL>",
+      "App_User\tUsername\tvarchar(80)\tNO\t<NULL>",
+      "App_User\tPasswordHash\tvarchar(255)\tNO\t<NULL>",
+      "App_User\tDisplayName\tvarchar(160)\tNO\t<NULL>",
+      "App_User\tRole\tenum('admin','staff')\tNO\tstaff",
+      "App_User\tCreatedAt\ttimestamp\tNO\tCURRENT_TIMESTAMP",
+      "CSYT\tMaCSYT\tvarchar(20)\tNO\t<NULL>",
+      "CSYT\tTenCSYT\tvarchar(150)\tNO\t<NULL>",
+      "CSYT\tDiaChi\tvarchar(255)\tNO\t<NULL>",
+      "CSYT\tSDT\tvarchar(15)\tYES\t<NULL>",
+      "Can_Bo\tMaCanBo\tvarchar(20)\tNO\t<NULL>",
+      "Can_Bo\tCCCD\tchar(12)\tNO\t<NULL>",
+      "Can_Bo\tHoTen\tvarchar(100)\tNO\t<NULL>",
+      "Can_Bo\tChucVu\tvarchar(100)\tNO\t<NULL>",
+      "Can_Bo\tSDT\tvarchar(15)\tYES\t<NULL>",
+      "Can_Bo\tMaUBND\tvarchar(20)\tNO\t<NULL>",
+      "Cong_Dan\tCCCD\tchar(12)\tNO\t<NULL>",
+      "Cong_Dan\tHoTen\tvarchar(100)\tNO\t<NULL>",
+      "Cong_Dan\tNgaySinh\tdate\tNO\t<NULL>",
+      "Cong_Dan\tGioiTinh\tenum('Nam','Nữ','Khác')\tNO\t<NULL>",
+      "Cong_Dan\tQueQuan\tvarchar(200)\tNO\t<NULL>",
+      "Cong_Dan\tDanToc\tvarchar(50)\tYES\tKinh",
+      "Cong_Dan\tSDT\tvarchar(15)\tYES\t<NULL>",
+      "Cong_Dan\tTrangThai\tvarchar(30)\tNO\tCòn sống",
+      "Giay_Bao_Tu\tSoGiayBaoTu\tvarchar(30)\tNO\t<NULL>",
+      "Giay_Bao_Tu\tNgayCap\tdate\tNO\t<NULL>",
+      "Giay_Bao_Tu\tNgayGioMat\tdatetime\tNO\t<NULL>",
+      "Giay_Bao_Tu\tNoiMatChiTiet\tvarchar(255)\tNO\t<NULL>",
+      "Giay_Bao_Tu\tMoTaNguyenNhan\ttext\tYES\t<NULL>",
+      "Giay_Bao_Tu\tMaNguyenNhan\tvarchar(20)\tNO\t<NULL>",
+      "Giay_Bao_Tu\tMaXaPhuong\tvarchar(20)\tNO\t<NULL>",
+      "Giay_Bao_Tu\tMaCSYT\tvarchar(20)\tNO\t<NULL>",
+      "Ho_So_Khai_Tu\tSoGiayKhaiTu\tvarchar(30)\tNO\t<NULL>",
+      "Ho_So_Khai_Tu\tNgayDangKi\tdate\tNO\t<NULL>",
+      "Ho_So_Khai_Tu\tQuanHe\tvarchar(50)\tNO\t<NULL>",
+      "Ho_So_Khai_Tu\tTrangThaiHoSo\tvarchar(50)\tNO\tĐã duyệt",
+      "Ho_So_Khai_Tu\tSoGiayBaoTu\tvarchar(30)\tNO\t<NULL>",
+      "Ho_So_Khai_Tu\tCCCD_NgMat\tchar(12)\tNO\t<NULL>",
+      "Ho_So_Khai_Tu\tCCCD_NgKhaiTu\tchar(12)\tNO\t<NULL>",
+      "Ho_So_Khai_Tu\tMaCanBoTiepNhan\tvarchar(20)\tNO\t<NULL>",
+      "Nguyen_Nhan\tMaNguyenNhan\tvarchar(20)\tNO\t<NULL>",
+      "Nguyen_Nhan\tTenNguyenNhan\tvarchar(150)\tNO\t<NULL>",
+      "Noi_Mat\tMaXaPhuong\tvarchar(20)\tNO\t<NULL>",
+      "Noi_Mat\tTenXaPhuong\tvarchar(100)\tNO\t<NULL>",
+      "UBND\tMaUBND\tvarchar(20)\tNO\t<NULL>",
+      "UBND\tTenUBND\tvarchar(150)\tNO\t<NULL>",
+      "UBND\tCapHanhChinh\tvarchar(50)\tNO\tPhường",
+      "UBND\tDiaChi\tvarchar(255)\tNO\t<NULL>",
+      "UBND\tSDT\tvarchar(15)\tYES\t<NULL>"
+    ],
+    "container_removed": true
+  },
+  "error": null
+}

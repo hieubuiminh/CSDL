@@ -1,0 +1,45 @@
+Báo cáo Bài tập lớn Cơ sở dữ liệu                         Nhóm 2 - Hệ thống quản lý đăng ký khai tử
+
+
+     MaCSYT           VARCHAR(20)           FK, NOT             Tham chiếu tới
+                                            NULL                CSYT(MaCSYT)
+ MaNguyenNhan         VARCHAR(20)           FK, NOT             Tham chiếu tới
+                                            NULL                Nguyen_Nhan(MaNguyenNhan)
+   MaXaPhuong         VARCHAR(20)           FK, NOT             Tham chiếu tới
+                                            NULL                Noi_Mat(MaXaPhuong)
+
+
+               Bảng 2.6. Cấu trúc bảng UBND (Đơn vị hành chính tiếp nhận)
+
+  Tên thuộc tính         Kiểu dữ liệu         Ràng buộc                 Mô tả ý nghĩa
+     MaUBND           VARCHAR(20)           PK, NOT            Mã Ủy ban nhân dân
+                                            NULL               xã/phường
+     TenUBND          VARCHAR(150)          NOT NULL           Tên đầy đủ của UBND
+                                                               xã/phường
+  CapHanhChinh        VARCHAR(50)           DEFAULT            Cấp hành chính (Xã / Phường /
+                                            'Phường'           Thị trấn)
+       DiaChi         VARCHAR(255)          NOT NULL           Địa chỉ trụ sở UBND
+        SDT           VARCHAR(15)           NULL               Số điện thoại đường dây nóng
+                                                               của UBND
+
+
+               Bảng 2.7. Cấu trúc bảng Can_Bo (Thông tin Cán bộ tiếp nhận)
+
+  Tên thuộc tính         Kiểu dữ liệu         Ràng buộc                 Mô tả ý nghĩa
+     MaCanBo          VARCHAR(20)           PK, NOT            Mã định danh cán bộ tiếp nhận
+                                            NULL
+       CCCD           CHAR(12)              UNIQUE, NOT        Số CCCD của cán bộ
+                                            NULL
+       HoTen          VARCHAR(100)          NOT NULL           Họ và tên cán bộ tư pháp - hộ
+                                                               tịch
+      ChucVu          VARCHAR(100)          NOT NULL           Chức vụ công tác
+        SDT           VARCHAR(15)           NULL               Số điện thoại liên hệ công vụ
+     MaUBND           VARCHAR(20)           FK, NOT            Đơn vị công tác, tham chiếu
+                                            NULL               UBND(MaUBND)
+
+
+             Bảng 2.8. Cấu trúc bảng Ho_So_Khai_Tu (Hồ sơ đăng ký khai tử)
+
+
+
+Nhóm 2: Bùi Quang Hùng, Ngô Đức Minh Hiếu, Bùi Minh Hiếu                                    Trang 16
